@@ -1,0 +1,6 @@
+<h1>Colenso Documents</h1>
+
+<%= form_tag search_documents_path, method: "get" do %>
+  <%= text_field_tag :q %>
+  <%= submit_tag "Search" %>
+<% end %>
