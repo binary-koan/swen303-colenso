@@ -22,7 +22,22 @@ require 'rspec/rails'
 #
 # Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
+# Configure BaseXClient to run with different settings so that test data
+# doesn't corrupt the main collection
+BaseXClient.configure do |client|
+  client.collection_prefix = "colenso_test_"
+end
+
 RSpec.configure do |config|
+  # Clean the database on each test run
+  config.before do
+    BaseXClient.session.execute("create db #{Document.collection}")
+  end
+
+  config.after do
+    BaseXClient.session.execute("drop db #{Document.collection}")
+  end
+
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.
