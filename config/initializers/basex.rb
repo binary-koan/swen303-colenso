@@ -1,3 +1,10 @@
 require_relative "../../lib/basex"
 
-BASEX_SESSION ||= BaseXClient::Session.new("localhost", 1984, "admin", "admin")
+BaseXClient.configure do |client|
+  client.host = "localhost"
+  client.port = 1984
+  client.username = "admin"
+  client.password = "admin"
+
+  client.collection_prefix = "colenso_"
+end
