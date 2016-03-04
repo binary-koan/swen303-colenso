@@ -51,11 +51,13 @@
     }
 
     render() {
-      return <form className={this.props.hidden ? "hidden" : ""}>
+      return <form action="/documents/search" method="get" className={this.props.hidden ? "hidden" : ""}>
         <div className="form-group has-feedback">
           <label htmlFor="query" className="sr-only">Search</label>
           <div className="input-group">
-            <input id="query" type="text" className="form-control input-lg" aria-describedby="query_status" value={this.state.query} onChange={this.updateQuery.bind(this)} />
+            <input id="query" name="query" type="text" className="form-control input-lg"
+                aria-describedby="query_status" value={this.state.query}
+                onChange={this.updateQuery.bind(this)} />
             <OverlayTrigger placement="bottom" trigger="hover" overlay={this.searchTypeTooltip()}>
               <span className="input-group-addon">{this.searchTypeName()}</span>
             </OverlayTrigger>

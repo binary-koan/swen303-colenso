@@ -11,7 +11,7 @@ class SearchDocuments
   end
 
   def call
-    raise "Must find documents by either XPath or text" unless xpath || text
+    raise "Must find documents by either XPath or text" unless xpath.present? || text.present?
 
     if text
       resolved_xpath = "//tei:*[. contains text {$query_text}]"
