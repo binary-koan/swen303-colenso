@@ -10,8 +10,8 @@ module BaseXClient
       end
 
       def find(filename)
-        #TODO escape filename
-        stored_xml = session.query("doc(\"#{collection}/#{filename}\")").execute
+        escaped_filename = filename.gsub('"', '\"')
+        stored_xml = session.query("doc(\"#{collection}/#{escaped_filename}\")").execute
         new(filename, stored_xml)
       end
 
@@ -41,6 +41,10 @@ module BaseXClient
       @filename = filename
       @raw_xml = xml
       @dom = Nokogiri::XML(xml)
+    end
+
+    def basename
+      filename.sub(/\.xml\z/, "")
     end
 
     def ==(other)

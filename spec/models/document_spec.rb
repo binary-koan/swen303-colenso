@@ -47,11 +47,24 @@ RSpec.describe Document do
   </TEI>
   XML
 
-  let(:document) { Document.create!("test", SAMPLE_XML) }
+  let(:document) { Document.create!("test.xml", SAMPLE_XML) }
 
-  describe "#create!" do
+  describe ".create!" do
     it "creates a document" do
       expect { document }.to change(Document, :count).by 1
+    end
+  end
+
+  describe ".find" do
+    it "finds the document with the specified filename" do
+      document
+      expect(Document.find(document.filename)).to eq document
+    end
+  end
+
+  describe "#basename" do
+    it "strips the .xml extension from the filename" do
+      expect(document.basename + ".xml").to eq document.filename
     end
   end
 
