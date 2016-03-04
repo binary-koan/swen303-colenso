@@ -12,4 +12,12 @@ class Document < BaseXClient::Model
   def published_date
     Date.parse(dom.at_css("teiHeader bibl date")["when"])
   end
+
+  def front_matter
+    dom.at_css("text front").inner_html
+  end
+
+  def body
+    dom.at_css("text body").inner_html
+  end
 end
