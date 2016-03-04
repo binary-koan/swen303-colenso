@@ -1,3 +1,23 @@
-// Place all the styles related to the documents controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+// Bootstrap overrides
+
+.popover {
+  max-width: 650px;
+}
+
+// TEI rend conversion
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-italic {
+  font-weight: italic;
+}
+
+.text-smallcaps {
+  font-variant-caps: small-caps;
+}
+
+.text-center {
+  text-align: center;
+}

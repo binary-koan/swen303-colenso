@@ -14,10 +14,10 @@ class Document < BaseXClient::Model
   end
 
   def front_matter
-    dom.at_css("text front").inner_html
+    TeiToHtml.new(dom.at_css("text front")).call
   end
 
   def body
-    dom.at_css("text body").inner_html
+    TeiToHtml.new(dom.at_css("text body")).call
   end
 end
