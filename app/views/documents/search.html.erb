@@ -1,7 +1,14 @@
 <h1>Search Results</h1>
+<p>You searched for: <%= params[:query] %></p>
 
-<ul>
-<% @results.each do |result| %>
-  <li><%= result.filename %></li>
-<% end %>
-</ul>
+<div class="list-group">
+  <% @results.each do |document| %>
+    <a href="#" class="list-group-item">
+      <h4 class="list-group-item-heading"><%= document.title %></h4>
+      <p class="list-group-item-text">
+        <span class="text-muted"><%= document.published_date %></span>
+        <%= document.author %>
+      </p>
+    </a>
+  <% end %>
+</div>
