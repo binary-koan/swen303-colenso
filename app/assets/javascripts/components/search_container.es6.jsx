@@ -15,13 +15,13 @@ class SearchContainer extends React.Component {
         <div className="col-md-6">
           <button className="btn btn-link" onClick={this.toggleAdvanced.bind(this)}>
             <span className="glyphicon glyphicon-cog"></span>&nbsp;
-            {this.state.advanced ? "Simple search" : "Advanced search"}
+            {this.state.advanced ? "Hide query builder" : "Show query builder"}
           </button>
         </div>
 
         <div className="col-md-6 text-right">
           <button className="btn btn-link">
-            <span className="glyphicon glyphicon-question-sign"></span> Get help
+            <span className="glyphicon glyphicon-question-sign"></span> How to search
           </button>
         </div>
       </div>

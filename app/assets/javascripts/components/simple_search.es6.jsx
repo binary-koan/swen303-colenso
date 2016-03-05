@@ -18,21 +18,9 @@
       return this.state.query[0] === "/";
     }
 
-    hasWholePhraseQuery() {
-      return /^"[^"]+"$/.test(this.state.query);
-    }
-
-    hasComposedQuery() {
-      return /".+"/.test(this.state.query);
-    }
-
     searchTypeName() {
       if (this.hasXPathQuery()) {
         return "XPath";
-      } else if (this.hasWholePhraseQuery()) {
-        return "Whole phrase";
-      } else if (this.hasComposedQuery()) {
-        return "Composition";
       } else {
         return "Normal";
       }
@@ -41,17 +29,15 @@
     searchTypeTooltip() {
       if (this.hasXPathQuery()) {
         return <Tooltip>Your search term will be interpreted as an XPath expression.</Tooltip>;
-      } else if (this.hasWholePhraseQuery()) {
-        return <Tooltip>Only documents containing that exact phrase will be shown.</Tooltip>;
-      } else if (this.hasComposedQuery()) {
-        return <Tooltip>Your search terms will be interpreted as a complex search pattern.</Tooltip>;
       } else {
-        return <Tooltip>Documents matching any of the words you enter will be shown.</Tooltip>;
+        return <Tooltip>Documents containing this phrase will be shown.</Tooltip>;
       }
     }
 
     render() {
       return <form action="/documents/search" method="get" className={this.props.hidden ? "hidden" : ""}>
+        <input type="hidden" name="query_type" value="simple" />
+
         <div className="form-group has-feedback">
           <label htmlFor="query" className="sr-only">Search</label>
           <div className="input-group">
