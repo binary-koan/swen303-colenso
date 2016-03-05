@@ -6,11 +6,11 @@ class Document < BaseXClient::Model
   end
 
   def author
-    dom.at_css("teiHeader titleStmt author name").text
+    dom.at_css("teiHeader titleStmt author").text
   end
 
   def published_date
-    Date.parse(dom.at_css("teiHeader bibl date")["when"])
+    bibl_date || edition_date
   end
 
   def front_matter
@@ -19,5 +19,21 @@ class Document < BaseXClient::Model
 
   def body
     TeiToHtml.new(dom.at_css("text body")).call
+  end
+
+  private
+
+  def bibl_date
+    date_node = dom.at_css("teiHeader bibl date")
+    return unless date_node
+
+    Date.parse(date_node["when"])
+  end
+
+  def edition_date
+    date_node = dom.at_css("teiHeader edition date")
+    return unless date_node
+
+    DateTime.parse(date_node.text).to_date
   end
 end

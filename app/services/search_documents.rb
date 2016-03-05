@@ -45,7 +45,7 @@ class SearchDocuments
 
     let $results := for $file in collection("#{Document.collection}")
     where $file#{where_path}
-    return [substring(document-uri($file), #{Document.collection.length + 2}), $file]
+    return [substring(document-uri($file), #{Document.collection.length + 2}), $file#{HEADER_PATH}]
 
     return subsequence($results, #{start}, #{items_per_page})
     END
