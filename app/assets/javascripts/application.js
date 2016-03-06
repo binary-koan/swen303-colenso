@@ -11,10 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery_ujs
 //= require bootstrap-sprockets
-//= require react
-//= require react_ujs
-//= require react-bootstrap
 //
-//= require components
-//= require documents
+//= require_tree .

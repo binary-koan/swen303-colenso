@@ -1,5 +1,9 @@
 <h1><%= @document.title %></h1>
 <p><%= @document.published_date %></p>
 <p><%= @document.author %></p>
-<div><%= @document.front_matter %></div>
-<div><%= @document.body %></div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%= @document.front_matter %>
+    <%= @document.body %>
+  </div>
+</div>
