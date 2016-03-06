@@ -14,6 +14,7 @@ class TeiToHtml
   private
 
   def convert_node(node)
+    return "" if node.nil?
     return node.text if node.text?
 
     case node.name

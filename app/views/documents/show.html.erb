@@ -1,9 +1,29 @@
-<h1><%= @document.title %></h1>
-<p><%= @document.published_date %></p>
-<p><%= @document.author %></p>
-<div class="panel panel-default">
-  <div class="panel-body">
-    <%= @document.front_matter %>
-    <%= @document.body %>
+<div id="document">
+  <h1><%= @document.title %></h1>
+  <p><%= @document.published_date %></p>
+  <p><%= @document.author %></p>
+
+  <p class="text-right">
+    <span class="btn-group switch-format">
+      <button class="btn btn-default format-html active">Formatted</button>
+      <button class="btn btn-default format-tei">Raw TEI</button>
+    </span>
+    <button class="btn btn-default">
+      <span class="glyphicon glyphicon-download-alt"></span> Download
+    </button>
+  </p>
+
+  <div class="panel panel-default">
+    <div class="panel-body view-document">
+      <div class="format-html">
+        <%= @document.front_matter %>
+        <%= @document.body %>
+      </div>
+      <pre class="format-tei">
+        <code>
+          <%= @document.raw_xml.force_encoding("utf-8") %>
+        </code>
+      </pre>
+    </div>
   </div>
 </div>
