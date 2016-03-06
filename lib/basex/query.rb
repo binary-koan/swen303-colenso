@@ -29,7 +29,7 @@ module BaseXClient
         while @session.read > 0.chr
           @cache << @session.receive
         end
-        raise @session.receive unless @session.ok?
+        raise BaseXClient.error_from(@session.receive) unless @session.ok?
       end
 
       @pos < @cache.length
@@ -58,7 +58,7 @@ module BaseXClient
       @session.send(cmd + arg)
 
       result = @session.receive
-      raise @session.receive unless @session.ok?
+      raise BaseXClient.error_from(@session.receive) unless @session.ok?
 
       result
     end

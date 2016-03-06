@@ -33,7 +33,7 @@ module BaseXClient
       send(hash.hexdigest())
 
       # evaluate success flag
-      raise "Access denied." unless read == 0.chr
+      raise BaseXClient::BaseXError, "Access denied." unless read == 0.chr
 
       @char_lead_byte = "\xFF"
       @char_lead_byte.force_encoding('ASCII-8BIT')
@@ -46,7 +46,7 @@ module BaseXClient
       # receive result
       result = receive
       @info = receive
-      raise @info unless ok?
+      raise BaseXClient.error_from(@info) unless ok?
 
       result
     end
@@ -97,7 +97,7 @@ module BaseXClient
     def send_command(cmd, arg, input)
       send(cmd + arg + 0.chr + input)
       @info = receive
-      raise @info unless ok?
+      raise BaseXClient.error_from(@info) unless ok?
     end
 
     # Returns a single byte from the socket.

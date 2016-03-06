@@ -1,6 +1,7 @@
 require_relative "basex/model"
 require_relative "basex/query"
 require_relative "basex/session"
+require_relative "basex/errors"
 
 module BaseXClient
   CONFIG_OPTIONS = %i[host port username password collection_prefix]
