@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :documents, only: [:index, :show] do
     get :search, on: :collection
+    get :download, on: :member
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

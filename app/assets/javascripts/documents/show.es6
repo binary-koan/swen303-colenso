@@ -13,4 +13,6 @@
 
   formatSwitcher.find(".format-html").on("click", setFormat.bind(null, "html"));
   formatSwitcher.find(".format-tei").on("click", setFormat.bind(null, "tei"));
+
+  formatSwitcher.find(".active").trigger("click");
 })();

@@ -8,9 +8,9 @@
       <button class="btn btn-default format-html active">Formatted</button>
       <button class="btn btn-default format-tei">Raw TEI</button>
     </span>
-    <button class="btn btn-default">
+    <%= link_to download_document_path(@document.basename), class: "btn btn-default" do %>
       <span class="glyphicon glyphicon-download-alt"></span> Download
-    </button>
+    <% end %>
   </p>
 
   <div class="panel panel-default">
