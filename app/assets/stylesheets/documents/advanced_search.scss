@@ -1,0 +1,35 @@
+.advanced-search-terms {
+  .spacer {
+    display: inline-block;
+    padding-left: $padding-base-horizontal;
+  }
+}
+
+.search-term {
+  @extend .btn;
+
+  border: 1px solid;
+  font-size: 100%;
+  font-weight: normal;
+  cursor: move;
+}
+
+.search-term.search-term-unary {
+  @include button-variant(white, $label-default-bg, $label-default-bg);
+}
+
+.search-term.search-term-text {
+  @include button-variant($text-color, white, $input-border);
+}
+
+.search-term.search-term-binary.and {
+  @include button-variant(white, $label-warning-bg, $label-warning-bg);
+}
+
+.search-term.search-term-binary.or {
+  @include button-variant(white, $label-info-bg, $label-info-bg);
+}
+
+.advanced-search-query.highlight {
+  border-color: $brand-primary;
+}

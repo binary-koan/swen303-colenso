@@ -3,4 +3,11 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-@import "documents";
+@import "documents/tei";
+@import "documents/advanced_search";
+
+// Bootstrap overrides
+
+.popover {
+  max-width: 650px;
+}
