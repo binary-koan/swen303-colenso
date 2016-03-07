@@ -1,19 +1,16 @@
 (() => {
   const searchTerms = $(".advanced-search-terms .search-term");
   const searchBox = $(".advanced-search-query");
+  const form = $("form#advanced_search");
 
   const TYPE_TITLES = { text: "Text", xpath: "XPath" };
 
   function addInput(term) {
     const typeTitle = TYPE_TITLES[term.data("type")];
-    const container = $("<span>").addClass("input-group search-term");
+    const container = $("<span>").addClass("input-group search-term").data("type", term.data("type"));
 
     container.append($("<span>").addClass("input-group-addon").text(typeTitle));
-    container.append($("<input>").attr({
-      type: "text",
-      class: "form-control",
-      "data-type": term.data("type")
-    }));
+    container.append($("<input>").attr("type", "text").addClass("form-control"));
 
     searchBox.append(container);
     container.find("input").focus();
@@ -60,6 +57,22 @@
     }
   }
 
+  function calculateQueryData(e) {
+    const terms = [];
+
+    searchBox.children().each((i, el) => {
+      const child = $(el);
+
+      if (child.hasClass("search-term-binary") || child.hasClass("search-term-unary")) {
+        terms.push({ type: "operator", value: child.data("operator") });
+      } else {
+        terms.push({ type: child.data("type"), value: child.find("input").val() });
+      }
+    });
+
+    form.find("#query").val(JSON.stringify({ terms }));
+  }
+
   searchTerms
     .draggable({
       appendTo: "body",
@@ -86,4 +99,6 @@
     });
 
   searchBox.on("mouseup", ".search-term", e => maybeRemoveTerm($(e.target), e));
+
+  form.on("submit", calculateQueryData);
 })();
