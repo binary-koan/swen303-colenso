@@ -1,5 +1,5 @@
 <%= form_tag search_documents_path, id: :advanced_search, method: :get, class: "hidden" do %>
-  <%= hidden_field_tag :query_type, value: "advanced" %>
+  <%= hidden_field_tag :query_type, "advanced" %>
   <%= hidden_field_tag :query %>
 
   <div class="alert alert-info">
