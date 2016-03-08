@@ -7,9 +7,10 @@
 
 module BaseXClient
   class Query
-    def initialize(s, q)
-      @session = s
-      @id = exec(0.chr, q)
+    def initialize(session, query)
+      @session = session
+      @query_text = query
+      @id = exec(0.chr, query)
       @cache = []
       @pos = 0
     end
@@ -29,7 +30,7 @@ module BaseXClient
         while @session.read > 0.chr
           @cache << @session.receive
         end
-        raise BaseXClient.error_from(@session.receive) unless @session.ok?
+        raise BaseXClient.error_from(@session.receive, @query_text) unless @session.ok?
       end
 
       @pos < @cache.length

@@ -24,12 +24,12 @@ module BaseXClient
 
   ERROR_CLASSES = [NodeNotFound, DatabaseNotAvailable, InvalidIndex, DatabaseAlreadyOpen, DatabaseAlreadyExists]
 
-  def self.error_from(data)
-    error_code = /BXDB(\d{4})/.match(data)[1].to_i
+  def self.error_from(data, additional_info="")
+    error_code = /BXDB(\d{4})/.match(data).try!(:[], 1).to_i
 
     error_class = ERROR_CLASSES.find { |klass| klass::ERROR_CODES.include?(error_code) }
     error_class ||= BaseXError
 
-    error_class.new(data)
+    error_class.new("#{data}\n#{additional_info}")
   end
 end

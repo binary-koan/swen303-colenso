@@ -64,7 +64,7 @@
       const child = $(el);
 
       if (child.hasClass("search-term-binary") || child.hasClass("search-term-unary")) {
-        terms.push({ type: "operator", value: child.data("operator") });
+        terms.push({ "operator": child.data("operator") });
       } else {
         terms.push({ type: child.data("type"), value: child.find("input").val() });
       }

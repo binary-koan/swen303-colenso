@@ -1,58 +1,47 @@
 class SearchDocuments
   HEADER_PATH = "//tei:teiHeader"
+  FILE_VARIABLE_NAME = "$file"
 
-  attr_reader :xpath, :text, :page, :items_per_page, :query
+  attr_reader :terms, :page, :items_per_page, :query
 
-  def initialize(xpath: nil, text: nil, page: 1, items_per_page: 20)
-    @xpath = xpath
-    @text = text
+  def initialize(terms, page: 1, items_per_page: 20)
+    @terms = terms
     @page = page
     @items_per_page = items_per_page
   end
 
   def call
-    raise "Must find documents by either XPath or text" unless xpath.present? || text.present?
+    raise "You need to enter a search term!" if terms.nil? || terms.empty?
 
-    if text
-      resolved_xpath = "//tei:*[. contains text {$query_text}]"
-      declared_variables = { query_text: text }
-    else
-      resolved_xpath = add_tei_namespace(xpath)
-      declared_variables = {}
-    end
-
-    setup_query(resolved_xpath, declared_variables)
+    query_options = BuildQuery.new(terms, FILE_VARIABLE_NAME).call
+    setup_query(query_options.query_text, query_options.external_variables)
 
     query_results.map { |filename, xml| Document.new(filename, xml) }
   end
 
   private
 
-  def setup_query(xpath, declared_variables)
-    input = wrap_query(where_path: xpath, return_path: HEADER_PATH, declared_variables: declared_variables)
+  def setup_query(where_path, declared_variables)
+    input = wrap_query(where_path: where_path, return_path: HEADER_PATH, declared_variables: declared_variables)
     @query = BaseXClient.session.query(input)
 
-    declared_variables.each { |name, value| query.bind("$#{name}", value) }
+    declared_variables.each { |name, value| query.bind(name, value) }
   end
 
   def wrap_query(where_path:, return_path: "", declared_variables:)
-    variable_declarations = declared_variables.keys.map { |name| "declare variable $#{name} external;" }.join
+    variable_declarations = declared_variables.keys.map { |name| "declare variable #{name} external;" }.join
     start = (page - 1) * items_per_page + 1
 
     <<-END
     declare namespace tei = "#{Document::TEI_NAMESPACE}";
     #{variable_declarations}
 
-    let $results := for $file in collection("#{Document.collection}")
-    where $file#{where_path}
-    return [substring(document-uri($file), #{Document.collection.length + 2}), $file#{HEADER_PATH}]
+    let $results := for #{FILE_VARIABLE_NAME} in collection("#{Document.collection}")
+    where #{where_path}
+    return [substring(document-uri(#{FILE_VARIABLE_NAME}), #{Document.collection.length + 2}), #{FILE_VARIABLE_NAME}#{HEADER_PATH}]
 
     return subsequence($results, #{start}, #{items_per_page})
     END
-  end
-
-  def add_tei_namespace(xpath)
-    xpath.gsub(/\/([a-z0-9_\-*]+)/, '/tei:\1')
   end
 
   def query_results
