@@ -1,6 +1,4 @@
 <%= form_tag search_documents_path, id: :simple_search, method: :get do %>
-  <%= hidden_field_tag :query_type, value: "simple" %>
-
   <div class="form-group">
     <%= label_tag :query, "Search", class: "sr-only" %>
     <div class="input-group">

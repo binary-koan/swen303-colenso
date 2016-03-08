@@ -15,6 +15,32 @@ RSpec.describe DocumentsController do
   end
 
   describe "GET search" do
+    context "with a simple query" do
+      it "calls SearchDocuments with a single term" do
+        expect(SearchDocuments).to receive(:new).with([{ "type" => "text", "value" => "qazxy" }]).and_call_original
+
+        get :search, query: "qazxy"
+      end
+    end
+
+    context "with an advanced query" do
+      it "calls SearchDocuments with the query parsed as JSON" do
+        expect(SearchDocuments).to receive(:new).with([
+          { "operator" => "not" },
+          { "type" => "text", "value" => "qazxy" }
+        ]).and_call_original
+
+        query = <<-JSON
+        { "terms": [
+          { "operator": "not" },
+          { "type": "text", "value": "qazxy" }
+        ]}
+        JSON
+
+        get :search, query: query, query_type: "advanced"
+      end
+    end
+
     it "renders the search template" do
       get :search, query: "qazxy"
 

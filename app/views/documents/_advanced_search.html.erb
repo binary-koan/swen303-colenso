@@ -1,0 +1,29 @@
+<%= form_tag search_documents_path, id: :advanced_search, method: :get, class: "hidden" do %>
+  <%= hidden_field_tag :query_type, "advanced" %>
+  <%= hidden_field_tag :query %>
+
+  <div class="alert alert-info">
+    Drag or click elements to add them to the box. Drag them out of the box to remove them.
+  </div>
+
+  <p class="text-center advanced-search-terms">
+    <button type="button" class="search-term search-term-unary" data-operator="not">NOT</button>
+    <span class="spacer"></span>
+    <button type="button" class="search-term search-term-text" data-type="text">Some text ...</button>
+    <button type="button" class="search-term search-term-text" data-type="xpath">Some XPath ...</button>
+    <span class="spacer"></span>
+    <button type="button" class="search-term search-term-binary and" data-operator="and">AND</button>
+    <button type="button" class="search-term search-term-binary or" data-operator="or">OR</button>
+  </p>
+
+  <div class="form-group">
+    <p class="sr-only">Current query</p>
+    <div class="well well advanced-search-query"></div>
+  </div>
+
+  <div class="text-center">
+    <%= button_tag type: "submit", class: "btn btn-primary btn-lg" do %>
+      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+    <% end %>
+  </div>
+<% end %>
