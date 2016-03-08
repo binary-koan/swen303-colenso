@@ -20,22 +20,40 @@ class SearchDocuments::BuildQuery
   private
 
   def process_next_term
-    next_term = terms.shift
+    term = terms.shift
 
-    if next_term["operator"] == "not"
-      query.query_text += "not("
-      process_next_term
-      query.query_text += ")"
-    elsif next_term["operator"].present?
-      query.query_text += " #{next_term["operator"]} "
-    elsif next_term["type"] == "xpath"
-      query.query_text += "#{file_variable_name}#{next_term["value"]}"
+    if term["operator"] == "not"
+      process_not_operator
+    elsif term["operator"].present?
+      process_operator(term)
+    elsif term["type"] == "xpath"
+      process_xpath(term)
     else
-      query_variable_name = next_query_text_name
-
-      query.query_text += "#{file_variable_name}//tei:*[. contains text {#{query_variable_name}}]"
-      query.external_variables[query_variable_name] = next_term["value"]
+      process_text(term)
     end
+  end
+
+  def process_not_operator
+    query.query_text += "not("
+    process_next_term
+    query.query_text += ")"
+  end
+
+  def process_operator(term)
+    query.query_text += " #{term["operator"]} "
+  end
+
+  def process_xpath(term)
+    xpath = add_tei_namespace(term["value"])
+
+    query.query_text += "#{file_variable_name}#{xpath}"
+  end
+
+  def process_text(term)
+    query_variable_name = next_query_text_name
+
+    query.query_text += "#{file_variable_name}//tei:*[. contains text {#{query_variable_name}}]"
+    query.external_variables[query_variable_name] = term["value"]
   end
 
   def next_query_text_name
@@ -43,5 +61,9 @@ class SearchDocuments::BuildQuery
     @query_text_count += 1
 
     "$query_text_#{@query_text_count}"
+  end
+
+  def add_tei_namespace(xpath)
+    xpath.gsub(/\/([a-z0-9_\-*]+)/, '/tei:\1')
   end
 end

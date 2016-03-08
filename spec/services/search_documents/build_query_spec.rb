@@ -20,8 +20,8 @@ RSpec.describe SearchDocuments::BuildQuery do
   context "with an xpath query" do
     let(:terms) { [{ "type" => "xpath", "value" => "//title" }] }
 
-    it "adds the xpath to the query text" do
-      expect(query.query_text).to eq "$file//title"
+    it "adds namespaced xpath to the query text" do
+      expect(query.query_text).to eq "$file//tei:title"
     end
 
     it "does not set an external variable" do
@@ -33,7 +33,7 @@ RSpec.describe SearchDocuments::BuildQuery do
     let(:terms) { [{ "operator" => "not" }, { "type" => "xpath", "value" => "//title" }] }
 
     it "wraps the next term in not()" do
-      expect(query.query_text).to eq "not($file//title)"
+      expect(query.query_text).to eq "not($file//tei:title)"
     end
   end
 
