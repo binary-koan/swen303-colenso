@@ -11,5 +11,15 @@
 <nav class="navbar navbar-inverse navbar-spaced">
   <div class="container">
     <a class="navbar-brand" href="<%= documents_path %>">Documents and letters</a>
+    <% if @query_terms %>
+      <a class="navbar-brand navbar-breadcrumb" href="<%= search_documents_path(query: params[:query], query_type: params[:query_type]) %>">
+        Search results
+      </a>
+    <% end %>
+    <% if @document %>
+      <a class="navbar-brand navbar-breadcrumb" href="<%= documents_path %>">
+        <%= @document.title.truncate(30, separator: /\s/) %>
+      </a>
+    <% end %>
   </div>
 </nav>
