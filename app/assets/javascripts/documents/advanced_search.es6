@@ -1,57 +1,55 @@
 (() => {
-  const searchTerms = $(".advanced-search-terms .search-term");
-  const searchBox = $(".advanced-search-query");
+  const searchContainer = $(".advanced-search-container");
+  const searchTerms = searchContainer.find(".advanced-search-terms .search-term");
+
+  const searchViewer = searchContainer.find(".advanced-search-query:not(.editable)");
+  const searchEditor = searchContainer.find(".advanced-search-query.editable");
+  const startEditingButton = searchContainer.find(".viewing-section .start-editing");
+
   const form = $("form#advanced_search");
 
   const TYPE_TITLES = { text: "Text", xpath: "XPath" };
 
-  function addInput(term) {
-    const typeTitle = TYPE_TITLES[term.data("type")];
-    const container = $("<span>").addClass("input-group search-term").data("type", term.data("type"));
+  function addInput({ type, value, editable }, box) {
+    const container = $("<span>").addClass("search-term");
 
-    container.append($("<span>").addClass("input-group-addon").text(typeTitle));
-    container.append($("<input>").attr("type", "text").addClass("form-control"));
+    if (editable) {
+      container.addClass("input-group").data("type", type);
+      container.append($("<span>").addClass("input-group-addon").text(TYPE_TITLES[type]));
+      container.append($("<input>").attr("type", "text").addClass("form-control").val(value));
+    } else {
+      container.addClass("search-term-text").text(value);
+    }
 
-    searchBox.append(container);
+    box.append(container);
     container.find("input").focus();
   }
 
-  function addUnaryOperator(term) {
-    const container = $("<span>").text(term.text()).attr({
-      class: "search-term search-term-unary",
-      "data-operator": term.data("operator")
+  function addOperator({ operator }, box) {
+    const container = $("<span>").text(operator).attr({
+      class: `search-term search-term-operator ${operator}`,
+      "data-operator": operator
     });
 
-    searchBox.append(container);
-  }
-
-  function addBinaryOperator(term) {
-    const container = $("<span>").text(term.text()).attr({
-      class: `search-term search-term-binary ${term.data("operator")}`,
-      "data-operator": term.data("operator")
-    });
-
-    searchBox.append(container);
+    box.append(container);
   }
 
   function dropTerm(term) {
     if (term.is(".search-term-text")) {
-      addInput(term);
-    } else if (term.is(".search-term-unary")) {
-      addUnaryOperator(term);
+      addInput({ type: term.data("type"), editable: true }, searchEditor);
     } else {
-      addBinaryOperator(term);
+      addOperator({ operator: term.data("operator") }, searchEditor);
     }
   }
 
-  function isOutsideSearchBox(x, y) {
-    const clientRect = searchBox.get(0).getBoundingClientRect();
+  function isOutsideSearchEditor(x, y) {
+    const clientRect = searchEditor.get(0).getBoundingClientRect();
 
     return x < clientRect.left || y < clientRect.top || x > clientRect.right || y > clientRect.bottom;
   }
 
   function maybeRemoveTerm(term, e) {
-    if (isOutsideSearchBox(e.clientX, e.clientY)) {
+    if (isOutsideSearchEditor(e.clientX, e.clientY)) {
       e.preventDefault();
       term.closest(".search-term").remove();
     }
@@ -60,10 +58,10 @@
   function calculateQueryData(e) {
     const terms = [];
 
-    searchBox.children().each((i, el) => {
+    searchEditor.children().each((i, el) => {
       const child = $(el);
 
-      if (child.hasClass("search-term-binary") || child.hasClass("search-term-unary")) {
+      if (child.hasClass("search-term-operator")) {
         terms.push({ "operator": child.data("operator") });
       } else {
         terms.push({ type: child.data("type"), value: child.find("input").val() });
@@ -73,6 +71,18 @@
     form.find("#query").val(JSON.stringify({ terms }));
   }
 
+  function restoreQueryData(data, box) {
+    data.forEach(term => {
+      if (term.operator) {
+        addOperator(term, box);
+      } else {
+        addInput(term, box);
+      }
+    });
+  }
+
+  startEditingButton.on("click", () => searchContainer.addClass("editing"));
+
   searchTerms
     .draggable({
       appendTo: "body",
@@ -81,7 +91,7 @@
     })
     .click(e => dropTerm($(e.target)));
 
-  searchBox
+  searchEditor
     .droppable({
       hoverClass: "highlight",
       accept: ".search-term.ui-draggable",
@@ -96,9 +106,12 @@
         // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
         item.removeClass("ui-state-default");
       }
-    });
-
-  searchBox.on("mouseup", ".search-term", e => maybeRemoveTerm($(e.target), e));
+    })
+    .on("mouseup", ".search-term", e => maybeRemoveTerm($(e.target), e));
 
   form.on("submit", calculateQueryData);
+
+  if (searchViewer.data("query")) {
+    restoreQueryData(searchViewer.data("query").terms, searchViewer);
+  }
 })();
