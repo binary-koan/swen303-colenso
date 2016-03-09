@@ -1,21 +1,15 @@
 <div class="row">
   <div class="col-md-12">
-    <h1>Colenso Documents</h1>
+    <div class="text-right">
+      <button class="btn btn-link query-builder-toggle">
+        <span class="glyphicon glyphicon-cog"></span>
+        <span class="query-builder-hidden">Show query builder</span>
+        <span class="query-builder-shown hidden">Hide query builder</span>
+      </button>
 
-    <div class="row">
-      <div class="col-md-6">
-        <button class="btn btn-link query-builder-toggle">
-          <span class="glyphicon glyphicon-cog"></span>
-          <span class="query-builder-hidden">Show query builder</span>
-          <span class="query-builder-shown hidden">Hide query builder</span>
-        </button>
-      </div>
-
-      <div class="col-md-6 text-right">
-        <button class="btn btn-link">
-          <span class="glyphicon glyphicon-question-sign"></span> How to search
-        </button>
-      </div>
+      <button class="btn btn-link">
+        <span class="glyphicon glyphicon-question-sign"></span> How to search
+      </button>
     </div>
 
     <%= render partial: "simple_search" %>

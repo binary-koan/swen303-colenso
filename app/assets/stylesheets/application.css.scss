@@ -3,6 +3,8 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+@import "scaffolding/navbar";
+
 @import "documents/tei";
 @import "documents/advanced_search";
 

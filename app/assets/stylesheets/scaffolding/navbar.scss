@@ -1,0 +1,29 @@
+.navbar.navbar-sm {
+  $height: $navbar-height / 2;
+
+  min-height: $height;
+
+  > .container .navbar-brand {
+    height: $height;
+    padding-top: ($height - $font-size-base) / 2;
+    padding-bottom: ($height - $font-size-base) / 2;
+
+    font-size: $font-size-base;
+    line-height: $font-size-base;
+    font-weight: bold;
+    font-style: italic;
+    text-transform: lowercase;
+  }
+}
+
+.navbar-spaced {
+  margin-bottom: $font-size-base;
+}
+
+.navbar-brand.navbar-breadcrumb {
+  &:before {
+    content: "»";
+    display: inline-block;
+    padding-right: 15px;
+  }
+}
