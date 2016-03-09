@@ -1,4 +1,6 @@
 class DocumentsController < ApplicationController
+  include DocumentsHelper
+
   def index
   end
 
@@ -20,7 +22,7 @@ class DocumentsController < ApplicationController
   private
 
   def build_query_terms
-    if params[:query_type] == "advanced"
+    if searching_advanced?
       JSON.parse(params[:query])["terms"]
     elsif params[:query].try!(:start_with?, "/")
       [{ "type" => "xpath", "value" => params[:query] }]

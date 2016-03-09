@@ -16,3 +16,6 @@
 //= require jquery-ui
 //
 //= require_tree .
+
+// Global Bootstrap setup
+$("[data-toggle='tooltip']").tooltip();

@@ -1,10 +1,22 @@
 <div class="row">
   <div class="col-md-12">
-    <% if params[:query_type] == "advanced" %>
-      <%= render partial: "advanced_search", locals: { query_terms: [], hidden: false, editing: false } %>
-    <% else %>
-      <%= render partial: "simple_search", locals: { query: params[:query], hidden: false } %>
-    <% end %>
+    <div class="row">
+      <div class="col-md-1 col-md-push-11">
+        <%= link_to documents_path(query_type: params[:query_type]), class: "btn btn-link btn-lg",
+              "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Return to the search page for more options" do %>
+          <span class="glyphicon glyphicon-cog"></span>
+          <span class="sr-only">Return to the search page for more options</span>
+        <% end %>
+      </div>
+
+      <div class="col-md-11 col-md-pull-1">
+        <% if searching_advanced? %>
+          <%= render partial: "advanced_search", locals: { query: params[:query], hidden: false, editing: false } %>
+        <% else %>
+          <%= render partial: "simple_search", locals: { query: params[:query], hidden: false } %>
+        <% end %>
+      </div>
+    </div>
 
     <div class="list-group">
       <% @results.each do |document| %>

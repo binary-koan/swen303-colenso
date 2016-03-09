@@ -1,18 +1,18 @@
 <div class="row">
   <div class="col-md-12">
     <div class="text-right">
-      <button class="btn btn-link query-builder-toggle">
+      <%= button_tag type: "button", class: "btn btn-link query-builder-toggle" do %>
         <span class="glyphicon glyphicon-cog"></span>
-        <span class="query-builder-hidden">Show query builder</span>
-        <span class="query-builder-shown hidden">Hide query builder</span>
-      </button>
+        <span class="query-builder-hidden <%= "hidden" if searching_advanced? %>">Show query builder</span>
+        <span class="query-builder-shown <%= "hidden" if !searching_advanced? %>">Hide query builder</span>
+      <% end %>
 
-      <button class="btn btn-link">
+      <%= button_tag type: "button", class: "btn btn-link" do %>
         <span class="glyphicon glyphicon-question-sign"></span> How to search
-      </button>
+      <% end %>
     </div>
 
-    <%= render partial: "simple_search", locals: { query: "", hidden: false } %>
-    <%= render partial: "advanced_search", locals: { query_terms: [], hidden: true, editing: true } %>
+    <%= render partial: "simple_search", locals: { query: params[:query], hidden: searching_advanced? } %>
+    <%= render partial: "advanced_search", locals: { query: params[:query], hidden: !searching_advanced?, editing: true } %>
   </div>
 </div>

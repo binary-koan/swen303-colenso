@@ -90,6 +90,10 @@
   }
 }
 
+.search-term {
+  z-index: $zindex-navbar - 1;
+}
+
 .search-term-operator {
   @include search-term-btn;
 

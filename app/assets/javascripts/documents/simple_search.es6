@@ -17,8 +17,6 @@
     }
   }
 
-  form.find("[data-toggle='tooltip']").tooltip();
-
   queryInput.on("input", updateSearchTypeDisplay);
   updateSearchTypeDisplay();
 })();
