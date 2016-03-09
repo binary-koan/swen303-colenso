@@ -1,14 +1,21 @@
-<h1>Search Results</h1>
-<p>You searched for: <%= params[:query] %></p>
+<div class="row">
+  <div class="col-md-12">
+    <% if params[:query_type] == "advanced" %>
+      <%= render partial: "advanced_search", locals: { query_terms: [], hidden: false, editing: false } %>
+    <% else %>
+      <%= render partial: "simple_search", locals: { query: params[:query], hidden: false } %>
+    <% end %>
 
-<div class="list-group">
-  <% @results.each do |document| %>
-    <a href="<%= document_path(document.basename) %>" class="list-group-item">
-      <h4 class="list-group-item-heading"><%= document.title %></h4>
-      <p class="list-group-item-text">
-        <span class="text-muted"><%= document.published_date %></span>
-        <%= document.author %>
-      </p>
-    </a>
-  <% end %>
+    <div class="list-group">
+      <% @results.each do |document| %>
+        <a href="<%= document_path(document.basename) %>" class="list-group-item">
+          <h4 class="list-group-item-heading"><%= document.title %></h4>
+          <p class="list-group-item-text">
+            <span class="text-muted"><%= document.published_date %></span>
+            <%= document.author %>
+          </p>
+        </a>
+      <% end %>
+    </div>
+  </div>
 </div>

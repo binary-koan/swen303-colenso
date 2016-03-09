@@ -1,6 +1,7 @@
 @mixin horizontal-arrow {
   content: '';
   position: absolute;
+  z-index: -1;
   top: 50%;
   width: 1.56em;
   height: 1.56em;
@@ -19,6 +20,24 @@
   cursor: move;
 }
 
+.advanced-search-container {
+  padding-bottom: $padding-base-vertical;
+
+  .editing-section {
+    display: none;
+  }
+
+  &.editing {
+    .editing-section {
+      display: block;
+    }
+
+    .viewing-section {
+      display: none;
+    }
+  }
+}
+
 .advanced-search-terms {
   .spacer {
     display: inline-block;
@@ -26,56 +45,21 @@
   }
 }
 
-.search-term-unary, .search-term-binary {
-  @include search-term-btn;
-
-  position: relative;
-  padding-right: $padding-large-horizontal;
-  margin-right: $padding-large-horizontal;
-
-  &:after {
-    @include horizontal-arrow;
-    right: 0%;
-  }
-}
-
-.search-term.search-term-binary {
-  padding-left: $padding-large-horizontal;
-  margin-left: $padding-large-horizontal;
-
-  &:before {
-    @include horizontal-arrow;
-    right: 100%;
-  }
-}
-
-.search-term-text {
-  @include search-term-btn;
-  @include button-variant($text-color, white, $input-border);
-}
-
-.search-term-unary {
-  @include button-variant(white, $label-default-bg, $label-default-bg);
-}
-
-.search-term-binary.and {
-  @include button-variant(white, $label-warning-bg, $label-warning-bg);
-}
-
-.search-term-binary.or {
-  @include button-variant(white, $label-info-bg, $label-info-bg);
-}
-
 .advanced-search-query {
+  @extend .well;
+  height: $input-height-large;
+  padding: $padding-small-vertical $padding-small-horizontal;
+  background: $input-bg;
+
   &.highlight {
     border-color: $brand-primary;
   }
 
-  .search-term-unary {
+  .search-term-operator.not {
     margin-right: $padding-xs-horizontal;
   }
 
-  .search-term-binary {
+  .search-term-operator.and, .search-term-operator.or {
     margin-left: $padding-base-horizontal * 2;
     margin-right: $padding-base-horizontal * 2;
   }
@@ -104,4 +88,46 @@
       }
     }
   }
+}
+
+.search-term-operator {
+  @include search-term-btn;
+
+  position: relative;
+  padding-right: $padding-large-horizontal;
+  margin-right: $padding-large-horizontal;
+
+  text-transform: uppercase;
+
+  &:after {
+    @include horizontal-arrow;
+    right: 0%;
+  }
+}
+
+.search-term-operator.and, .search-term-operator.or {
+  padding-left: $padding-large-horizontal;
+  margin-left: $padding-large-horizontal;
+
+  &:before {
+    @include horizontal-arrow;
+    right: 100%;
+  }
+}
+
+.search-term-operator.and {
+  @include button-variant(white, $label-warning-bg, $label-warning-bg);
+}
+
+.search-term-operator.or {
+  @include button-variant(white, $label-info-bg, $label-info-bg);
+}
+
+.search-term-operator.not {
+  @include button-variant(white, $label-default-bg, $label-default-bg);
+}
+
+.search-term-text {
+  @include search-term-btn;
+  @include button-variant($text-color, white, $input-border);
 }

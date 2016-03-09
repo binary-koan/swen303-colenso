@@ -12,7 +12,7 @@
       </button>
     </div>
 
-    <%= render partial: "simple_search" %>
-    <%= render partial: "advanced_search" %>
+    <%= render partial: "simple_search", locals: { query: "", hidden: false } %>
+    <%= render partial: "advanced_search", locals: { query_terms: [], hidden: true, editing: true } %>
   </div>
 </div>

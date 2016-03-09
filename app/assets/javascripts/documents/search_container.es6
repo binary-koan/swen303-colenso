@@ -1,6 +1,6 @@
 (() => {
   const simpleSearch = $("#simple_search");
-  const advancedSearch = $("#advanced_search");
+  const advancedSearch = $(".advanced-search-container");
   const toggle = $(".query-builder-toggle");
 
   function toggleQueryBuilder() {
