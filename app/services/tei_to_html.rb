@@ -37,8 +37,7 @@ class TeiToHtml
   end
 
   def build_tag(node, name, attrs={})
-    attrs[:class] ||= ""
-    attrs[:class] += " #{html_class(node)}"
+    attrs[:class] = attrs[:class].present? ? "#{attrs[:class]} #{html_class(node)}" : html_class(node)
 
     if node.children.present?
       content_tag(name, convert_children(node), attrs)

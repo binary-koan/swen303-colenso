@@ -23,7 +23,7 @@ RSpec.describe TeiToHtml do
     let(:tei) { Nokogiri::XML("<p>Test</p>").root }
 
     it "translates to an html paragraph" do
-      expect(service.call).to eq "<p>Test</p>"
+      expect(service.call).to eq '<p>Test</p>'
     end
   end
 

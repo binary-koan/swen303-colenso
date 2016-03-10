@@ -43,11 +43,15 @@ RSpec.describe Document do
 
   describe "#front_matter" do
     subject { without_whitespace(document.front_matter) }
-    it { is_expected.to eq without_whitespace(DocumentsSpecSupport::SAMPLE_FRONT_MATTER) }
+    let(:converted_front) { TeiToHtml.new(Nokogiri::XML(DocumentsSpecSupport::SAMPLE_FRONT_MATTER).root).call }
+
+    it { is_expected.to eq without_whitespace(converted_front) }
   end
 
   describe "#body" do
     subject { without_whitespace(document.body) }
-    it { is_expected.to eq without_whitespace(DocumentsSpecSupport::SAMPLE_BODY) }
+    let(:converted_body) { TeiToHtml.new(Nokogiri::XML(DocumentsSpecSupport::SAMPLE_BODY).root).call }
+
+    it { is_expected.to eq without_whitespace(converted_body) }
   end
 end

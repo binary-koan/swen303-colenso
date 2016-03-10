@@ -2,11 +2,11 @@ class Document < BaseXClient::Model
   TEI_NAMESPACE = "http://www.tei-c.org/ns/1.0"
 
   def title
-    dom.at_css("teiHeader titleStmt title").text
+    dom.at_css("teiHeader titleStmt title").text.strip
   end
 
   def author
-    dom.at_css("teiHeader titleStmt author").text
+    dom.at_css("teiHeader titleStmt author").text.strip
   end
 
   def published_date
@@ -34,6 +34,6 @@ class Document < BaseXClient::Model
     date_node = dom.at_css("teiHeader edition date")
     return unless date_node
 
-    DateTime.parse(date_node.text).to_date
+    DateTime.parse(date_node.text.strip).to_date
   end
 end

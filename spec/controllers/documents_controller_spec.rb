@@ -17,9 +17,15 @@ RSpec.describe DocumentsController do
   describe "GET search" do
     context "with a simple query" do
       it "calls SearchDocuments with a single term" do
-        expect(SearchDocuments).to receive(:new).with([{ "type" => "text", "value" => "qazxy" }]).and_call_original
+        expect(SearchDocuments).to receive(:new).with([{ "type" => "text", "value" => "qazxy" }], page: 1).and_call_original
 
         get :search, query: "qazxy"
+      end
+
+      it "passes through the given page parameter" do
+        expect(SearchDocuments).to receive(:new).with(anything, page: "2").and_call_original
+
+        get :search, query: "qazxy", page: 2
       end
     end
 
@@ -28,7 +34,7 @@ RSpec.describe DocumentsController do
         expect(SearchDocuments).to receive(:new).with([
           { "operator" => "not" },
           { "type" => "text", "value" => "qazxy" }
-        ]).and_call_original
+        ], page: 1).and_call_original
 
         query = <<-JSON
         { "terms": [

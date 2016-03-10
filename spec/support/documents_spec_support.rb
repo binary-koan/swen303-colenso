@@ -1,18 +1,22 @@
 module DocumentsSpecSupport
   SAMPLE_FRONT_MATTER = <<-XML
-  <p>
-     <hi rend="bold">1847 To the editor.</hi>
-     <hi rend="bold italic">New Zealand Spectator and Cook's Strait Guardian</hi>
-     <hi rend="bold">28 April.</hi>
-  </p>
+  <front>
+    <p>
+       <hi rend="bold">1847 To the editor.</hi>
+       <hi rend="bold italic">New Zealand Spectator and Cook's Strait Guardian</hi>
+       <hi rend="bold">28 April.</hi>
+    </p>
+  </front>
   XML
 
   SAMPLE_BODY = <<-XML
-  <p rend="end">In my tent, at Petoni,</p>
-  <p rend="end">Saturday evening, April 24, 1847.</p>
-  <p>
-     <hi rend="smallcaps">Sir</hi>, I was not a little surprised on reading in your paper of this day's date.
-  </p>
+  <body>
+    <p rend="end">In my tent, at Petoni,</p>
+    <p rend="end">Saturday evening, April 24, 1847.</p>
+    <p>
+       <hi rend="smallcaps">Sir</hi>, I was not a little surprised on reading in your paper of this day's date.
+    </p>
+  </body>
   XML
 
   SAMPLE_XML = <<-XML
@@ -43,8 +47,8 @@ module DocumentsSpecSupport
         </profileDesc>
      </teiHeader>
      <text>
-        <front>#{SAMPLE_FRONT_MATTER}</front>
-        <body>#{SAMPLE_BODY}</body>
+        #{SAMPLE_FRONT_MATTER}
+        #{SAMPLE_BODY}
      </text>
   </TEI>
   XML
