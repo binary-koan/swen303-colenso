@@ -1,5 +1,7 @@
 (() => {
   const searchContainer = $(".advanced-search-container");
+  if (!searchContainer.length) return;
+
   const searchTerms = searchContainer.find(".advanced-search-terms .search-term");
 
   const searchViewer = searchContainer.find(".advanced-search-query:not(.editable)");

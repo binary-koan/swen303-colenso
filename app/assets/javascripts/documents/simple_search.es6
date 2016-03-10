@@ -1,5 +1,7 @@
 (() => {
   const form = $("form#simple_search");
+  if (!form.length) return;
+
   const queryInput = form.find("input#query");
 
   function isXPathQuery(text) {

@@ -1,5 +1,7 @@
 (() => {
   const simpleSearch = $("#simple_search");
+  if (!simpleSearch.length) return;
+
   const advancedSearch = $(".advanced-search-container");
   const toggle = $(".query-builder-toggle");
 
