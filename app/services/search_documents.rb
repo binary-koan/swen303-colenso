@@ -6,8 +6,8 @@ class SearchDocuments
 
   def initialize(terms, page: 1, items_per_page: 20)
     @terms = terms
-    @page = page
-    @items_per_page = items_per_page
+    @page = page.to_i
+    @items_per_page = items_per_page.to_i
   end
 
   def call

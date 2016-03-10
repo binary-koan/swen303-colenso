@@ -18,16 +18,13 @@
       </div>
     </div>
 
-    <div class="list-group">
-      <% @results.each do |document| %>
-        <a href="<%= document_path(document.basename) %>" class="list-group-item">
-          <h4 class="list-group-item-heading"><%= document.title %></h4>
-          <p class="list-group-item-text">
-            <span class="text-muted"><%= document.published_date %></span>
-            <%= document.author %>
-          </p>
-        </a>
-      <% end %>
+    <div id="search_results" class="list-group">
+      <%= render partial: "search_result", collection: @results %>
     </div>
+
+    <p class="text-center load-more-results">
+      <button type="button" class="btn btn-default">Load more</button>
+      <span class="spinner glyphicon glyphicon-option-horizontal hidden"></span>
+    </p>
   </div>
 </div>

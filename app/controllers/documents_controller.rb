@@ -6,7 +6,17 @@ class DocumentsController < ApplicationController
 
   def search
     @query_terms = build_query_terms
-    @results = SearchDocuments.new(@query_terms).call
+    @results = SearchDocuments.new(@query_terms, page: params[:page] || 1).call
+
+    respond_to do |format|
+      format.html
+
+      format.json do
+        content = render_to_string(partial: "search_result", collection: @results, formats: ["html"])
+
+        render json: { content: content }
+      end
+    end
   end
 
   def show
