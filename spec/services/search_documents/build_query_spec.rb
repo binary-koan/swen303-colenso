@@ -9,7 +9,7 @@ RSpec.describe SearchDocuments::BuildQuery do
     let(:terms) { [{ "type" => "text", "value" => "Diary" }] }
 
     it "builds a 'contains text' query" do
-      expect(query.query_text).to eq "$file//tei:*[. contains text {$query_text_1}]"
+      expect(query.query_text).to eq "$file//tei:*[. contains text {$query_text_1} using wildcards using stemming]"
     end
 
     it "sets a query text variable" do
@@ -48,7 +48,9 @@ RSpec.describe SearchDocuments::BuildQuery do
     end
 
     it "builds the query text correctly" do
-      expect(query.query_text).to eq "not($file//tei:*[. contains text {$query_text_1}]) and $file//tei:*[. contains text {$query_text_2}]"
+      expect(query.query_text).to eq "" +
+        "not($file//tei:*[. contains text {$query_text_1} using wildcards using stemming]) and " +
+        "$file//tei:*[. contains text {$query_text_2} using wildcards using stemming]"
     end
 
     it "sets multiple external variables" do

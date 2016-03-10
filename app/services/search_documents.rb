@@ -36,8 +36,9 @@ class SearchDocuments
     declare namespace tei = "#{Document::TEI_NAMESPACE}";
     #{variable_declarations}
 
-    let $results := for #{FILE_VARIABLE_NAME} in collection("#{Document.collection}")
+    let $results := for #{FILE_VARIABLE_NAME} score $score in collection("#{Document.collection}")
     where #{where_path}
+    order by $score descending
     return [substring(document-uri(#{FILE_VARIABLE_NAME}), #{Document.collection.length + 2}), #{FILE_VARIABLE_NAME}#{HEADER_PATH}]
 
     return subsequence($results, #{start}, #{items_per_page})

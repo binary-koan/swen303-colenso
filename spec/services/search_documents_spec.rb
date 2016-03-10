@@ -36,7 +36,7 @@ RSpec.describe SearchDocuments do
     end
 
     context "when searching with an XPath query" do
-      let(:service) { SearchDocuments.new([{"type" => "xpath", "value" => "//tei:title[text()='Huckleberry Finn']"}]) }
+      let(:service) { SearchDocuments.new([{"type" => "xpath", "value" => "//title[text()='Huckleberry Finn']"}]) }
 
       it { is_expected.to contain_exactly documents.second }
     end

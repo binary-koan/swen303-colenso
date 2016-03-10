@@ -52,8 +52,12 @@ class SearchDocuments::BuildQuery
   def process_text(term)
     query_variable_name = next_query_text_name
 
-    query.query_text += "#{file_variable_name}//tei:*[. contains text {#{query_variable_name}}]"
+    query.query_text += full_text_query(query_variable_name)
     query.external_variables[query_variable_name] = term["value"]
+  end
+
+  def full_text_query(query_variable_name)
+    "#{file_variable_name}//tei:*[. contains text {#{query_variable_name}} using wildcards using stemming]"
   end
 
   def next_query_text_name
