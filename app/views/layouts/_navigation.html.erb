@@ -21,5 +21,11 @@
         <%= @document.title.truncate(30, separator: /\s/) %>
       </a>
     <% end %>
+
+    <span class="navbar-form navbar-right">
+      <%= link_to new_document_path, class: "btn btn-default" do %>
+        <span class="glyphicon glyphicon-plus"></span> Add document
+      <% end %>
+    </span>
   </div>
 </nav>

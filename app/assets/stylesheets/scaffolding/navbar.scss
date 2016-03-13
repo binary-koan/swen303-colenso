@@ -27,3 +27,7 @@
     padding-right: $navbar-padding-horizontal;
   }
 }
+
+.navbar-inverse .btn.btn-default {
+  @include button-variant($navbar-inverse-btn-color, $navbar-inverse-btn-bg, $navbar-inverse-btn-bg);
+}

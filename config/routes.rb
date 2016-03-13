@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :documents, only: [:index, :show] do
+  resources :documents, only: [:index, :new, :create, :show] do
     get :search, on: :collection
     get :download, on: :member
   end

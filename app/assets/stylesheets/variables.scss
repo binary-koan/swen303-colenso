@@ -403,7 +403,7 @@ $navbar-inverse-bg:                         $brand-primary !default;
 $navbar-inverse-border:                     $navbar-inverse-bg !default;
 
 // Inverted navbar links
-$navbar-inverse-link-color:                 lighten($gray-light, 15%) !default;
+$navbar-inverse-link-color:                 #eee !default;
 $navbar-inverse-link-hover-color:           #fff !default;
 $navbar-inverse-link-hover-bg:              transparent !default;
 $navbar-inverse-link-active-color:          $navbar-inverse-link-hover-color !default;
@@ -421,6 +421,9 @@ $navbar-inverse-toggle-hover-bg:            #333 !default;
 $navbar-inverse-toggle-icon-bar-bg:         #fff !default;
 $navbar-inverse-toggle-border-color:        #333 !default;
 
+// Buttons on inverted navbar
+$navbar-inverse-btn-color:                  $navbar-inverse-link-color !default;
+$navbar-inverse-btn-bg:                     darken($navbar-inverse-bg, 5%) !default;
 
 //== Navs
 //
