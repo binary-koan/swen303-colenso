@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe SearchDocuments::BuildQuery do
-  let(:service) { SearchDocuments::BuildQuery.new(terms, "$file") }
+  let(:service) { SearchDocuments::BuildQuery.new(terms) }
 
   subject(:query) { service.call }
 
@@ -55,6 +55,21 @@ RSpec.describe SearchDocuments::BuildQuery do
 
     it "sets multiple external variables" do
       expect(query.external_variables).to eq "$query_text_1" => "Diary", "$query_text_2" => "Colenso"
+    end
+  end
+
+  context "with custom variable names" do
+    let(:terms) { [{ "type" => "text", "value" => "Diary" }] }
+    let(:service) { SearchDocuments::BuildQuery.new(terms, file_variable_name: "$document", query_variable_name: "$text_query_1") }
+
+    it "alters the query variable name" do
+      expect(query.query_text).to include "$text_query_1_1"
+      expect(query.query_text).not_to include "$query_text"
+    end
+
+    it "alters the file variable name" do
+      expect(query.query_text).to include "$document"
+      expect(query.query_text).not_to include "$file"
     end
   end
 end
