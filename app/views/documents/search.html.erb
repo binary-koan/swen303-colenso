@@ -1,22 +1,10 @@
 <div class="row">
   <div class="col-md-12">
-    <div class="row">
-      <div class="col-md-1 col-md-push-11">
-        <%= link_to documents_path(query_type: params[:query_type]), class: "btn btn-link btn-lg",
-              "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Return to the search page for more options" do %>
-          <span class="glyphicon glyphicon-cog"></span>
-          <span class="sr-only">Return to the search page for more options</span>
-        <% end %>
-      </div>
-
-      <div class="col-md-11 col-md-pull-1">
-        <% if @queries.length > 1 %>
-          <%= render partial: "advanced_search", locals: { query: @queries, hidden: false, editing: false } %>
-        <% else %>
-          <%= render partial: "simple_search", locals: { query: @queries.first["value"], hidden: false, editing: false } %>
-        <% end %>
-      </div>
-    </div>
+    <% if @queries.length > 1 %>
+      <%= render partial: "advanced_search", locals: { query: @queries, hidden: false, editing: false } %>
+    <% else %>
+      <%= render partial: "simple_search", locals: { query: @queries.first["value"], hidden: false, editing: false } %>
+    <% end %>
 
     <div id="search_results" class="list-group">
       <%= render partial: "search_result", collection: @results %>
