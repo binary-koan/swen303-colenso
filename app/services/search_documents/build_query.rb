@@ -4,7 +4,7 @@ class SearchDocuments::BuildQuery
   attr_reader :terms, :file_variable_name, :query_variable_name, :query
 
   def initialize(terms, file_variable_name: "$file", query_variable_name: "$query_text")
-    @terms = terms
+    @terms = terms.dup
     @file_variable_name = file_variable_name
     @query_variable_name = query_variable_name
     @query = BuiltQuery.new("", {})

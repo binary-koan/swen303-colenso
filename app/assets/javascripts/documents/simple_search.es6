@@ -2,14 +2,14 @@
   const form = $("form#simple_search");
   if (!form.length) return;
 
-  const queryInput = form.find("input#query");
+  const queryInput = form.find("input#original_query");
+  const builtQueryInput = form.find("input#query");
 
   function isXPathQuery(text) {
     return text.indexOf("/") === 0;
   }
 
-  function updateSearchTypeDisplay() {
-    const currentText = queryInput.val();
+  function updateSearchTypeDisplay(currentText) {
     const container = queryInput.closest(".input-group");
 
     if (isXPathQuery(currentText)) {
@@ -19,6 +19,19 @@
     }
   }
 
-  queryInput.on("input", updateSearchTypeDisplay);
-  updateSearchTypeDisplay();
+  function updateQueryInput(currentText) {
+    const type = isXPathQuery(currentText) ? "xpath" : "text";
+
+    builtQueryInput.val(JSON.stringify({ terms: [{ type, value: currentText }] }));
+  }
+
+  function updateQuery() {
+    const currentText = queryInput.val();
+
+    updateSearchTypeDisplay(currentText);
+    updateQueryInput(currentText);
+  }
+
+  queryInput.on("input", updateQuery);
+  updateQuery();
 })();

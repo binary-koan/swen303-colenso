@@ -5,8 +5,8 @@ class DocumentsController < ApplicationController
   end
 
   def search
-    @query_terms = build_query_terms
-    @results = SearchDocuments.new(@query_terms, page: params[:page] || 1).call
+    @queries = build_queries
+    @results = SearchDocuments.new(@queries, page: params[:page] || 1).call
 
     respond_to do |format|
       format.html
@@ -50,13 +50,7 @@ class DocumentsController < ApplicationController
 
   private
 
-  def build_query_terms
-    if searching_advanced?
-      JSON.parse(params[:query])["terms"]
-    elsif params[:query].try!(:start_with?, "/")
-      [{ "type" => "xpath", "value" => params[:query] }]
-    else
-      [{ "type" => "text", "value" => params[:query] }]
-    end
+  def build_queries
+    JSON.parse(params[:query])["terms"]
   end
 end

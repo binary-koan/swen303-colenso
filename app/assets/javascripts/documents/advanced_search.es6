@@ -6,7 +6,6 @@
 
   const searchViewer = searchContainer.find(".advanced-search-query:not(.editable)");
   const searchEditor = searchContainer.find(".advanced-search-query.editable");
-  const startEditingButton = searchContainer.find(".viewing-section .start-editing");
 
   const form = $("form#advanced_search");
 
@@ -82,8 +81,6 @@
       }
     });
   }
-
-  startEditingButton.on("click", () => searchContainer.addClass("editing"));
 
   searchTerms
     .draggable({

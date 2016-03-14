@@ -1,0 +1,17 @@
+.search-container {
+  padding-bottom: $padding-base-vertical;
+
+  .editing-section {
+    display: none;
+  }
+
+  &.editing {
+    .editing-section {
+      display: block;
+    }
+
+    .viewing-section {
+      display: none;
+    }
+  }
+}

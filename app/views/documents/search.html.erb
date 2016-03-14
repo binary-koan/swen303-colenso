@@ -10,10 +10,10 @@
       </div>
 
       <div class="col-md-11 col-md-pull-1">
-        <% if searching_advanced? %>
-          <%= render partial: "advanced_search", locals: { query: params[:query], hidden: false, editing: false } %>
+        <% if @queries.length > 1 %>
+          <%= render partial: "advanced_search", locals: { query: @queries, hidden: false, editing: false } %>
         <% else %>
-          <%= render partial: "simple_search", locals: { query: params[:query], hidden: false } %>
+          <%= render partial: "simple_search", locals: { query: @queries.first["value"], hidden: false, editing: false } %>
         <% end %>
       </div>
     </div>

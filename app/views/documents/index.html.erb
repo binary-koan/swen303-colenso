@@ -3,8 +3,8 @@
     <div class="text-right">
       <%= button_tag type: "button", class: "btn btn-link query-builder-toggle" do %>
         <span class="glyphicon glyphicon-cog"></span>
-        <span class="query-builder-hidden <%= "hidden" if searching_advanced? %>">Show query builder</span>
-        <span class="query-builder-shown <%= "hidden" if !searching_advanced? %>">Hide query builder</span>
+        <span class="query-builder-hidden">Show query builder</span>
+        <span class="query-builder-shown hidden">Hide query builder</span>
       <% end %>
 
       <%= button_tag type: "button", class: "btn btn-link" do %>
@@ -12,7 +12,7 @@
       <% end %>
     </div>
 
-    <%= render partial: "simple_search", locals: { query: params[:query], hidden: searching_advanced? } %>
-    <%= render partial: "advanced_search", locals: { query: params[:query], hidden: !searching_advanced?, editing: true } %>
+    <%= render partial: "simple_search", locals: { query: nil, hidden: false, editing: true } %>
+    <%= render partial: "advanced_search", locals: { query: nil, hidden: true, editing: true } %>
   </div>
 </div>
