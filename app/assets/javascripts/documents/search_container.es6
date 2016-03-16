@@ -21,15 +21,27 @@
   }
 
   function toggleEditing() {
-    startEditingContainer.toggleClass("hidden");
-    searchWithinButton.toggleClass("hidden");
-    startEditingButton.toggleClass("active");
+    if (startEditingContainer.hasClass("hidden")) {
+      searchWithinContainer.addClass("hidden");
+      searchWithinButton.removeClass("active");
+      startEditingContainer.removeClass("hidden");
+      startEditingButton.addClass("active");
+    } else {
+      startEditingContainer.addClass("hidden");
+      startEditingButton.removeClass("active");
+    }
   }
 
   function toggleFiltering() {
-    searchWithinContainer.toggleClass("hidden");
-    startEditingButton.toggleClass("hidden");
-    searchWithinButton.toggleClass("active");
+    if (searchWithinContainer.hasClass("hidden")) {
+      startEditingContainer.addClass("hidden");
+      startEditingButton.removeClass("active");
+      searchWithinContainer.removeClass("hidden");
+      searchWithinButton.addClass("active");
+    } else {
+      searchWithinContainer.addClass("hidden");
+      searchWithinButton.removeClass("active");
+    }
   }
 
   queryBuilderToggle.on("click", toggleQueryBuilder);

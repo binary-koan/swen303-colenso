@@ -28,10 +28,13 @@
 }
 
 .advanced-search-query {
-  @extend .well;
-  height: $input-height-large;
-  padding: $padding-small-vertical $padding-small-horizontal;
-  background: $input-bg;
+  &.editable {
+    @extend .well;
+    height: $input-height-large;
+    margin-bottom: 0;
+    padding: $padding-small-vertical $padding-small-horizontal;
+    background: $input-bg;
+  }
 
   &.highlight {
     border-color: $brand-primary;

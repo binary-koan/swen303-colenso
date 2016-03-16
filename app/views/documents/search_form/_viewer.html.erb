@@ -1,26 +1,30 @@
-<div class="input-group search-container">
-  <% if simple_search?(query) %>
-    <span class="form-control input-lg simple-search-query"><%= simple_text_value(query) %></span>
-  <% else %>
-    <span class="form-control advanced-search-query"><%= advanced_query_view(query) %></span>
-  <% end %>
-
-  <span class="input-group-btn">
-    <% if editable %>
-      <%= button_tag type: "button", class: "btn btn-default btn-lg edit-query" do %>
-        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit query
-      <% end %>
-
-      <%= button_tag type: "button", class: "btn btn-default btn-lg search-within" do %>
-        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filter these results
-      <% end %>
+<div class="list-group-item">
+  <div class="search-container row">
+    <% if simple_search?(query) %>
+      <div class="col-lg-8 simple-search-query">&ldquo;<%= simple_text_value(query) %>&rdquo;</div>
+    <% else %>
+      <div class="col-lg-8 advanced-search-query"><%= advanced_query_view(query) %></div>
     <% end %>
 
-    <% if deletable %>
-      <%= link_to search_path_without_query(query), class: "btn btn-default btn-lg" do %>
-        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-        <span class="sr-only">Remove this query</span>
+    <div class="col-lg-4 text-right">
+      <% if editable %>
+        <span class="btn-group">
+          <%= button_tag type: "button", class: "btn btn-default edit-query" do %>
+            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit query
+          <% end %>
+
+          <%= button_tag type: "button", class: "btn btn-default search-within" do %>
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filter these results
+          <% end %>
+        </span>
       <% end %>
-    <% end %>
-  </span>
+
+      <% if deletable %>
+        <%= link_to search_path_without_query(query), class: "btn btn-default" do %>
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+          <span class="sr-only">Remove this query</span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>
