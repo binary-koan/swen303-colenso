@@ -1,0 +1,20 @@
+<%= form_tag search_documents_path, id: :simple_search, method: :get, class: ("hidden" if hidden) do %>
+  <%= hidden_field_tag :query %>
+
+  <div class="form-group">
+    <%= label_tag :original_query, "Search", class: "sr-only" %>
+    <div class="input-group">
+      <%= text_field_tag :original_query, simple_text_value(query), placeholder: "Search our collection ...", class: "form-control input-lg", name: nil %>
+
+      <span class="input-group-btn">
+        <%= button_tag type: "submit", class: "btn btn-primary btn-lg" do %>
+          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+          <span class="sr-only">Search</span>
+          <span class="search-type-xpath hidden"
+            data-toggle="tooltip" data-placement="bottom"
+            title="Your search term will be interpreted as an XPath expression.">(XPath)</span>
+        <% end %>
+      </span>
+    </div>
+  </div>
+<% end %>

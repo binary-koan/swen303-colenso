@@ -1,10 +1,9 @@
 (() => {
-  const searchContainer = $(".advanced-search-container");
-  if (!searchContainer.length) return;
+  const searchContainer = $("#advanced_search");
+  const searchViewer = $(".advanced-search-query:not(.editable)");
+  if (!searchContainer.length && !searchViewer.length) return;
 
   const searchTerms = searchContainer.find(".advanced-search-terms .search-term");
-
-  const searchViewer = searchContainer.find(".advanced-search-query:not(.editable)");
   const searchEditor = searchContainer.find(".advanced-search-query.editable");
 
   const form = $("form#advanced_search");
@@ -72,8 +71,12 @@
     form.find("#query").val(JSON.stringify({ terms }));
   }
 
-  function restoreQueryData(data, box) {
+  function restoreQueryData(data, box, editable) {
+    if (!box.length) return;
+
     data.forEach(term => {
+      term = Object.assign(term, { editable });
+
       if (term.operator) {
         addOperator(term, box);
       } else {
@@ -111,6 +114,9 @@
   form.on("submit", calculateQueryData);
 
   if (searchViewer.data("query")) {
-    restoreQueryData(searchViewer.data("query").terms, searchViewer);
+    const terms = searchViewer.data("query").terms;
+
+    restoreQueryData(terms, searchViewer);
+    restoreQueryData(terms, searchEditor, true);
   }
 })();

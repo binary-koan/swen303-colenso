@@ -1,10 +1,10 @@
 <div class="row">
   <div class="col-md-12">
-    <% if @queries.length > 1 %>
-      <%= render partial: "advanced_search", locals: { query: @queries, hidden: false, editing: false } %>
-    <% else %>
-      <%= render partial: "simple_search", locals: { query: @queries.first["value"], hidden: false, editing: false } %>
+    <% @queries[0..-2].each do |query| %>
+      <%= render partial: "documents/search_form/container", locals: { query: query, editable: false, editing: false } %>
     <% end %>
+
+    <%= render partial: "documents/search_form/container", locals: { query: @queries.last, editable: true, editing: false } %>
 
     <div id="search_results" class="list-group">
       <%= render partial: "search_result", collection: @results %>

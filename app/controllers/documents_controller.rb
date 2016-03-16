@@ -6,7 +6,7 @@ class DocumentsController < ApplicationController
 
   def search
     @queries = build_queries
-    @results = SearchDocuments.new(@queries, page: params[:page] || 1).call
+    @results = SearchDocuments.new(*@queries, page: params[:page] || 1).call
 
     respond_to do |format|
       format.html
@@ -51,6 +51,8 @@ class DocumentsController < ApplicationController
   private
 
   def build_queries
-    JSON.parse(params[:query])["terms"]
+    query = JSON.parse(params[:query])["terms"]
+
+    [query]
   end
 end

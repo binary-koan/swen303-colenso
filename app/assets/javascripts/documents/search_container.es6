@@ -2,10 +2,10 @@
   const searchContainer = $(".search-container");
   if (!searchContainer.length) return;
 
-  const simpleSearch = searchContainer.filter(".simple-search-container");
-  const advancedSearch = searchContainer.filter(".advanced-search-container");
+  const simpleSearch = searchContainer.find("#simple_search");
+  const advancedSearch = searchContainer.find("#advanced_search");
 
-  const queryBuilderToggle = $(".query-builder-toggle");
+  const queryBuilderToggle = searchContainer.find(".query-builder-toggle");
   const startEditingButton = searchContainer.find(".viewing-section .start-editing");
 
   function toggleQueryBuilder() {
@@ -15,7 +15,7 @@
     queryBuilderToggle.find(".query-builder-shown").toggleClass("hidden");
   }
 
-  queryBuilderToggle.click(toggleQueryBuilder);
+  queryBuilderToggle.on("click", toggleQueryBuilder);
 
   startEditingButton.on("click", () => searchContainer.addClass("editing"));
 })();
