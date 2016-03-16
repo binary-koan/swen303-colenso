@@ -19,11 +19,11 @@
         <%= @document.front_matter %>
         <%= @document.body %>
       </div>
-      <pre class="format-tei">
-        <code>
+      <div class="format-tei">
+        <div id="document_tei">
           <%= @document.raw_xml.force_encoding("utf-8") %>
-        </code>
-      </pre>
+        </div>
+      </div>
     </div>
   </div>
 </div>

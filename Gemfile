@@ -28,6 +28,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'rubyzip', '~> 1.2.0', require: 'zip'
 
+gem 'ace-rails-ap', '~> 4.0.0'
+
 group :development, :test do
   gem 'pry-byebug'
 end

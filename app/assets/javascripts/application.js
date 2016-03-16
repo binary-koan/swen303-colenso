@@ -15,6 +15,9 @@
 //= require bootstrap-sprockets
 //= require jquery-ui
 //= require uri
+//= require ace-rails-ap
+//= require ace/theme-chrome
+//= require ace/mode-xml
 //
 //= require_tree .
 

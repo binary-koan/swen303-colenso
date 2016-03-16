@@ -1,7 +1,22 @@
 (() => {
   const container = $("#document");
+  if (!container) return;
+
   const documentViewer = container.find(".view-document");
   const formatSwitcher = container.find(".switch-format");
+
+  function setupEditor() {
+    const editor = ace.edit("document_tei");
+    editor.setTheme("ace/theme/chrome");
+    editor.getSession().setMode("ace/mode/xml");
+
+    if (!$("#document_tei").hasClass("editable")) {
+      editor.setReadOnly(true);
+      editor.setHighlightActiveLine(false);
+      editor.renderer.setShowGutter(false);
+      editor.renderer.$cursorLayer.element.style.display = "none";
+    }
+  }
 
   function setFormat(format) {
     formatSwitcher.find("[class*='format']").removeClass("active");
@@ -15,4 +30,6 @@
   formatSwitcher.find(".format-tei").on("click", setFormat.bind(null, "tei"));
 
   formatSwitcher.find(".active").trigger("click");
+
+  setupEditor();
 })();
