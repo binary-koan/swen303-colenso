@@ -4,13 +4,20 @@
   <p><%= @document.author %></p>
 
   <p class="text-right">
-    <span class="btn-group switch-format">
+    <span class="btn-group switch-format pull-left">
       <button class="btn btn-default format-html active">Formatted</button>
       <button class="btn btn-default format-tei">Raw TEI</button>
     </span>
-    <%= link_to download_document_path(@document.basename), class: "btn btn-default" do %>
-      <span class="glyphicon glyphicon-download-alt"></span> Download
-    <% end %>
+
+    <span class="btn-group">
+      <%= link_to edit_document_path(@document.basename), class: "btn btn-default" do %>
+        <span class="glyphicon glyphicon-pencil"></span> Edit
+      <% end %>
+
+      <%= link_to download_document_path(@document.basename), class: "btn btn-default" do %>
+        <span class="glyphicon glyphicon-download-alt"></span> Download
+      <% end %>
+    </span>
   </p>
 
   <div class="panel panel-default">

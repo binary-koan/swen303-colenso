@@ -1,6 +1,8 @@
 class DocumentsController < ApplicationController
   include DocumentsHelper
 
+  before_action :set_document, only: [:show, :edit, :update, :download]
+
   def index
   end
 
@@ -44,16 +46,24 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    @document = Document.find(params[:id] + ".xml")
+  end
+
+  def edit
+    @editing = true
+  end
+
+  def update
   end
 
   def download
-    @document = Document.find(params[:id] + ".xml")
-
     send_data @document.raw_xml, filename: @document.filename
   end
 
   private
+
+  def set_document
+    @document = Document.find(params[:id] + ".xml")
+  end
 
   def search_documents(max_items:, return_path:)
     @queries = params[:query].map { |query| JSON.parse(query) }
