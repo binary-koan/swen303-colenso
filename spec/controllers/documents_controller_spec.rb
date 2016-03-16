@@ -19,13 +19,13 @@ RSpec.describe DocumentsController do
       it "calls SearchDocuments with a single term" do
         expect(SearchDocuments).to receive(:new).with([{ "type" => "text", "value" => "qazxy" }], page: 1).and_call_original
 
-        get :search, query: "qazxy"
+        get :search, query: [{ terms: [{ type: "text", value: "qazxy" }] }.to_json]
       end
 
       it "passes through the given page parameter" do
         expect(SearchDocuments).to receive(:new).with(anything, page: "2").and_call_original
 
-        get :search, query: "qazxy", page: 2
+        get :search, query: [{ terms: [{ type: "text", value: "qazxy" }] }.to_json], page: 2
       end
     end
 
@@ -43,12 +43,12 @@ RSpec.describe DocumentsController do
         ]}
         JSON
 
-        get :search, query: query, query_type: "advanced"
+        get :search, query: [query], query_type: "advanced"
       end
     end
 
     it "renders the search template" do
-      get :search, query: "qazxy"
+      get :search, query: [{ terms: [{ type: "text", value: "qazxy" }] }.to_json]
 
       expect(response).to be_success
       expect(response).to render_template "search"

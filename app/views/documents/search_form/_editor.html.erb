@@ -1,0 +1,18 @@
+<div class="search-container <%= class_name %>">
+  <% simple_search = simple_search?(query) %>
+
+  <div class="text-right">
+    <%= button_tag type: "button", class: "btn btn-link query-builder-toggle" do %>
+      <span class="glyphicon glyphicon-cog"></span>
+      <span class="query-builder-hidden <%= "hidden" if !simple_search %>">Show query builder</span>
+      <span class="query-builder-shown <%= "hidden" if simple_search %>">Hide query builder</span>
+    <% end %>
+
+    <%= button_tag type: "button", class: "btn btn-link" do %>
+      <span class="glyphicon glyphicon-question-sign"></span> How to search
+    <% end %>
+  </div>
+
+  <%= render partial: "documents/search_form/editor_simple", locals: { query: query, previous_queries: previous_queries, hidden: !simple_search } %>
+  <%= render partial: "documents/search_form/editor_advanced", locals: { query: query, previous_queries: previous_queries, hidden: simple_search } %>
+</div>

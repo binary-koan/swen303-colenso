@@ -1,8 +1,10 @@
-<%= form_tag search_documents_path, id: :simple_search, method: :get, class: ("hidden" if hidden) do %>
+<%= form_tag search_documents_path, method: :get, class: "simple-search #{"hidden" if hidden}" do %>
+  <%= render partial: "documents/search_form/editor_queries", locals: { previous_queries: previous_queries, current_query: query } %>
+
   <div class="form-group">
-    <%= label_tag :query, "Search", class: "sr-only" %>
+    <%= label_tag :original_query, "Search", class: "sr-only" %>
     <div class="input-group">
-      <%= text_field_tag :query, query, placeholder: "Search our collection ...", class: "form-control input-lg" %>
+      <%= text_field_tag :original_query, simple_text_value(query), placeholder: "Search our collection ...", class: "form-control input-lg", name: nil %>
 
       <span class="input-group-btn">
         <%= button_tag type: "submit", class: "btn btn-primary btn-lg" do %>

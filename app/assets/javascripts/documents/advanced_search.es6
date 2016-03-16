@@ -1,27 +1,14 @@
-(() => {
-  const searchContainer = $(".advanced-search-container");
-  if (!searchContainer.length) return;
-
-  const searchTerms = searchContainer.find(".advanced-search-terms .search-term");
-
-  const searchViewer = searchContainer.find(".advanced-search-query:not(.editable)");
-  const searchEditor = searchContainer.find(".advanced-search-query.editable");
-  const startEditingButton = searchContainer.find(".viewing-section .start-editing");
-
-  const form = $("form#advanced_search");
+function setupAdvancedSearch(form) {
+  const searchTerms = form.find(".advanced-search-terms .search-term");
+  const searchEditor = form.find(".advanced-search-query.editable");
+  const builtQueryInput = form.find("input[name='query[]']").last();
 
   const TYPE_TITLES = { text: "Text", xpath: "XPath" };
 
   function addInput({ type, value, editable }, box) {
-    const container = $("<span>").addClass("search-term");
-
-    if (editable) {
-      container.addClass("input-group").data("type", type);
-      container.append($("<span>").addClass("input-group-addon").text(TYPE_TITLES[type]));
-      container.append($("<input>").attr("type", "text").addClass("form-control").val(value));
-    } else {
-      container.addClass("search-term-text").text(value);
-    }
+    const container = $("<span>").addClass("search-term input-group").data("type", type);
+    container.append($("<span>").addClass("input-group-addon").text(TYPE_TITLES[type]));
+    container.append($("<input>").attr("type", "text").addClass("form-control").val(value));
 
     box.append(container);
     container.find("input").focus();
@@ -70,10 +57,12 @@
       }
     });
 
-    form.find("#query").val(JSON.stringify({ terms }));
+    builtQueryInput.val(JSON.stringify({ terms }));
   }
 
   function restoreQueryData(data, box) {
+    if (!data) return;
+
     data.forEach(term => {
       if (term.operator) {
         addOperator(term, box);
@@ -82,8 +71,6 @@
       }
     });
   }
-
-  startEditingButton.on("click", () => searchContainer.addClass("editing"));
 
   searchTerms
     .draggable({
@@ -113,7 +100,9 @@
 
   form.on("submit", calculateQueryData);
 
-  if (searchViewer.data("query")) {
-    restoreQueryData(searchViewer.data("query").terms, searchViewer);
+  if (searchEditor.data("query")) {
+    restoreQueryData(searchEditor.data("query").terms, searchEditor);
   }
-})();
+};
+
+$("form.advanced-search").each((_, form) => setupAdvancedSearch($(form)));

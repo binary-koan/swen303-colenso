@@ -1,0 +1,31 @@
+.search-container {
+  padding-top: $padding-base-vertical;
+
+  &.edit-query, &.search-within {
+    @extend .well;
+
+    margin-top: -1px;
+    border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-color: $btn-default-border;
+    box-shadow: none;
+  }
+
+  .btn.edit-query, .btn.search-within {
+    &.active {
+      border-bottom: none;
+      border-bottom-right-radius: 0;
+      background-color: $well-bg;
+    }
+  }
+}
+
+.query-separator {
+  text-align: center;
+  padding-top: $padding-base-vertical;
+}
+
+#search_results {
+  padding-top: $padding-large-vertical;
+}

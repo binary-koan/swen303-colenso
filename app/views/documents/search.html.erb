@@ -1,22 +1,20 @@
 <div class="row">
   <div class="col-md-12">
-    <div class="row">
-      <div class="col-md-1 col-md-push-11">
-        <%= link_to documents_path(query_type: params[:query_type]), class: "btn btn-link btn-lg",
-              "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Return to the search page for more options" do %>
-          <span class="glyphicon glyphicon-cog"></span>
-          <span class="sr-only">Return to the search page for more options</span>
-        <% end %>
-      </div>
+    <% @queries[0..-2].each do |query| %>
+      <%= render partial: "documents/search_form/viewer", locals: { query: query, editable: false, deletable: true } %>
+      <div class="query-separator"><span class="glyphicon glyphicon-filter"></span></div>
+    <% end %>
 
-      <div class="col-md-11 col-md-pull-1">
-        <% if searching_advanced? %>
-          <%= render partial: "advanced_search", locals: { query: params[:query], hidden: false, editing: false } %>
-        <% else %>
-          <%= render partial: "simple_search", locals: { query: params[:query], hidden: false } %>
-        <% end %>
-      </div>
-    </div>
+    <%= render partial: "documents/search_form/viewer", locals: { query: @queries.last, editable: true, deletable: false } %>
+
+    <%= render partial: "documents/search_form/editor", locals: {
+      query: @queries.last, previous_queries: @queries[0..-2], class_name: "hidden edit-query"
+    } %>
+    <%= render partial: "documents/search_form/editor", locals: {
+      query: nil, previous_queries: @queries, class_name: "hidden search-within"
+    } %>
+
+    <div class="query-separator"><span class="glyphicon glyphicon-chevron-down"></span></div>
 
     <div id="search_results" class="list-group">
       <%= render partial: "search_result", collection: @results %>

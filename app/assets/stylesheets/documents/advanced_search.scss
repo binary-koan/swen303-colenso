@@ -20,24 +20,6 @@
   cursor: move;
 }
 
-.advanced-search-container {
-  padding-bottom: $padding-base-vertical;
-
-  .editing-section {
-    display: none;
-  }
-
-  &.editing {
-    .editing-section {
-      display: block;
-    }
-
-    .viewing-section {
-      display: none;
-    }
-  }
-}
-
 .advanced-search-terms {
   .spacer {
     display: inline-block;

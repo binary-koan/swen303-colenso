@@ -19,7 +19,7 @@ RSpec.describe SearchDocuments do
       [
         create_document!(xml: book_xml("War and Peace")),
         create_document!(xml: book_xml("Huckleberry Finn")),
-        create_document!(xml: book_xml("The Sokovia Accords"))
+        create_document!(xml: book_xml("Wallace and Grommit"))
       ]
     end
 
@@ -30,15 +30,26 @@ RSpec.describe SearchDocuments do
     end
 
     context "when searching with a text string" do
-      let(:service) { SearchDocuments.new([{"type" => "text", "value" => "War"}]) }
+      let(:service) { SearchDocuments.new([{"type" => "text", "value" => "and"}]) }
 
-      it { is_expected.to contain_exactly documents.first }
+      it { is_expected.to contain_exactly documents.first, documents.third }
     end
 
     context "when searching with an XPath query" do
       let(:service) { SearchDocuments.new([{"type" => "xpath", "value" => "//title[text()='Huckleberry Finn']"}]) }
 
       it { is_expected.to contain_exactly documents.second }
+    end
+
+    context "when searching with multiple queries" do
+      let(:service) do
+        SearchDocuments.new(
+          [{"type" => "text", "value" => "and"}],
+          [{"type" => "text", "value" => "War"}]
+        )
+      end
+
+      it { is_expected.to contain_exactly documents.first }
     end
 
     context "when the number of documents per page is limited" do

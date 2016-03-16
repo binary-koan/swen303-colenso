@@ -1,48 +1,45 @@
 class SearchDocuments
-  HEADER_PATH = "//tei:teiHeader"
   FILE_VARIABLE_NAME = "$file"
+  QUERY_VARIABLE_NAME = "$query_text"
 
-  attr_reader :terms, :page, :items_per_page, :query
+  attr_reader :queries, :page, :items_per_page, :query
 
-  def initialize(terms, page: 1, items_per_page: 20)
-    @terms = terms
+  def initialize(*queries, page: 1, items_per_page: 20)
+    @queries = queries
     @page = page.to_i
     @items_per_page = items_per_page.to_i
   end
 
   def call
-    raise "You need to enter a search term!" if terms.nil? || terms.empty?
+    raise "You need to enter a search term!" if queries.empty? || queries.any?(&:empty?)
 
-    query_options = BuildQuery.new(terms, FILE_VARIABLE_NAME).call
-    setup_query(query_options.query_text, query_options.external_variables)
+    query_texts = built_queries.map(&:query_text)
+    external_variables = built_queries.map(&:external_variables).reduce(&:merge)
+
+    start = (page - 1) * items_per_page + 1
+    wrapped_query = WrapQueries.new(query_texts, external_variables, start: start, items_per_page: items_per_page).call
+
+    setup_query(wrapped_query, external_variables)
 
     query_results.map { |filename, xml| Document.new(filename, xml) }
   end
 
   private
 
-  def setup_query(where_path, declared_variables)
-    input = wrap_query(where_path: where_path, return_path: HEADER_PATH, declared_variables: declared_variables)
-    @query = BaseXClient.session.query(input)
-
-    declared_variables.each { |name, value| query.bind(name, value) }
+  def built_queries
+    @built_queries ||= queries.map.with_index do |terms, index|
+      BuildQuery.new(
+        terms,
+        file_variable_name: FILE_VARIABLE_NAME,
+        query_variable_name: "#{QUERY_VARIABLE_NAME}_#{index}"
+      ).call
+    end
   end
 
-  def wrap_query(where_path:, return_path: "", declared_variables:)
-    variable_declarations = declared_variables.keys.map { |name| "declare variable #{name} external;" }.join
-    start = (page - 1) * items_per_page + 1
+  def setup_query(wrapped_query, external_variables)
+    @query = BaseXClient.session.query(wrapped_query)
 
-    <<-END
-    declare namespace tei = "#{Document::TEI_NAMESPACE}";
-    #{variable_declarations}
-
-    let $results := for #{FILE_VARIABLE_NAME} score $score in collection("#{Document.collection}")
-    where #{where_path}
-    order by $score descending
-    return [substring(document-uri(#{FILE_VARIABLE_NAME}), #{Document.collection.length + 2}), #{FILE_VARIABLE_NAME}#{HEADER_PATH}]
-
-    return subsequence($results, #{start}, #{items_per_page})
-    END
+    external_variables.each { |name, value| query.bind(name, value) }
   end
 
   def query_results
