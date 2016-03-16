@@ -2,7 +2,7 @@
   <% if simple_search?(query) %>
     <span class="form-control input-lg simple-search-query"><%= simple_text_value(query) %></span>
   <% else %>
-    <span class="form-control advanced-search-query" data-query="<%= { terms: query }.to_json %>"></span>
+    <span class="form-control advanced-search-query"><%= advanced_query_view(query) %></span>
   <% end %>
 
   <span class="input-group-btn">
