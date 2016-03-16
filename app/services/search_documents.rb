@@ -1,13 +1,15 @@
 class SearchDocuments
   FILE_VARIABLE_NAME = "$file"
   QUERY_VARIABLE_NAME = "$query_text"
+  TEI_HEADER_PATH = "//tei:teiHeader"
 
-  attr_reader :queries, :page, :items_per_page, :query
+  attr_reader :queries, :page, :items_per_page, :query, :return_path
 
-  def initialize(*queries, page: 1, items_per_page: 20)
+  def initialize(*queries, page: 1, items_per_page: 20, return_path: TEI_HEADER_PATH)
     @queries = queries
     @page = page.to_i
     @items_per_page = items_per_page.to_i
+    @return_path = return_path
   end
 
   def call
@@ -17,7 +19,13 @@ class SearchDocuments
     external_variables = built_queries.map(&:external_variables).reduce(&:merge)
 
     start = (page - 1) * items_per_page + 1
-    wrapped_query = WrapQueries.new(query_texts, external_variables, start: start, items_per_page: items_per_page).call
+    wrapped_query = WrapQueries.new(
+      query_texts,
+      external_variables,
+      start: start,
+      items_per_page: items_per_page,
+      return_path: return_path
+    ).call
 
     setup_query(wrapped_query, external_variables)
 

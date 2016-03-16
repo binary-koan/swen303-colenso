@@ -1,13 +1,12 @@
 class SearchDocuments::WrapQueries
-  TEI_HEADER_PATH = "//tei:teiHeader"
+  attr_reader :where_clauses, :external_variables, :start, :items_per_page, :return_path
 
-  attr_reader :where_clauses, :external_variables, :start, :items_per_page
-
-  def initialize(query_texts, external_variables, start:, items_per_page:)
+  def initialize(query_texts, external_variables, start:, items_per_page:, return_path:)
     @where_clauses = query_texts.map { |text| "where #{text}" }
     @external_variables = external_variables
     @start = start
     @items_per_page = items_per_page
+    @return_path = return_path
   end
 
   def call
@@ -20,7 +19,7 @@ class SearchDocuments::WrapQueries
     order by $score descending
     return [
       substring(document-uri(#{SearchDocuments::FILE_VARIABLE_NAME}), #{Document.collection.length + 2}),
-      #{SearchDocuments::FILE_VARIABLE_NAME}#{TEI_HEADER_PATH}
+      #{SearchDocuments::FILE_VARIABLE_NAME}#{return_path}
     ]
 
     return subsequence($results, #{start}, #{items_per_page})

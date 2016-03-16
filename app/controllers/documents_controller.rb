@@ -5,8 +5,7 @@ class DocumentsController < ApplicationController
   end
 
   def search
-    @queries = params[:query].map { |query| JSON.parse(query) }
-    @results = SearchDocuments.new(*@queries, page: params[:page] || 1).call
+    search_documents(max_items: 20, return_path: SearchDocuments::TEI_HEADER_PATH)
 
     respond_to do |format|
       format.html
@@ -17,6 +16,12 @@ class DocumentsController < ApplicationController
         render json: { content: content }
       end
     end
+  end
+
+  def download_all
+    search_documents(max_items: Document.count, return_path: "")
+
+    send_data ZipDocuments.new(@results).call.string, filename: "results.zip"
   end
 
   def new
@@ -46,5 +51,17 @@ class DocumentsController < ApplicationController
     @document = Document.find(params[:id] + ".xml")
 
     send_data @document.raw_xml, filename: @document.filename
+  end
+
+  private
+
+  def search_documents(max_items:, return_path:)
+    @queries = params[:query].map { |query| JSON.parse(query) }
+    @results = SearchDocuments.new(
+      *@queries,
+      page: params[:page] || 1,
+      items_per_page: max_items,
+      return_path: return_path
+    ).call
   end
 end

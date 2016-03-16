@@ -14,8 +14,17 @@ RSpec.describe SearchDocuments::WrapQueries do
 
   let(:start) { 1 }
   let(:items_per_page) { 10 }
+  let(:return_path) { "" }
 
-  let(:service) { SearchDocuments::WrapQueries.new(queries, external_variables, start: start, items_per_page: items_per_page) }
+  let(:service) do
+    SearchDocuments::WrapQueries.new(
+      queries,
+      external_variables,
+      start: start,
+      items_per_page: items_per_page,
+      return_path: return_path
+    )
+  end
 
   subject(:result) { service.call }
 

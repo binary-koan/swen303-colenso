@@ -60,7 +60,7 @@ module DocumentsSpecSupport
   private
 
   def next_filename
-    "Document#{next_file_id}.xml"
+    "documents/Document#{next_file_id}.xml"
   end
 
   def next_file_id

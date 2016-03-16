@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :documents, only: [:index, :new, :create, :show] do
-    get :search, on: :collection
+    get :search, :download_all, on: :collection
     get :download, on: :member
   end
 

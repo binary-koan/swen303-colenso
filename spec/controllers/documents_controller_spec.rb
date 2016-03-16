@@ -17,13 +17,23 @@ RSpec.describe DocumentsController do
   describe "GET search" do
     context "with a simple query" do
       it "calls SearchDocuments with a single term" do
-        expect(SearchDocuments).to receive(:new).with(["tqazxy"], page: 1).and_call_original
+        expect(SearchDocuments).to receive(:new).with(
+          ["tqazxy"],
+          page: 1,
+          items_per_page: 20,
+          return_path: SearchDocuments::TEI_HEADER_PATH
+        ).and_call_original
 
         get :search, query: [["tqazxy"].to_json]
       end
 
       it "passes through the given page parameter" do
-        expect(SearchDocuments).to receive(:new).with(anything, page: "2").and_call_original
+        expect(SearchDocuments).to receive(:new).with(
+          ["tqazxy"],
+          page: "2",
+          items_per_page: 20,
+          return_path: SearchDocuments::TEI_HEADER_PATH
+        ).and_call_original
 
         get :search, query: [["tqazxy"].to_json], page: 2
       end
@@ -31,7 +41,12 @@ RSpec.describe DocumentsController do
 
     context "with an advanced query" do
       it "calls SearchDocuments with the query parsed as JSON" do
-        expect(SearchDocuments).to receive(:new).with(["onot", "tqazxy"], page: 1).and_call_original
+        expect(SearchDocuments).to receive(:new).with(
+          ["onot", "tqazxy"],
+          page: 1,
+          items_per_page: 20,
+          return_path: SearchDocuments::TEI_HEADER_PATH
+        ).and_call_original
 
         query = '["onot", "tqazxy"]'
 
