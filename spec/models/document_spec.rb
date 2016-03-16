@@ -20,6 +20,26 @@ RSpec.describe Document do
     end
   end
 
+  describe "#update!" do
+    before { document }
+
+    let(:new_xml) { "<TEI>Nothing here</TEI>" }
+
+    it "does not create a new document" do
+      expect { document.update!(new_xml) }.not_to change(Document, :count)
+    end
+
+    it "updates the cached raw_xml" do
+      document.update!(new_xml)
+      expect(document.raw_xml).to eq new_xml
+    end
+
+    it "updates the database record of the document" do
+      document.update!(new_xml)
+      expect(Document.find(document.filename).raw_xml).to eq new_xml
+    end
+  end
+
   describe "#basename" do
     it "strips the .xml extension from the filename" do
       expect(document.basename + ".xml").to eq document.filename

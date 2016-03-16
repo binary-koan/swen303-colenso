@@ -53,6 +53,9 @@ class DocumentsController < ApplicationController
   end
 
   def update
+    @document.update!(params[:xml])
+
+    redirect_to action: "show"
   end
 
   def download

@@ -21,7 +21,7 @@ module BaseXClient
 
       def in_collection
         session.execute("check #{collection}")
-        yield
+        yield session
       end
 
       def collection
@@ -41,6 +41,14 @@ module BaseXClient
       @filename = filename
       @raw_xml = xml
       @dom = Nokogiri::XML(xml)
+    end
+
+    def update!(new_xml)
+      @raw_xml = new_xml
+
+      self.class.in_collection do |session|
+        session.execute("replace #{filename} #{new_xml}")
+      end
     end
 
     def basename

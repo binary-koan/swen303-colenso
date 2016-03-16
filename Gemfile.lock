@@ -170,7 +170,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  ace-rails-ap
+  ace-rails-ap (~> 4.0.0)
   bootstrap-sass (~> 3.3.0)
   jquery-rails
   pry-byebug
