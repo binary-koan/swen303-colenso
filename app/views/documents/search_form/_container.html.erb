@@ -1,15 +1,15 @@
-<div class="search-container <%= "editing" if editing %>">
+<div class="search-container <%= class_name %>">
   <% if editable %>
     <div class="editing-section">
       <%= render partial: "documents/search_form/editor", locals: { query: query } %>
     </div>
 
     <div class="viewing-section">
-      <%= render partial: "documents/search_form/viewer_editable", locals: { query: query } %>
+      <%= render partial: "documents/search_form/viewer", locals: { query: query, editable: true, deletable: false } %>
     </div>
   <% else %>
     <div class="viewing-section">
-      <%= render partial: "documents/search_form/viewer_deletable", locals: { query: query } %>
+      <%= render partial: "documents/search_form/viewer", locals: { query: query, editable: false, deletable: true } %>
     </div>
   <% end %>
 </div>

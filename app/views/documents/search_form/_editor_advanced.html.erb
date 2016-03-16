@@ -1,5 +1,5 @@
 <%= form_tag search_documents_path, id: :advanced_search, method: :get, class: ("hidden" if hidden) do %>
-  <%= hidden_field_tag :query %>
+  <%= hidden_field_tag :"query[]", "", id: nil %>
 
   <div class="alert alert-info">
     Drag or click elements to add them to the box. Drag them out of the box to remove them.

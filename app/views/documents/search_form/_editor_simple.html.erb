@@ -1,5 +1,5 @@
 <%= form_tag search_documents_path, id: :simple_search, method: :get, class: ("hidden" if hidden) do %>
-  <%= hidden_field_tag :query %>
+  <%= hidden_field_tag :"query[]", "", id: nil %>
 
   <div class="form-group">
     <%= label_tag :original_query, "Search", class: "sr-only" %>

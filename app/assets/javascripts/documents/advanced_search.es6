@@ -68,7 +68,7 @@
       }
     });
 
-    form.find("#query").val(JSON.stringify({ terms }));
+    form.find("input[name='query[]']").val(JSON.stringify({ terms }));
   }
 
   function restoreQueryData(data, box, editable) {

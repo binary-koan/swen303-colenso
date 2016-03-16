@@ -51,8 +51,6 @@ class DocumentsController < ApplicationController
   private
 
   def build_queries
-    query = JSON.parse(params[:query])["terms"]
-
-    [query]
+    params[:query].map { |query| JSON.parse(query)["terms"] }
   end
 end

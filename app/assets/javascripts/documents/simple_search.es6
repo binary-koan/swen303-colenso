@@ -3,7 +3,7 @@
   if (!form.length) return;
 
   const queryInput = form.find("input#original_query");
-  const builtQueryInput = form.find("input#query");
+  const builtQueryInput = form.find("input[name='query[]']");
 
   function isXPathQuery(text) {
     return text.indexOf("/") === 0;
