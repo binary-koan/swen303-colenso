@@ -1,11 +1,13 @@
 <div class="row">
   <div class="col-md-12">
     <% @queries[0..-2].each do |query| %>
-      <%= render partial: "documents/search_form/container", locals: { query: query, editable: false, class_name: "" } %>
+      <%= render partial: "documents/search_form/viewer", locals: { query: query, editable: false, deletable: true } %>
     <% end %>
 
-    <%= render partial: "documents/search_form/container", locals: { query: @queries.last, editable: true, class_name: "" } %>
-    <%= render partial: "documents/search_form/container", locals: { query: nil, editable: true, class_name: "hidden editing search-within" } %>
+    <%= render partial: "documents/search_form/viewer", locals: { query: @queries.last, editable: true, deletable: false } %>
+
+    <%= render partial: "documents/search_form/editor", locals: { query: @queries.last, class_name: "hidden edit-query" } %>
+    <%= render partial: "documents/search_form/editor", locals: { query: nil, class_name: "hidden search-within" } %>
 
     <div id="search_results" class="list-group">
       <%= render partial: "search_result", collection: @results %>
