@@ -21,6 +21,11 @@
   }
 }
 
+.query-separator {
+  text-align: center;
+  padding-top: $padding-base-vertical;
+}
+
 #search_results {
   padding-top: $padding-large-vertical;
 }

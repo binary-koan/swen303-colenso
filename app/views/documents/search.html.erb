@@ -2,6 +2,7 @@
   <div class="col-md-12">
     <% @queries[0..-2].each do |query| %>
       <%= render partial: "documents/search_form/viewer", locals: { query: query, editable: false, deletable: true } %>
+      <div class="query-separator"><span class="glyphicon glyphicon-filter"></span></div>
     <% end %>
 
     <%= render partial: "documents/search_form/viewer", locals: { query: @queries.last, editable: true, deletable: false } %>
@@ -12,6 +13,8 @@
     <%= render partial: "documents/search_form/editor", locals: {
       query: nil, previous_queries: @queries, class_name: "hidden search-within"
     } %>
+
+    <div class="query-separator"><span class="glyphicon glyphicon-chevron-down"></span></div>
 
     <div id="search_results" class="list-group">
       <%= render partial: "search_result", collection: @results %>
