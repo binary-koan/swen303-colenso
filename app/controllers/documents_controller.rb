@@ -5,7 +5,7 @@ class DocumentsController < ApplicationController
   end
 
   def search
-    @queries = build_queries
+    @queries = params[:query].map { |query| JSON.parse(query) }
     @results = SearchDocuments.new(*@queries, page: params[:page] || 1).call
 
     respond_to do |format|
@@ -46,11 +46,5 @@ class DocumentsController < ApplicationController
     @document = Document.find(params[:id] + ".xml")
 
     send_data @document.raw_xml, filename: @document.filename
-  end
-
-  private
-
-  def build_queries
-    params[:query].map { |query| JSON.parse(query)["terms"] }
   end
 end

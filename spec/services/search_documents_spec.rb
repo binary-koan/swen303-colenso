@@ -30,36 +30,31 @@ RSpec.describe SearchDocuments do
     end
 
     context "when searching with a text string" do
-      let(:service) { SearchDocuments.new([{"type" => "text", "value" => "and"}]) }
+      let(:service) { SearchDocuments.new(["tand"]) }
 
       it { is_expected.to contain_exactly documents.first, documents.third }
     end
 
     context "when searching with an XPath query" do
-      let(:service) { SearchDocuments.new([{"type" => "xpath", "value" => "//title[text()='Huckleberry Finn']"}]) }
+      let(:service) { SearchDocuments.new(["x//title[text()='Huckleberry Finn']"]) }
 
       it { is_expected.to contain_exactly documents.second }
     end
 
     context "when searching with multiple queries" do
-      let(:service) do
-        SearchDocuments.new(
-          [{"type" => "text", "value" => "and"}],
-          [{"type" => "text", "value" => "War"}]
-        )
-      end
+      let(:service) { SearchDocuments.new(["tand"], ["tWar"]) }
 
       it { is_expected.to contain_exactly documents.first }
     end
 
     context "when the number of documents per page is limited" do
-      let(:service) { SearchDocuments.new([{"type" => "text", "value" => "Book"}], items_per_page: 2) }
+      let(:service) { SearchDocuments.new(["tBook"], items_per_page: 2) }
 
       it { is_expected.to contain_exactly documents.first, documents.second }
     end
 
     context "when the number of documents per page is limited and the page is specified" do
-      let(:service) { SearchDocuments.new([{"type" => "text", "value" => "Book"}], items_per_page: 2, page: 2) }
+      let(:service) { SearchDocuments.new(["tBook"], items_per_page: 2, page: 2) }
 
       it { is_expected.to contain_exactly documents.third }
     end

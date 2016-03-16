@@ -6,7 +6,7 @@ RSpec.describe SearchDocuments::BuildQuery do
   subject(:query) { service.call }
 
   context "with a simple text query" do
-    let(:terms) { [{ "type" => "text", "value" => "Diary" }] }
+    let(:terms) { ["tDiary"] }
 
     it "builds a 'contains text' query" do
       expect(query.query_text).to eq "$file//tei:*[. contains text {$query_text_1} using wildcards using stemming]"
@@ -18,7 +18,7 @@ RSpec.describe SearchDocuments::BuildQuery do
   end
 
   context "with an xpath query" do
-    let(:terms) { [{ "type" => "xpath", "value" => "//title" }] }
+    let(:terms) { ["x//title"] }
 
     it "adds namespaced xpath to the query text" do
       expect(query.query_text).to eq "$file//tei:title"
@@ -30,7 +30,7 @@ RSpec.describe SearchDocuments::BuildQuery do
   end
 
   context "with a negated query" do
-    let(:terms) { [{ "operator" => "not" }, { "type" => "xpath", "value" => "//title" }] }
+    let(:terms) { ["onot", "x//title"] }
 
     it "wraps the next term in not()" do
       expect(query.query_text).to eq "not($file//tei:title)"
@@ -38,14 +38,7 @@ RSpec.describe SearchDocuments::BuildQuery do
   end
 
   context "with a complex query" do
-    let(:terms) do
-      [
-        { "operator" => "not" },
-        { "type" => "text", "value" => "Diary" },
-        { "operator" => "and" },
-        { "type" => "text", "value" => "Colenso" }
-      ]
-    end
+    let(:terms) { ["onot", "tDiary", "oand", "tColenso"] }
 
     it "builds the query text correctly" do
       expect(query.query_text).to eq "" +
@@ -59,7 +52,7 @@ RSpec.describe SearchDocuments::BuildQuery do
   end
 
   context "with custom variable names" do
-    let(:terms) { [{ "type" => "text", "value" => "Diary" }] }
+    let(:terms) { ["tDiary"] }
     let(:service) { SearchDocuments::BuildQuery.new(terms, file_variable_name: "$document", query_variable_name: "$text_query_1") }
 
     it "alters the query variable name" do

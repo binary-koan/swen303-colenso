@@ -4,7 +4,7 @@ module DocumentsHelper
   end
 
   def simple_text_value(query)
-    query.nil? ? "" : query.first["value"]
+    query.nil? ? "" : query.first[1..-1]
   end
 
   def advanced_query_view(query)
@@ -14,7 +14,7 @@ module DocumentsHelper
   def search_path_without_query(query)
     remaining_params = request.query_parameters.except(:query)
     query_param = params[:query].dup
-    query_param.delete({ terms: query }.to_json)
+    query_param.delete(query.to_json)
 
     search_documents_path(remaining_params.merge(query: query_param))
   end
@@ -22,10 +22,10 @@ module DocumentsHelper
   private
 
   def advanced_query_term(term)
-    if term["operator"]
-      content_tag :span, term["operator"], class: "search-term search-term-operator #{term["operator"]}"
+    if term.chars.first == "o"
+      content_tag :span, term[1..-1], class: "search-term search-term-operator #{term[1..-1]}"
     else
-      content_tag :span, term["value"], class: "search-term search-term-text"
+      content_tag :span, term[1..-1], class: "search-term search-term-text"
     end
   end
 end

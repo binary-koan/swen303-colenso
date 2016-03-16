@@ -8,8 +8,8 @@
   <p class="text-center advanced-search-terms">
     <button type="button" class="search-term search-term-operator not" data-operator="not">NOT</button>
     <span class="spacer"></span>
-    <button type="button" class="search-term search-term-text" data-type="text">Some text ...</button>
-    <button type="button" class="search-term search-term-text" data-type="xpath">Some XPath ...</button>
+    <button type="button" class="search-term search-term-text" data-type="t">Some text ...</button>
+    <button type="button" class="search-term search-term-text" data-type="x">Some XPath ...</button>
     <span class="spacer"></span>
     <button type="button" class="search-term search-term-operator and" data-operator="and">AND</button>
     <button type="button" class="search-term search-term-operator or" data-operator="or">OR</button>
@@ -18,7 +18,7 @@
   <div class="form-group">
     <p class="sr-only">Current query</p>
     <div class="input-group">
-      <span class="form-control advanced-search-query editable" data-query="<%= { terms: query }.to_json %>"></span>
+      <span class="form-control advanced-search-query editable" data-query="<%= query.to_json %>"></span>
       <span class="input-group-btn">
         <%= button_tag type: "submit", class: "btn btn-primary btn-lg" do %>
           <span class="glyphicon glyphicon-search" aria-hidden="true"></span>

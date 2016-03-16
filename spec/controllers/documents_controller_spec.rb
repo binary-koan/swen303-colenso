@@ -17,38 +17,30 @@ RSpec.describe DocumentsController do
   describe "GET search" do
     context "with a simple query" do
       it "calls SearchDocuments with a single term" do
-        expect(SearchDocuments).to receive(:new).with([{ "type" => "text", "value" => "qazxy" }], page: 1).and_call_original
+        expect(SearchDocuments).to receive(:new).with(["tqazxy"], page: 1).and_call_original
 
-        get :search, query: [{ terms: [{ type: "text", value: "qazxy" }] }.to_json]
+        get :search, query: [["tqazxy"].to_json]
       end
 
       it "passes through the given page parameter" do
         expect(SearchDocuments).to receive(:new).with(anything, page: "2").and_call_original
 
-        get :search, query: [{ terms: [{ type: "text", value: "qazxy" }] }.to_json], page: 2
+        get :search, query: [["tqazxy"].to_json], page: 2
       end
     end
 
     context "with an advanced query" do
       it "calls SearchDocuments with the query parsed as JSON" do
-        expect(SearchDocuments).to receive(:new).with([
-          { "operator" => "not" },
-          { "type" => "text", "value" => "qazxy" }
-        ], page: 1).and_call_original
+        expect(SearchDocuments).to receive(:new).with(["onot", "tqazxy"], page: 1).and_call_original
 
-        query = <<-JSON
-        { "terms": [
-          { "operator": "not" },
-          { "type": "text", "value": "qazxy" }
-        ]}
-        JSON
+        query = '["onot", "tqazxy"]'
 
         get :search, query: [query], query_type: "advanced"
       end
     end
 
     it "renders the search template" do
-      get :search, query: [{ terms: [{ type: "text", value: "qazxy" }] }.to_json]
+      get :search, query: [["tqazxy"].to_json]
 
       expect(response).to be_success
       expect(response).to render_template "search"

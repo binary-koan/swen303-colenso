@@ -1,4 +1,4 @@
 <% previous_queries.each do |query| %>
-  <%= hidden_field_tag :"query[]", { terms: query }.to_json, id: nil %>
+  <%= hidden_field_tag :"query[]", query.to_json, id: nil %>
 <% end %>
 <%= hidden_field_tag :"query[]", current_query, id: nil %>

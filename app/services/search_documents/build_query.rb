@@ -23,12 +23,14 @@ class SearchDocuments::BuildQuery
   def process_next_term
     term = terms.shift
 
-    if term["operator"] == "not"
+    if term == "onot"
       process_not_operator
-    elsif term["operator"].present?
-      process_operator(term)
-    elsif term["type"] == "xpath"
-      process_xpath(term)
+    elsif term.chars.first == "o"
+      process_operator(term[1..-1])
+    elsif term.chars.first == "x"
+      process_xpath(term[1..-1])
+    elsif term.chars.first == "t"
+      process_text(term[1..-1])
     else
       process_text(term)
     end
@@ -40,21 +42,21 @@ class SearchDocuments::BuildQuery
     query.query_text += ")"
   end
 
-  def process_operator(term)
-    query.query_text += " #{term["operator"]} "
+  def process_operator(operator)
+    query.query_text += " #{operator} "
   end
 
-  def process_xpath(term)
-    xpath = add_tei_namespace(term["value"])
+  def process_xpath(value)
+    xpath = add_tei_namespace(value)
 
     query.query_text += "#{file_variable_name}#{xpath}"
   end
 
-  def process_text(term)
+  def process_text(text)
     variable_name = next_query_variable_name
 
     query.query_text += full_text_query(variable_name)
-    query.external_variables[variable_name] = term["value"]
+    query.external_variables[variable_name] = text
   end
 
   def full_text_query(variable_name)

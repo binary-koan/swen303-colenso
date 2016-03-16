@@ -17,9 +17,9 @@ function setupSimpleSearch(form) {
   }
 
   function updateQueryInput(currentText) {
-    const type = isXPathQuery(currentText) ? "xpath" : "text";
+    const type = isXPathQuery(currentText) ? "x" : "t";
 
-    builtQueryInput.val(JSON.stringify({ terms: [{ type, value: currentText }] }));
+    builtQueryInput.val(JSON.stringify([type + currentText]));
   }
 
   function updateQuery() {

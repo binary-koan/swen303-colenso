@@ -3,9 +3,9 @@ function setupAdvancedSearch(form) {
   const searchEditor = form.find(".advanced-search-query.editable");
   const builtQueryInput = form.find("input[name='query[]']").last();
 
-  const TYPE_TITLES = { text: "Text", xpath: "XPath" };
+  const TYPE_TITLES = { t: "Text", x: "XPath" };
 
-  function addInput({ type, value, editable }, box) {
+  function addInput(type, value, box) {
     const container = $("<span>").addClass("search-term input-group").data("type", type);
     container.append($("<span>").addClass("input-group-addon").text(TYPE_TITLES[type]));
     container.append($("<input>").attr("type", "text").addClass("form-control").val(value));
@@ -14,7 +14,7 @@ function setupAdvancedSearch(form) {
     container.find("input").focus();
   }
 
-  function addOperator({ operator }, box) {
+  function addOperator(operator, box) {
     const container = $("<span>").text(operator).attr({
       class: `search-term search-term-operator ${operator}`,
       "data-operator": operator
@@ -25,9 +25,9 @@ function setupAdvancedSearch(form) {
 
   function dropTerm(term) {
     if (term.is(".search-term-text")) {
-      addInput({ type: term.data("type"), editable: true }, searchEditor);
+      addInput(term.data("type"), "", searchEditor);
     } else {
-      addOperator({ operator: term.data("operator") }, searchEditor);
+      addOperator(term.data("operator"), searchEditor);
     }
   }
 
@@ -51,23 +51,23 @@ function setupAdvancedSearch(form) {
       const child = $(el);
 
       if (child.hasClass("search-term-operator")) {
-        terms.push({ "operator": child.data("operator") });
+        terms.push("o" + child.data("operator"));
       } else {
-        terms.push({ type: child.data("type"), value: child.find("input").val() });
+        terms.push(child.data("type") + child.find("input").val());
       }
     });
 
-    builtQueryInput.val(JSON.stringify({ terms }));
+    builtQueryInput.val(JSON.stringify(terms));
   }
 
   function restoreQueryData(data, box) {
     if (!data) return;
 
     data.forEach(term => {
-      if (term.operator) {
-        addOperator(term, box);
+      if (term.indexOf("o") === 0) {
+        addOperator(term.slice(1), box);
       } else {
-        addInput(term, box);
+        addInput(term[0], term.slice(1), box);
       }
     });
   }
@@ -101,7 +101,7 @@ function setupAdvancedSearch(form) {
   form.on("submit", calculateQueryData);
 
   if (searchEditor.data("query")) {
-    restoreQueryData(searchEditor.data("query").terms, searchEditor);
+    restoreQueryData(searchEditor.data("query"), searchEditor);
   }
 };
 
