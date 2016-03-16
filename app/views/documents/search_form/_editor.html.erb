@@ -13,6 +13,6 @@
     <% end %>
   </div>
 
-  <%= render partial: "documents/search_form/editor_simple", locals: { query: query, hidden: !simple_search } %>
-  <%= render partial: "documents/search_form/editor_advanced", locals: { query: query, hidden: simple_search } %>
+  <%= render partial: "documents/search_form/editor_simple", locals: { query: query, previous_queries: previous_queries, hidden: !simple_search } %>
+  <%= render partial: "documents/search_form/editor_advanced", locals: { query: query, previous_queries: previous_queries, hidden: simple_search } %>
 </div>

@@ -1,5 +1,5 @@
-<%= form_tag search_documents_path, id: :simple_search, method: :get, class: ("hidden" if hidden) do %>
-  <%= hidden_field_tag :"query[]", "", id: nil %>
+<%= form_tag search_documents_path, method: :get, class: "simple-search #{"hidden" if hidden}" do %>
+  <%= render partial: "documents/search_form/editor_queries", locals: { previous_queries: previous_queries, current_query: query } %>
 
   <div class="form-group">
     <%= label_tag :original_query, "Search", class: "sr-only" %>

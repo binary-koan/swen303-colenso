@@ -6,8 +6,12 @@
 
     <%= render partial: "documents/search_form/viewer", locals: { query: @queries.last, editable: true, deletable: false } %>
 
-    <%= render partial: "documents/search_form/editor", locals: { query: @queries.last, class_name: "hidden edit-query" } %>
-    <%= render partial: "documents/search_form/editor", locals: { query: nil, class_name: "hidden search-within" } %>
+    <%= render partial: "documents/search_form/editor", locals: {
+      query: @queries.last, previous_queries: @queries[0..-2], class_name: "hidden edit-query"
+    } %>
+    <%= render partial: "documents/search_form/editor", locals: {
+      query: nil, previous_queries: @queries, class_name: "hidden search-within"
+    } %>
 
     <div id="search_results" class="list-group">
       <%= render partial: "search_result", collection: @results %>

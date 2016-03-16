@@ -1,12 +1,9 @@
-(() => {
-  const form = $("form#simple_search");
-  if (!form.length) return;
-
+function setupSimpleSearch(form) {
   const queryInput = form.find("input#original_query");
-  const builtQueryInput = form.find("input[name='query[]']");
+  const builtQueryInput = form.find("input[name='query[]']").last();
 
   function isXPathQuery(text) {
-    return text.indexOf("/") === 0;
+    return text && text.indexOf("/") === 0;
   }
 
   function updateSearchTypeDisplay(currentText) {
@@ -34,4 +31,8 @@
 
   queryInput.on("input", updateQuery);
   updateQuery();
-})();
+
+  return this;
+};
+
+$("form.simple-search").each((_, form) => setupSimpleSearch($(form)));

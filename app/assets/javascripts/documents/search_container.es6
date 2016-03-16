@@ -2,8 +2,8 @@
   const searchContainer = $(".search-container");
   if (!searchContainer.length) return;
 
-  const simpleSearch = searchContainer.find("#simple_search");
-  const advancedSearch = searchContainer.find("#advanced_search");
+  const simpleSearch = searchContainer.find(".simple-search");
+  const advancedSearch = searchContainer.find(".advanced-search");
 
   const queryBuilderToggle = searchContainer.find(".query-builder-toggle");
 

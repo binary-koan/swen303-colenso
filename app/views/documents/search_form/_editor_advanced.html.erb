@@ -1,5 +1,5 @@
-<%= form_tag search_documents_path, id: :advanced_search, method: :get, class: ("hidden" if hidden) do %>
-  <%= hidden_field_tag :"query[]", "", id: nil %>
+<%= form_tag search_documents_path, method: :get, class: "advanced-search #{"hidden" if hidden}" do %>
+  <%= render partial: "documents/search_form/editor_queries", locals: { previous_queries: previous_queries, current_query: query } %>
 
   <div class="alert alert-info">
     Drag or click elements to add them to the box. Drag them out of the box to remove them.
