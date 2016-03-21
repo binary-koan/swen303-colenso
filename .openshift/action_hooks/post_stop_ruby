@@ -15,4 +15,7 @@
 
 echo "Stopping BaseX server ..."
 
-java -Dorg.basex.path=${OPENSHIFT_DATA_DIR} -cp ${OPENSHIFT_REPO_DIR}/vendor/bin/BaseX84.jar org.basex.BaseXServer -n ${BASEX_IP} -p ${BASEX_PORT} &
+BASEX_PORT=15005
+BASEX_IP=${OPENSHIFT_RUBY_IP}
+
+java -Dorg.basex.path=${OPENSHIFT_DATA_DIR} -cp ${OPENSHIFT_REPO_DIR}/vendor/bin/BaseX84.jar org.basex.BaseXServer -n ${BASEX_IP} -p ${BASEX_PORT} stop
