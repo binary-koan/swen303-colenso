@@ -1,7 +1,7 @@
 class SearchDocuments::WrapQueries
   attr_reader :where_clauses, :external_variables, :start, :items_per_page, :return_path
 
-  def initialize(query_texts, external_variables, start:, items_per_page:, return_path:)
+  def initialize(query_texts, external_variables, start: nil, items_per_page: nil, return_path: nil)
     @where_clauses = query_texts.map { |text| "where #{text}" }
     @external_variables = external_variables
     @start = start

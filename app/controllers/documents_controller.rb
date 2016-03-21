@@ -68,7 +68,7 @@ class DocumentsController < ApplicationController
     @document = Document.find(params[:id] + ".xml")
   end
 
-  def search_documents(max_items:, return_path:)
+  def search_documents(max_items: nil, return_path: nil)
     @queries = params[:query].map { |query| JSON.parse(query) }
     @results = SearchDocuments.new(
       *@queries,
