@@ -1,10 +1,23 @@
 module ApplicationHelper
-  def flash_messages(type, messages)
-    messages = [messages] unless messages.respond_to?(:each)
+  def formatted_messages(flash)
+    all_messages = []
 
-    messages.map do |message|
-      content_tag "div", message, class: "alert alert-#{flash_alert_class(type)}"
-    end.join.html_safe
+    flash.each do |type, messages|
+      messages = [messages] unless messages.respond_to?(:each)
+      all_messages += messages.map { |message| format_message(type, message) }
+    end
+
+    all_messages
+  end
+
+  def format_message(type, message)
+    title, details = message.split("\n", 2)
+
+    { title: title, details: details, type: type }
+  end
+
+  def message_id(message)
+    Digest::MD5.hexdigest(message.to_s)
   end
 
   def flash_alert_class(type)

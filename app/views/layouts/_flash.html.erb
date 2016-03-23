@@ -1,8 +1,16 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <% flash.each do |type, messages| %>
-        <%= flash_messages(type, messages) %>
+      <% formatted_messages(flash).each do |message| %>
+        <div class="alert alert-<%= flash_alert_class(message[:type]) %>">
+          <span><%= message[:title] %></span>
+          <% unless message[:details].blank? %>
+            <a href="#" data-toggle="collapse" data-target="#<%= message_id(message) %>">Details</a>
+            <div id="<%= message_id(message) %>" class="collapse">
+              <%= h(message[:details]).gsub("\n", "<br />").html_safe %>
+            </div>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>
