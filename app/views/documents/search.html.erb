@@ -15,21 +15,25 @@
       } %>
     </div>
 
-    <div class="row">
-      <div class="col-sm-12 text-right">
-        <%= link_to download_all_documents_path(request.query_parameters) do %>
-          <span class="glyphicon glyphicon-download-alt"></span> Download all as TEI
-        <% end %>
+    <% if @results.size > 0 %>
+      <div class="row">
+        <div class="col-sm-12 text-right">
+          <%= link_to download_all_documents_path(request.query_parameters) do %>
+            <span class="glyphicon glyphicon-download-alt"></span> Download all as TEI
+          <% end %>
+        </div>
       </div>
-    </div>
 
-    <div id="search_results" class="list-group">
-      <%= render partial: "search_result", collection: @results %>
-    </div>
+      <div id="search_results" class="list-group">
+        <%= render partial: "search_result", collection: @results %>
+      </div>
 
-    <p class="text-center load-more-results">
-      <button type="button" class="btn btn-default">Load more</button>
-      <span class="spinner glyphicon glyphicon-option-horizontal hidden"></span>
-    </p>
+      <p class="text-center load-more-results">
+        <button type="button" class="btn btn-default">Load more</button>
+        <span class="spinner glyphicon glyphicon-option-horizontal hidden"></span>
+      </p>
+    <% else %>
+      <p>No results.</p>
+    <% end %>
   </div>
 </div>
