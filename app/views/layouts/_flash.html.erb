@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <% flash.each do |type, message| %>
-        <div class="alert alert-<%= flash_alert_class(type) %>"><%= message %></div>
+      <% flash.each do |type, messages| %>
+        <%= flash_messages(type, messages) %>
       <% end %>
     </div>
   </div>

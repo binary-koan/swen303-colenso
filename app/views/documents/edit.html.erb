@@ -8,9 +8,7 @@
       <%= form_tag document_path(@document.basename), method: :put do %>
         <%= hidden_field_tag :xml, @document.raw_xml.force_encoding("utf-8") %>
 
-        <div id="document_tei" class="editable">
-          <%= @document.raw_xml.force_encoding("utf-8") %>
-        </div>
+        <div id="document_tei" class="editable"><%= @document.raw_xml.force_encoding("utf-8") %></div>
 
         <%= submit_tag "Save", class: "btn btn-primary" %>
         <%= link_to "Cancel", document_path(@document.basename), class: "btn btn-link" %>

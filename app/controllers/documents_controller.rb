@@ -53,9 +53,15 @@ class DocumentsController < ApplicationController
   end
 
   def update
-    @document.update!(params[:xml])
+    validator = ValidateTei.new(params[:xml])
 
-    redirect_to action: "show"
+    if validator.call
+      @document.update!(params[:xml])
+      redirect_to action: "show"
+    else
+      flash[:error] = validator.errors.map { |error| "[Line #{error.line}] #{error.message}" }
+      redirect_to action: "edit"
+    end
   end
 
   def download
