@@ -15,3 +15,10 @@
 .popover {
   max-width: 650px;
 }
+
+.btn-minimal {
+  @extend .btn-default;
+
+  color: $text-muted;
+  border-color: transparent;
+}

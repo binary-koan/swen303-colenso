@@ -21,7 +21,12 @@
   <div class="form-group">
     <p class="sr-only">Current query</p>
     <div class="input-group">
-      <span class="form-control advanced-search-query editable" data-query="<%= query.to_json %>"></span>
+      <span class="form-control advanced-search-query editable" data-query="<%= query.to_json %>">
+        <%= button_tag type: "button", class: "btn btn-minimal clear pull-right" do %>
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          <span class="sr-only">Clear</span>
+        <% end %>
+      </span>
       <span class="input-group-btn">
         <%= button_tag type: "submit", class: "btn btn-primary btn-lg" do %>
           <span class="glyphicon glyphicon-search" aria-hidden="true"></span>

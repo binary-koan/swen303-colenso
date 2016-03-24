@@ -3,6 +3,8 @@ function setupAdvancedSearch(form) {
   const searchEditor = form.find(".advanced-search-query.editable");
   const builtQueryInput = form.find("input[name='query[]']").last();
 
+  const clearButton = form.find("button.clear");
+
   const TYPE_TITLES = { t: "Text", x: "XPath" };
 
   function addInput(type, value, box) {
@@ -44,10 +46,15 @@ function setupAdvancedSearch(form) {
     }
   }
 
-  function calculateQueryData(e) {
+  function clearForm() {
+    searchEditor.children(".search-term").remove();
+    calculateQueryData();
+  }
+
+  function calculateQueryData() {
     const terms = [];
 
-    searchEditor.children().each((i, el) => {
+    searchEditor.children(".search-term").each((i, el) => {
       const child = $(el);
 
       if (child.hasClass("search-term-operator")) {
@@ -90,6 +97,8 @@ function setupAdvancedSearch(form) {
       }
     })
     .sortable({
+      items: ".search-term",
+
       sort(_, { item }) {
         // gets added unintentionally by droppable interacting with sortable
         // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
@@ -98,6 +107,7 @@ function setupAdvancedSearch(form) {
     })
     .on("mouseup", ".search-term", e => maybeRemoveTerm($(e.target), e));
 
+  clearButton.on("click", clearForm);
   form.on("submit", calculateQueryData);
 
   if (searchEditor.data("query")) {
