@@ -1,10 +1,6 @@
 <div class="list-group-item">
   <div class="search-container row">
-    <% if simple_search?(query) %>
-      <div class="col-lg-8 simple-search-query">&ldquo;<%= simple_text_value(query) %>&rdquo;</div>
-    <% else %>
-      <div class="col-lg-8 advanced-search-query"><%= advanced_query_view(query) %></div>
-    <% end %>
+    <div class="col-lg-8 search-query-viewer"><%= query_view(query) %></div>
 
     <div class="col-lg-4 text-right">
       <% if editable %>

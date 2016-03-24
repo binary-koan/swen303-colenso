@@ -3,6 +3,7 @@
     @extend .well;
 
     margin-top: -1px;
+    margin-bottom: 0;
     border-top: none;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -20,6 +21,6 @@
   padding-top: $padding-base-vertical;
 }
 
-#search_results {
+.search-results {
   padding-top: $padding-large-vertical;
 }

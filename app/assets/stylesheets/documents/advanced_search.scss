@@ -27,96 +27,127 @@
   }
 }
 
-.advanced-search-query {
-  &.editable {
+.advanced-search {
+  .advanced-search-query.editable {
     @extend .well;
     height: $input-height-large;
     margin-bottom: 0;
     padding: $padding-small-vertical $padding-small-horizontal;
     background: $input-bg;
-  }
 
-  &.highlight {
-    border-color: $brand-primary;
-  }
-
-  .search-term-operator.not {
-    margin-right: $padding-xs-horizontal;
-  }
-
-  .search-term-operator.and, .search-term-operator.or {
-    margin-left: $padding-base-horizontal * 2;
-    margin-right: $padding-base-horizontal * 2;
-  }
-
-  .input-group {
-    display: inline-table;
-    vertical-align: middle;
-
-    .input-group-addon,
-    .input-group-btn,
-    .form-control {
-      display: table-cell;
-      width: auto;
+    &.highlight {
+      border-color: $brand-primary;
     }
 
-    .input-group-addon {
-      margin-right: -2px;
-      background: $input-bg;
-      color: $text-muted;
-      cursor: move;
+    .search-term-operator.not {
+      margin-right: $padding-xs-horizontal;
+    }
 
-      + .form-control {
+    .search-term-operator.and, .search-term-operator.or {
+      margin-left: $padding-base-horizontal * 2;
+      margin-right: $padding-base-horizontal * 2;
+    }
+
+    .input-group {
+      display: inline-table;
+      vertical-align: middle;
+
+      .input-group-addon,
+      .input-group-btn,
+      .form-control {
+        display: table-cell;
+        width: auto;
+      }
+
+      .input-group-addon {
+        margin-right: -2px;
+        background: $input-bg;
+        color: $text-muted;
+        cursor: move;
+      }
+
+      .input-group-addon + .form-control {
         @include form-control-focus;
         border-left: none;
         box-shadow: none;
       }
     }
   }
-}
 
-.search-term {
-  z-index: $zindex-navbar - 1;
-}
+  .search-term {
+    z-index: $zindex-navbar - 1;
+  }
 
-.search-term-operator {
-  @include search-term-btn;
+  .search-term-operator {
+    @include search-term-btn;
 
-  position: relative;
-  padding-right: $padding-large-horizontal;
-  margin-right: $padding-large-horizontal;
+    position: relative;
+    padding-right: $padding-large-horizontal;
+    margin-right: $padding-large-horizontal;
 
-  text-transform: uppercase;
+    text-transform: uppercase;
 
-  &:after {
-    @include horizontal-arrow;
-    right: 0%;
+    &:after {
+      @include horizontal-arrow;
+      right: 0%;
+    }
+  }
+
+  .search-term-operator.and, .search-term-operator.or {
+    padding-left: $padding-large-horizontal;
+    margin-left: $padding-large-horizontal;
+
+    &:before {
+      @include horizontal-arrow;
+      right: 100%;
+    }
+  }
+
+  .search-term-operator.and {
+    @include button-variant(white, $label-warning-bg, $label-warning-bg);
+  }
+
+  .search-term-operator.or {
+    @include button-variant(white, $label-info-bg, $label-info-bg);
+  }
+
+  .search-term-operator.not {
+    @include button-variant(white, $label-default-bg, $label-default-bg);
+  }
+
+  .search-term-text {
+    @include search-term-btn;
+    @include button-variant($text-color, white, $input-border);
   }
 }
 
-.search-term-operator.and, .search-term-operator.or {
-  padding-left: $padding-large-horizontal;
-  margin-left: $padding-large-horizontal;
+.search-query-viewer {
+  .search-term {
+    display: inline-block;
 
-  &:before {
-    @include horizontal-arrow;
-    right: 100%;
+    // Match default button height
+    padding: $padding-base-vertical $padding-xs-horizontal $padding-base-vertical 0;
+    border: 1px solid transparent;
   }
-}
 
-.search-term-operator.and {
-  @include button-variant(white, $label-warning-bg, $label-warning-bg);
-}
+  .search-term-operator {
+    text-transform: uppercase;
+  }
 
-.search-term-operator.or {
-  @include button-variant(white, $label-info-bg, $label-info-bg);
-}
+  .search-term-operator.and {
+    color: $brand-warning;
+  }
 
-.search-term-operator.not {
-  @include button-variant(white, $label-default-bg, $label-default-bg);
-}
+  .search-term-operator.or {
+    color: $brand-info;
+  }
 
-.search-term-text {
-  @include search-term-btn;
-  @include button-variant($text-color, white, $input-border);
+  .search-term-operator.not {
+    color: $gray-light;
+  }
+
+  .search-term-text {
+    &:before { content: "“" }
+    &:after { content: "”" }
+  }
 }

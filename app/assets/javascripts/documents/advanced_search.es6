@@ -74,7 +74,7 @@ function setupAdvancedSearch(form) {
 
   searchTerms
     .draggable({
-      appendTo: "body",
+      appendTo: searchEditor,
       helper: "clone",
       cancel: false
     })

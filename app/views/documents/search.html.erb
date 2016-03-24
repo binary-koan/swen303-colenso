@@ -1,22 +1,22 @@
 <div class="row">
   <div class="col-md-12">
-    <div class="list-group">
+    <div>
       <% @queries[0..-2].each do |query| %>
         <%= render partial: "documents/search_form/viewer", locals: { query: query, editable: false, deletable: true } %>
       <% end %>
 
       <%= render partial: "documents/search_form/viewer", locals: { query: @queries.last, editable: true, deletable: false } %>
-
-      <%= render partial: "documents/search_form/editor", locals: {
-        query: @queries.last, previous_queries: @queries[0..-2], class_name: "hidden edit-query"
-      } %>
-      <%= render partial: "documents/search_form/editor", locals: {
-        query: nil, previous_queries: @queries, class_name: "hidden search-within"
-      } %>
     </div>
 
+    <%= render partial: "documents/search_form/editor", locals: {
+      query: @queries.last, previous_queries: @queries[0..-2], class_name: "hidden edit-query"
+    } %>
+    <%= render partial: "documents/search_form/editor", locals: {
+      query: nil, previous_queries: @queries, class_name: "hidden search-within"
+    } %>
+
     <% if @results.size > 0 %>
-      <div class="row">
+      <div class="row search-results">
         <div class="col-sm-12 text-right">
           <%= link_to download_all_documents_path(request.query_parameters) do %>
             <span class="glyphicon glyphicon-download-alt"></span> Download all as TEI
@@ -33,7 +33,7 @@
         <span class="spinner glyphicon glyphicon-option-horizontal hidden"></span>
       </p>
     <% else %>
-      <p>No results.</p>
+      <p class="search-results">No results.</p>
     <% end %>
   </div>
 </div>

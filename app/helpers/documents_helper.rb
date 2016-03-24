@@ -7,8 +7,8 @@ module DocumentsHelper
     query.nil? ? "" : query.first[1..-1]
   end
 
-  def advanced_query_view(query)
-    query.map { |term| advanced_query_term(term) }.join.html_safe
+  def query_view(query)
+    query.map { |term| query_term(term) }.join.html_safe
   end
 
   def search_path_without_query(query)
@@ -21,7 +21,7 @@ module DocumentsHelper
 
   private
 
-  def advanced_query_term(term)
+  def query_term(term)
     if term.chars.first == "o"
       content_tag :span, term[1..-1], class: "search-term search-term-operator #{term[1..-1]}"
     else
