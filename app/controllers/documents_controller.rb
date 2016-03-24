@@ -60,10 +60,15 @@ class DocumentsController < ApplicationController
 
     if validator.call
       @document.update!(params[:xml])
+
       redirect_to action: "show"
     else
       flash[:error] = validator.errors.map { |error| "[Line #{error.line}] #{error.message}" }
-      redirect_to action: "edit"
+
+      @editing = true
+      @sent_xml = params[:xml]
+
+      render "edit"
     end
   end
 
