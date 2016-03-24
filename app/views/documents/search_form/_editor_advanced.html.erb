@@ -1,9 +1,12 @@
 <%= form_tag search_documents_path, method: :get, class: "advanced-search #{"hidden" if hidden}" do %>
   <%= render partial: "documents/search_form/editor_queries", locals: { previous_queries: previous_queries, current_query: query } %>
 
-  <div class="alert alert-info">
-    Drag or click elements to add them to the box. Drag them out of the box to remove them.
-  </div>
+  <% unless cookies[:hide_advanced_search_info] %>
+    <div id="advanced_search_info" class="alert alert-info fade in">
+      Drag or click elements to add them to the box. Drag them out of the box to remove them.
+      <%= button_tag "×", type: "button", class: "close", "aria-label" => "Close" %>
+    </div>
+  <% end %>
 
   <p class="text-center advanced-search-terms">
     <button type="button" class="search-term search-term-operator not" data-operator="not">NOT</button>

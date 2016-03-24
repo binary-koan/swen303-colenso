@@ -15,6 +15,7 @@
 //= require bootstrap-sprockets
 //= require jquery-ui
 //= require uri
+//= require cookie-monster
 //= require ace-rails-ap
 //= require ace/theme-chrome
 //= require ace/mode-xml
