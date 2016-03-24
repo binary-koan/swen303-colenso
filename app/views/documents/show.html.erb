@@ -27,9 +27,7 @@
         <%= @document.body %>
       </div>
       <div class="format-tei">
-        <div id="document_tei">
-          <%= @document.raw_xml.force_encoding("utf-8") %>
-        </div>
+        <div id="document_tei"><%= @document.raw_xml.force_encoding("utf-8") %></div>
       </div>
     </div>
   </div>

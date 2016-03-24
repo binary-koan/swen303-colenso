@@ -4,8 +4,15 @@
 
   const editor = ace.edit(editorWrapper.get(0));
 
+  const formatSwitcher = $("#document .switch-format");
+
   const form = editorWrapper.closest("form");
   const xmlInput = form.find("input#xml");
+
+  function updateEditor() {
+    editor.resize();
+    editor.renderer.updateFull();
+  }
 
   function setupEditor() {
     editor.setTheme("ace/theme/chrome");
@@ -25,5 +32,7 @@
   }
 
   setupEditor();
+
+  formatSwitcher.on("click", updateEditor);
   form.on("submit", saveEditorContent);
 })();
