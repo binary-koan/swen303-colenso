@@ -18,7 +18,7 @@ class DocumentsController < ApplicationController
         render json: { content: content }
       end
     end
-  rescue BaseXClient::BaseXError => e
+  rescue BaseXClient::BaseXError, SearchDocuments::SearchError => e
     flash[:error] = e.message
     redirect_to action: "index"
   end

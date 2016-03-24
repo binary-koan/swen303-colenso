@@ -1,4 +1,7 @@
 class SearchDocuments
+  class SearchError < StandardError
+  end
+
   FILE_VARIABLE_NAME = "$file"
   QUERY_VARIABLE_NAME = "$query_text"
   TEI_HEADER_PATH = "//tei:teiHeader"
@@ -13,7 +16,7 @@ class SearchDocuments
   end
 
   def call
-    raise "You need to enter a search term!" if queries.empty? || queries.any?(&:empty?)
+    raise SearchError, "You need to enter a search term!" if queries.empty? || queries.any?(&:empty?)
 
     query_texts = built_queries.map(&:query_text)
     external_variables = built_queries.map(&:external_variables).reduce(&:merge)
