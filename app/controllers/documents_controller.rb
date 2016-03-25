@@ -7,6 +7,7 @@ class DocumentsController < ApplicationController
   end
 
   def browse
+    @browse_path = browse_paths.map { |path| DocumentFolder.new(path) }
     @results = ListDocuments.new(params[:folder]).call
   end
 
@@ -94,5 +95,17 @@ class DocumentsController < ApplicationController
       items_per_page: max_items,
       return_path: return_path
     ).call
+  end
+
+  def browse_paths
+    paths = params[:folder].split("/").inject([]) do |paths, current|
+      if paths.last && paths.last.end_with?("/")
+        paths << "#{paths.last}#{current}"
+      else
+        paths << "#{paths.last}/#{current}"
+      end
+    end
+
+    paths.empty? ? ["/"] : paths
   end
 end

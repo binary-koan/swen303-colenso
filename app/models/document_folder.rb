@@ -6,7 +6,7 @@ class DocumentFolder
   end
 
   def name
-    /[^\/]+$/.match(path)[0]
+    (/[^\/]+$/.match(path) || ["All"])[0]
   end
 
   def folder?

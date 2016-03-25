@@ -16,6 +16,11 @@
         Search results
       </a>
     <% end %>
+    <% if @browse_path %>
+      <a class="navbar-brand navbar-breadcrumb" href="<%= browse_documents_path("/") %>">
+        Browse
+      </a>
+    <% end %>
     <% if @document %>
       <a class="navbar-brand navbar-breadcrumb" href="<%= document_path(@document.basename) %>">
         <%= @document.title.truncate(30, separator: /\s/) %>
