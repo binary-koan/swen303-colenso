@@ -31,7 +31,7 @@ RSpec.describe TeiToHtml do
     let(:tei) { Nokogiri::XML('<p rend="center">Test</p>').root }
 
     it "translates to an html paragraph with a css class" do
-      expect(service.call).to eq '<p class="text-center">Test</p>'
+      expect(service.call).to eq '<p class=" tei-center">Test</p>'
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.describe TeiToHtml do
     let(:tei) { Nokogiri::XML('<p><hi rend="bold smallcaps">Test</hi> Two</p>').root }
 
     it "adds appropriate css classes" do
-      expect(service.call).to eq '<p><span class="text-bold text-smallcaps">Test</span> Two</p>'
+      expect(service.call).to eq '<p><span class=" tei-bold tei-smallcaps">Test</span> Two</p>'
     end
   end
 end
