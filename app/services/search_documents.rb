@@ -54,13 +54,7 @@ class SearchDocuments
   end
 
   def query_results
-    results = []
-
-    while query.more?
-      results << parse_result(query.next)
-    end
-
-    results
+    query.map { |result| parse_result(query.next) }
   end
 
   def parse_result(result)

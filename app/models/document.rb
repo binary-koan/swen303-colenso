@@ -26,7 +26,9 @@ class Document < BaseXClient::Model
   end
 
   def published_date
-    bibl_date || edition_date
+    bibl_date || edition_date || sent_date
+  rescue ArgumentError
+    nil # Annoyingly some dates are unparseable
   end
 
   def front_matter
@@ -51,5 +53,12 @@ class Document < BaseXClient::Model
     return unless date_node
 
     DateTime.parse(date_node.text.strip).to_date
+  end
+
+  def sent_date
+    date_node = dom.at_css("teiHeader correspAction[type=sent] date")
+    return unless date_node
+
+    Date.parse(date_node["when"])
   end
 end
