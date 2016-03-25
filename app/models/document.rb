@@ -6,11 +6,23 @@ class Document < BaseXClient::Model
   end
 
   def title
-    dom.at_css("teiHeader titleStmt title").text.strip
+    title_element = dom.at_css("teiHeader titleStmt title")
+
+    if title_element
+      title_element.text.strip
+    else
+      "Untitled"
+    end
   end
 
   def author
-    dom.at_css("teiHeader titleStmt author").text.strip
+    author_element = dom.at_css("teiHeader titleStmt author")
+
+    if author_element
+      author_element.text.strip
+    else
+      "Anonymous"
+    end
   end
 
   def published_date
