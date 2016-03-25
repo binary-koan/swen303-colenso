@@ -39,7 +39,12 @@ class DocumentsController < ApplicationController
 
   def create
     filename = params[:file_path].sub(/\A\//, "")
-    xml = params[:file].try!(:read)
+
+    if params[:text]
+      xml = params[:text]
+    else
+      xml = params[:file].try!(:read)
+    end
 
     if filename.blank? || xml.blank?
       flash[:error] = "The upload failed. Did you specify a file path and upload a non-empty file?"
