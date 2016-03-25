@@ -1,5 +1,9 @@
 <div class="row">
   <div class="col-md-12">
     <%= render partial: "documents/search_form/editor", locals: { query: nil, previous_queries: [], class_name: "" } %>
+
+    <p class="lead">
+      or <a href="<%= browse_documents_path("/") %>">browse our collection ...</a>
+    </p>
   </div>
 </div>

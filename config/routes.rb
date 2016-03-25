@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   resources :documents, path: "/", except: :destroy do
+    get "/browse/:folder", on: :collection, action: :browse, as: :browse
+
     get :search, :download_all, on: :collection
     get :download, on: :member
   end

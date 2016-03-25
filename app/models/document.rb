@@ -1,6 +1,10 @@
 class Document < BaseXClient::Model
   TEI_NAMESPACE = "http://www.tei-c.org/ns/1.0"
 
+  def folder?
+    false
+  end
+
   def title
     dom.at_css("teiHeader titleStmt title").text.strip
   end

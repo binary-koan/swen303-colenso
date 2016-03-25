@@ -22,3 +22,11 @@
   color: $text-muted;
   border-color: transparent;
 }
+
+.breadcrumb {
+  margin-bottom: 0;
+}
+
+.list-group-item-heading:only-child {
+  margin-bottom: 0;
+}
