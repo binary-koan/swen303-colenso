@@ -11,6 +11,10 @@ class DocumentsController < ApplicationController
     @results = ListDocuments.new(params[:folder]).call
   end
 
+  def statistics
+    @statistics = CalculateStatistics.new.call
+  end
+
   def search
     search_documents(max_items: 20, return_path: SearchDocuments::TEI_HEADER_PATH)
 

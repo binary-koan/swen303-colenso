@@ -33,7 +33,13 @@
     <% end %>
 
     <span class="navbar-form navbar-right">
-      <%= link_to new_document_path, class: "btn btn-default" do %>
+      <%= link_to statistics_documents_path,
+          class: "btn btn-default #{"active" if request.path == statistics_documents_path}" do %>
+        <span class="glyphicon glyphicon-stats"></span> Statistics
+      <% end %>
+
+      <%= link_to new_document_path,
+          class: "btn btn-default #{"active" if request.path == new_document_path}" do %>
         <span class="glyphicon glyphicon-plus"></span> Add document
       <% end %>
     </span>
