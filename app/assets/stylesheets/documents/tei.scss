@@ -1,15 +1,40 @@
-.text-bold {
+.tei-front {
+  border-bottom: 1px solid $gray-lighter;
+  margin-bottom: $padding-large-vertical;
+}
+
+.tei-bold {
   font-weight: bold;
 }
 
-.text-italic {
+.tei-italic {
   font-weight: italic;
 }
 
-.text-smallcaps {
+.tei-underline {
+  border-bottom: 1px solid $text-color;
+}
+
+.tei-doubleunderline {
+  border-bottom: 1px double $text-color;
+}
+
+.tei-strikethrough {
+  text-decoration: line-through;
+}
+
+.tei-smallcaps {
   font-variant-caps: small-caps;
 }
 
-.text-center {
+.tei-center {
   text-align: center;
+}
+
+.tei-justify {
+  text-align: justify;
+}
+
+.tei-frame {
+  border: 1px solid $table-border-color;
 }

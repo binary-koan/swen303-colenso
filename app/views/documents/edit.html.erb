@@ -1,7 +1,6 @@
 <div id="document">
   <h1><%= @document.title %></h1>
-  <p><%= @document.published_date %></p>
-  <p><%= @document.author %></p>
+  <p><%= render partial: "document_info", object: @document %></p>
 
   <div class="panel panel-default">
     <div class="panel-body edit-document">

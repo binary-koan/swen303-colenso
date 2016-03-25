@@ -1,0 +1,8 @@
+<%= document_info.author %>
+<% if document_info.published_date.present? %>
+  &mdash;
+  <span class="text-muted">
+    <%= document_info.published_date.day.ordinalize %>
+    <%= document_info.published_date.strftime("%B %Y") %>
+  </span>
+<% end %>
