@@ -50,6 +50,10 @@ class DocumentsController < ApplicationController
       flash[:error] = "The upload failed. Did you specify a file path and upload a non-empty file?"
 
       redirect_to action: "new"
+    elsif (errors = validate_tei(xml))
+      flash[:error] = ["Your document couldn't be uploaded because it is not valid TEI."] + errors
+
+      redirect_to action: "new"
     else
       Document.create!(filename, xml)
       flash[:notice] = "Thanks! Your document was added."
@@ -66,19 +70,17 @@ class DocumentsController < ApplicationController
   end
 
   def update
-    validator = ValidateTei.new(params[:xml])
-
-    if validator.call
-      @document.update!(params[:xml])
-
-      redirect_to action: "show"
-    else
-      flash[:error] = validator.errors.map { |error| "[Line #{error.line}] #{error.message}" }
+    if (errors = validate_tei(params[:xml]))
+      flash[:error] = errors
 
       @editing = true
       @sent_xml = params[:xml]
 
       render "edit"
+    else
+      @document.update!(params[:xml])
+
+      redirect_to action: "show"
     end
   end
 
@@ -100,6 +102,13 @@ class DocumentsController < ApplicationController
       items_per_page: max_items,
       return_path: return_path
     ).call
+  end
+
+  def validate_tei(xml)
+    validator = ValidateTei.new(xml)
+    validator.call
+
+    validator.errors.map { |error| "[Line #{error.line}] #{error.message}" }
   end
 
   def browse_paths
