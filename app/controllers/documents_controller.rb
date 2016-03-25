@@ -6,6 +6,10 @@ class DocumentsController < ApplicationController
   def index
   end
 
+  def browse
+    @results = ListDocuments.new(params[:folder]).call
+  end
+
   def search
     search_documents(max_items: 20, return_path: SearchDocuments::TEI_HEADER_PATH)
 

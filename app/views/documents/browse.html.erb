@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-md-12">
+    <% if @results.size > 0 %>
+      <div id="search_results" class="list-group">
+        <%= render partial: "document_in_list", collection: @results %>
+      </div>
+    <% else %>
+      <p class="search-results">There's nothing in this folder.</p>
+    <% end %>
+  </div>
+</div>

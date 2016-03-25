@@ -1,0 +1,16 @@
+<% if document_in_list.folder? %>
+  <a href="<%= browse_documents_path(document_in_list.path) %>" class="list-group-item">
+    <h4 class="list-group-item-heading">
+      <span class="glyphicon glyphicon-folder-close"></span>
+      <%= document_in_list.name %>
+    </h4>
+  </a>
+<% else %>
+  <a href="<%= document_path(document_in_list.basename) %>" class="list-group-item">
+    <h4 class="list-group-item-heading"><%= document_in_list.title %></h4>
+    <p class="list-group-item-text">
+      <span class="text-muted"><%= document_in_list.published_date %></span>
+      <%= document_in_list.author %>
+    </p>
+  </a>
+<% end %>
