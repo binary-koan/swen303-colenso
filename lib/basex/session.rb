@@ -10,33 +10,15 @@ require 'digest/md5'
 
 module BaseXClient
   class Session
-    attr_reader :info
+    attr_reader :info, :host, :port, :username, :password
 
-    def initialize(host, port, username, pw)
-      # create server connection
-      @socket = TCPSocket.open(host, port)
+    def initialize(host, port, username, password)
+      @host = host
+      @port = port
+      @username = username
+      @password = password
 
-      # authenticate
-      hash = Digest::MD5.new
-      # response either {nonce} or {realm:nonce}
-      rec = receive.split(':')
-
-      if rec.length == 1
-        hash.update(hash.hexdigest(pw))
-        hash.update(rec[0])
-      else
-        hash.update(hash.hexdigest([username, rec[0], pw].join(':')))
-        hash.update(rec[1])
-      end
-
-      send(username)
-      send(hash.hexdigest())
-
-      # evaluate success flag
-      raise BaseXClient::BaseXError, "Access denied." unless read == 0.chr
-
-      @char_lead_byte = "\xFF"
-      @char_lead_byte.force_encoding('ASCII-8BIT')
+      connect
     end
 
     def execute(com)
@@ -83,6 +65,9 @@ module BaseXClient
         if t == @char_lead_byte then
           t = read
         end
+
+        attempt_to_reconnect if t.nil?
+
         complete << t
       end
 
@@ -91,7 +76,7 @@ module BaseXClient
 
     # Sends the defined str.
     def send(str)
-      @socket.write(str + 0.chr)
+      write(str + 0.chr)
     end
 
     def send_command(cmd, arg, input)
@@ -107,11 +92,49 @@ module BaseXClient
 
     def write(i)
       @socket.write(i)
+    rescue Errno::EPIPE
+      attempt_to_reconnect
     end
 
     # Returns success check.
     def ok?
       read == 0.chr
+    end
+
+    private
+
+    def connect
+      # create server connection
+      @socket = TCPSocket.open(host, port)
+
+      # authenticate
+      hash = Digest::MD5.new
+      # response either {nonce} or {realm:nonce}
+      rec = receive.split(':')
+
+      if rec.length == 1
+        hash.update(hash.hexdigest(password))
+        hash.update(rec[0])
+      else
+        hash.update(hash.hexdigest([username, rec[0], password].join(':')))
+        hash.update(rec[1])
+      end
+
+      send(username)
+      send(hash.hexdigest)
+
+      # evaluate success flag
+      raise BaseXClient::BaseXError, "Access denied." unless read == 0.chr
+
+      @char_lead_byte = "\xFF"
+      @char_lead_byte.force_encoding('ASCII-8BIT')
+    end
+
+    def attempt_to_reconnect
+      @socket.close
+      connect
+
+      raise BaseXClient::LostConnectionError
     end
   end
 end

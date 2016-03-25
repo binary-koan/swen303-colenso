@@ -2,9 +2,13 @@ module BaseXClient
   class BaseXError < StandardError
     MESSAGE = "Unknown database error."
 
-    def initialize(original_message)
+    def initialize(original_message = "")
       super("#{self.class::MESSAGE}\n#{original_message}")
     end
+  end
+
+  class LostConnectionError < BaseXError
+    MESSAGE = "Database connection was temporarily lost - please try again."
   end
 
   class BXDBError < BaseXError
