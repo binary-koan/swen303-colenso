@@ -8,6 +8,6 @@
 <% else %>
   <a href="<%= document_path(document_in_list.basename) %>" class="list-group-item">
     <h4 class="list-group-item-heading"><%= document_in_list.title %></h4>
-    <p class="list-group-item-text"><%= render partial: "document_info", object: document_in_list %></p>
+    <p class="list-group-item-text"><%= render partial: "document_description", object: document_in_list %></p>
   </a>
 <% end %>

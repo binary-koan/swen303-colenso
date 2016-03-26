@@ -4,19 +4,22 @@
 
   const editor = ace.edit(editorWrapper.get(0));
 
-  const formatSwitcher = $("#document .switch-format");
+  const viewTabs = $("#document .switch-format a[data-toggle='tab']");
 
   const form = editorWrapper.closest("form");
   const xmlInput = form.find("input#xml");
 
   function updateEditor() {
-    editor.resize();
-    editor.renderer.updateFull();
+    if (editorWrapper.closest(".tab-pane.active").length > 0) {
+      editor.resize();
+      editor.renderer.updateFull();
+    }
   }
 
   function setupEditor() {
     editor.setTheme("ace/theme/chrome");
     editor.getSession().setMode("ace/mode/xml");
+    editor.getSession().setUseWrapMode(true);
     editor.setOptions({ maxLines: 5000 });
 
     if (!$("#document_tei").hasClass("editable")) {
@@ -33,6 +36,6 @@
 
   setupEditor();
 
-  formatSwitcher.on("click", updateEditor);
+  viewTabs.on("shown.bs.tab", updateEditor);
   form.on("submit", saveEditorContent);
 })();

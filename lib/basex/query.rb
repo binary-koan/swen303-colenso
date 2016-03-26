@@ -7,12 +7,20 @@
 
 module BaseXClient
   class Query
+    include Enumerable
+
     def initialize(session, query)
       @session = session
       @query_text = query
       @id = exec(0.chr, query)
       @cache = []
       @pos = 0
+    end
+
+    def each
+      while more?
+        yield self.next
+      end
     end
 
     def bind(name, value, type="")

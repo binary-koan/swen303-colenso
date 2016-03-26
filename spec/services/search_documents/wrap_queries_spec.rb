@@ -41,6 +41,6 @@ RSpec.describe SearchDocuments::WrapQueries do
   end
 
   it "returns a subsequence" do
-    expect(result).to include "return subsequence($results, 1, 10)"
+    expect(result).to include "subsequence($results, 1, 10)"
   end
 end

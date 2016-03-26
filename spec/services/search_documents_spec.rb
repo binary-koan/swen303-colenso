@@ -12,7 +12,10 @@ RSpec.describe SearchDocuments do
     XML
   end
 
-  subject { service.call }
+  let(:search_results) { service.call }
+
+  let(:results) { search_results.documents }
+  let(:count) { search_results.count }
 
   context "with multiple documents in the database" do
     let!(:documents) do
@@ -26,37 +29,54 @@ RSpec.describe SearchDocuments do
     context "when no terms are given" do
       let(:service) { SearchDocuments.new([]) }
 
-      it { expect { subject }.to raise_error "You need to enter a search term!" }
+      it "Fails with an error" do
+        expect { search_results }.to raise_error "You need to enter a search term!"
+      end
     end
 
     context "when searching with a text string" do
       let(:service) { SearchDocuments.new(["tand"]) }
 
-      it { is_expected.to contain_exactly documents.first, documents.third }
+      it "returns documents matching the string" do
+        expect(results).to contain_exactly documents.first, documents.third
+        expect(count).to eq 2
+      end
     end
 
     context "when searching with an XPath query" do
       let(:service) { SearchDocuments.new(["x//title[text()='Huckleberry Finn']"]) }
 
-      it { is_expected.to contain_exactly documents.second }
+      it "returns documents matching both queries" do
+        expect(results).to contain_exactly documents.second
+        expect(count).to eq 1
+      end
     end
 
     context "when searching with multiple queries" do
       let(:service) { SearchDocuments.new(["tand"], ["tWar"]) }
 
-      it { is_expected.to contain_exactly documents.first }
+      it "returns documents matching both queries" do
+        expect(results).to contain_exactly documents.first
+        expect(count).to eq 1
+      end
     end
 
     context "when the number of documents per page is limited" do
       let(:service) { SearchDocuments.new(["tBook"], items_per_page: 2) }
 
-      it { is_expected.to contain_exactly documents.first, documents.second }
+      it "returns a limited number of documents" do
+        expect(results).to contain_exactly documents.first, documents.second
+        expect(count).to eq 3
+      end
     end
 
     context "when the number of documents per page is limited and the page is specified" do
       let(:service) { SearchDocuments.new(["tBook"], items_per_page: 2, page: 2) }
 
-      it { is_expected.to contain_exactly documents.third }
+      it "skips the first page and returns the remaining documents" do
+        expect(results).to contain_exactly documents.third
+        expect(count).to eq 3
+      end
     end
   end
 end

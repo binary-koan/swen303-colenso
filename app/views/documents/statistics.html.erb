@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1>Statistics</h1>
+    <p>
+      Our collection currently contains <strong><%= @statistics.document_count %> documents</strong>
+      by <strong><%= @statistics.author_count %> authors</strong>
+      written between <strong><%= format_date(@statistics.min_date) %></strong>
+      and <strong><%= format_date(@statistics.max_date) %></strong>.
+    </p>
+  </div>
+</div>

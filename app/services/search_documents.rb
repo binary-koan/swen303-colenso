@@ -1,4 +1,6 @@
 class SearchDocuments
+  SearchResults = Struct.new(:documents, :count)
+
   class SearchError < StandardError
   end
 
@@ -32,7 +34,7 @@ class SearchDocuments
 
     setup_query(wrapped_query, external_variables)
 
-    query_results.map { |filename, xml| Document.new(filename, xml) }
+    SearchResults.new(result_documents, result_count)
   end
 
   private
@@ -53,19 +55,17 @@ class SearchDocuments
     external_variables.each { |name, value| query.bind(name, value) }
   end
 
-  def query_results
-    results = []
-
-    while query.more?
-      results << parse_result(query.next)
+  def result_documents
+    query_result.css("> search > results > document").map do |node|
+      Document.new(node.at_css("> uri").text, node.at_css("> result").first_element_child)
     end
-
-    results
   end
 
-  def parse_result(result)
-    match = /\A\["(?<filename>[^"]+)", (?<xml>.+)\]\z/m.match(result)
+  def result_count
+    query_result.at_css("> search > count").text.to_i
+  end
 
-    [match[:filename], match[:xml]]
+  def query_result
+    return @query_result ||= Nokogiri::XML(query.next).tap(&:remove_namespaces!)
   end
 end

@@ -1,8 +1,45 @@
-<%= document_info.author %>
-<% if document_info.published_date.present? %>
-  &mdash;
-  <span class="text-muted">
-    <%= document_info.published_date.day.ordinalize %>
-    <%= document_info.published_date.strftime("%B %Y") %>
-  </span>
+<h4>This document ...</h4>
+
+<p>Contains <%= document_info.word_count %> words.</p>
+
+<% if document_info.title == Document::DEFAULT_TITLE %>
+  <p>
+    <span class="text-danger"><span class="glyphicon glyphicon-remove"></span> Is untitled</span>
+    &mdash; please fill in the <code>teiHeader/titleStmt/title</code> element with the document title.
+  </p>
+<% else %>
+  <p class="text-success">
+    <span class="glyphicon glyphicon-ok"></span> Has a title specified
+  </p>
+<% end %>
+
+<% if document_info.author == Document::DEFAULT_AUTHOR %>
+  <p>
+    <span class="text-danger"><span class="glyphicon glyphicon-remove"></span> Is anonymous</span>
+    &mdash; please fill in the <code>teiHeader/titleStmt/author</code> element with the document author.
+  </p>
+<% elsif document_info.author !~ /\w\s+\w/ %>
+  <p>
+    <span class="text-warning">
+      <span class="glyphicon glyphicon-question-sign"></span> Has a partially specified author
+    </span>
+    &mdash; consider including both the author's names in the
+    <code>teiHeader/titleStmt/author</code> element, if known.
+  </p>
+<% else %>
+  <p class="text-success">
+    <span class="glyphicon glyphicon-ok"></span> Has an author specified
+  </p>
+<% end %>
+
+<% if !document_info.published_date %>
+  <p>
+    <span class="text-danger"><span class="glyphicon glyphicon-remove"></span> Is undated</span>
+    &mdash; please give the <code>teiHeader/bibl/date</code> element a <code>when</code> attribute
+    in the format <code>YYYY-MM-DD</code>.
+  </p>
+<% else %>
+  <p class="text-success">
+    <span class="glyphicon glyphicon-ok"></span> Has a publication date specified
+  </p>
 <% end %>

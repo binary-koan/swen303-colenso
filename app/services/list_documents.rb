@@ -20,15 +20,7 @@ class ListDocuments
   private
 
   def query_results
-    query = BaseXClient.session.query(folder_listing_query)
-
-    results = []
-
-    while query.more?
-      results << query.next
-    end
-
-    results
+    BaseXClient.session.query(folder_listing_query).to_a
   end
 
   def folder_listing_query

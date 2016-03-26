@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def format_date(date)
+    "#{date.day.ordinalize} #{date.strftime("%B %Y")}"
+  end
+
   def formatted_messages(flash)
     all_messages = []
 
@@ -9,6 +13,8 @@ module ApplicationHelper
 
     all_messages
   end
+
+  private
 
   def format_message(type, message)
     title, details = message.split("\n", 2)

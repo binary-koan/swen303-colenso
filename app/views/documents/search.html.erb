@@ -16,8 +16,12 @@
     } %>
 
     <% if @results.size > 0 %>
-      <div class="row search-results">
-        <div class="col-sm-12 text-right">
+      <div class="row search-info">
+        <div class="col-sm-6">
+          <%= pluralize(@result_count, "result") %>
+          (retrieved in <%= @search_time.round(2) %>s)
+        </div>
+        <div class="col-sm-6 text-right">
           <%= link_to download_all_documents_path(request.query_parameters) do %>
             <span class="glyphicon glyphicon-download-alt"></span> Download all as TEI
           <% end %>

@@ -39,8 +39,14 @@ module BaseXClient
 
     def initialize(filename, xml)
       @filename = filename
-      @raw_xml = xml
-      @dom = Nokogiri::XML(xml)
+
+      if xml.respond_to?(:to_xml)
+        @raw_xml = xml.to_xml
+        @dom = xml
+      else
+        @raw_xml = xml
+        @dom = Nokogiri::XML(xml)
+      end
     end
 
     def update!(new_xml)
@@ -56,9 +62,18 @@ module BaseXClient
     end
 
     def ==(other)
-      other.is_a?(self.class) && other.raw_xml == raw_xml && other.filename == filename
+      other.is_a?(self.class) && other.filename == filename && equal_xml_without_indent(other)
     end
 
     alias_method :eql?, :==
+
+    private
+
+    def equal_xml_without_indent(other)
+      our_xml = dom.to_xml.gsub(/^\s+/, "")
+      other_xml = dom.to_xml.gsub(/^\s+/, "")
+
+      our_xml == other_xml
+    end
   end
 end

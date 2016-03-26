@@ -17,12 +17,15 @@ class SearchDocuments::WrapQueries
     let $results := for #{SearchDocuments::FILE_VARIABLE_NAME} score $score in collection("#{Document.collection}")
     #{where_clauses.join("\n")}
     order by $score descending
-    return [
-      substring(document-uri(#{SearchDocuments::FILE_VARIABLE_NAME}), #{Document.collection.length + 2}),
-      #{SearchDocuments::FILE_VARIABLE_NAME}#{return_path}
-    ]
+    return <document>
+      <uri>{substring(document-uri(#{SearchDocuments::FILE_VARIABLE_NAME}), #{Document.collection.length + 2})}</uri>
+      <result>{#{SearchDocuments::FILE_VARIABLE_NAME}#{return_path}}</result>
+    </document>
 
-    return subsequence($results, #{start}, #{items_per_page})
+    return <search>
+      <count>{count($results)}</count>
+      <results>{subsequence($results, #{start}, #{items_per_page})}</results>
+    </search>
     QUERY
   end
 
