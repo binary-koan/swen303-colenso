@@ -3,6 +3,13 @@ class DocumentsController < ApplicationController
 
   before_action :set_document, only: [:show, :edit, :update, :download]
 
+  rescue_from BaseXClient::BaseXError, SearchDocuments::SearchError, with: :display_error
+
+  def display_error(error)
+    flash[:error] = error.message
+    redirect_to action: "index"
+  end
+
   def index
   end
 
@@ -29,9 +36,6 @@ class DocumentsController < ApplicationController
         render json: { content: content }
       end
     end
-  rescue BaseXClient::BaseXError, SearchDocuments::SearchError => e
-    flash[:error] = e.message
-    redirect_to action: "index"
   end
 
   def download_all
