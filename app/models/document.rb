@@ -1,6 +1,9 @@
 class Document < BaseXClient::Model
   TEI_NAMESPACE = "http://www.tei-c.org/ns/1.0"
 
+  DEFAULT_TITLE = "Untitled"
+  DEFAULT_AUTHOR = "Anonymous"
+
   def folder?
     false
   end
@@ -11,7 +14,7 @@ class Document < BaseXClient::Model
     if title_element
       title_element.text.strip
     else
-      "Untitled"
+      DEFAULT_TITLE
     end
   end
 
@@ -21,7 +24,7 @@ class Document < BaseXClient::Model
     if author_element
       author_element.text.strip
     else
-      "Anonymous"
+      DEFAULT_AUTHOR
     end
   end
 
@@ -32,11 +35,15 @@ class Document < BaseXClient::Model
   end
 
   def front_matter
-    TeiToHtml.new(dom.at_css("text front")).call
+    @front_matter ||= TeiToHtml.new(front_matter_node).call
   end
 
   def body
-    TeiToHtml.new(dom.at_css("text body")).call
+    @body ||= TeiToHtml.new(body_node).call
+  end
+
+  def word_count
+    front_matter_node.text.split(/\s+/).size + body_node.text.split(/\s+/).size
   end
 
   private
@@ -60,5 +67,13 @@ class Document < BaseXClient::Model
     return unless date_node
 
     Date.parse(date_node["when"])
+  end
+
+  def front_matter_node
+    dom.at_css("text front")
+  end
+
+  def body_node
+    dom.at_css("text body")
   end
 end

@@ -1,0 +1,4 @@
+<%= document_description.author %>
+<% if document_description.published_date.present? %>
+  &mdash; <%= format_date(document_description.published_date) %>
+<% end %>

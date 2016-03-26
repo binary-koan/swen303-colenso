@@ -1,6 +1,6 @@
 <div id="document">
   <h1><%= @document.title %></h1>
-  <p><%= render partial: "document_info", object: @document %></p>
+  <p><%= render partial: "document_description", object: @document %></p>
 
   <div class="row">
     <div class="col-md-6 col-md-push-6 text-right">
@@ -38,7 +38,7 @@
         <div id="document_tei"><%= @document.raw_xml.force_encoding("utf-8") %></div>
       </div>
       <div id="tab_info" class="tab-pane">
-        Info
+        <%= render partial: "document_info", object: @document %>
       </div>
     </div>
   </div>
