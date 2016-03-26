@@ -9,3 +9,23 @@
     </p>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h3>Top searches</h3>
+    <% if @top_searches.size > 0 %>
+      <ul class="list-group search-query-viewer">
+        <% @top_searches.each do |search| %>
+          <li class="list-group-item top-search">
+            <span class="badge"><%= pluralize(search.count, "time") %></span>
+            <% search.queries.each do |query| %>
+              <p><%= query_view(query) %></p>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>Nothing yet.</p>
+    <% end %>
+  </div>
+</div>

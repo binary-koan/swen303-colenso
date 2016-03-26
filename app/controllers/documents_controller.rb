@@ -13,6 +13,7 @@ class DocumentsController < ApplicationController
 
   def statistics
     @statistics = CalculateStatistics.new.call
+    @top_searches = SearchRecord.top_searches
   end
 
   def search
