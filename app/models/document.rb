@@ -43,7 +43,10 @@ class Document < BaseXClient::Model
   end
 
   def word_count
-    front_matter_node.text.split(/\s+/).size + body_node.text.split(/\s+/).size
+    word_count = 0
+    word_count += front_matter_node.text.split(/\s+/).size if front_matter_node
+    word_count += body_node.text.split(/\s+/).size if body_node
+    word_count
   end
 
   private

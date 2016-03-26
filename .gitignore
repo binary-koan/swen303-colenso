@@ -13,5 +13,6 @@
 !/log/.keep
 /tmp
 
-# Ignore db seed data
+# Ignore local db data
 /db/data
+/db/local/*.log

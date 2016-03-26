@@ -13,6 +13,7 @@ class DocumentsController < ApplicationController
 
   def statistics
     @statistics = CalculateStatistics.new.call
+    @top_searches = SearchRecord.top_searches
   end
 
   def search
@@ -100,6 +101,7 @@ class DocumentsController < ApplicationController
 
   def search_documents(max_items: nil, return_path: nil)
     @queries = params[:query].map { |query| JSON.parse(query) }
+    SearchRecord.increment!(request.ip, @queries)
 
     service = SearchDocuments.new(
       *@queries,
