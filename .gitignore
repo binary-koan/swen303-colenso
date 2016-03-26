@@ -15,4 +15,4 @@
 
 # Ignore local db data
 /db/data
-/db/local/*.yml
+/db/local/*.log
