@@ -19,6 +19,7 @@
       <div class="row search-info">
         <div class="col-sm-6">
           <%= pluralize(@result_count, "result") %>
+          (retrieved in <%= @search_time.round(2) %>s)
         </div>
         <div class="col-sm-6 text-right">
           <%= link_to download_all_documents_path(request.query_parameters) do %>
