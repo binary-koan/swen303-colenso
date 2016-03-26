@@ -9,7 +9,7 @@ class Document < BaseXClient::Model
   end
 
   def title
-    title_element = dom.at_css("teiHeader titleStmt title")
+    title_element = dom.at_css("titleStmt title")
 
     if title_element
       title_element.text.strip
@@ -19,7 +19,7 @@ class Document < BaseXClient::Model
   end
 
   def author
-    author_element = dom.at_css("teiHeader titleStmt author")
+    author_element = dom.at_css("titleStmt author")
 
     if author_element
       author_element.text.strip
@@ -49,21 +49,21 @@ class Document < BaseXClient::Model
   private
 
   def bibl_date
-    date_node = dom.at_css("teiHeader bibl date")
+    date_node = dom.at_css("bibl date")
     return unless date_node
 
     Date.parse(date_node["when"])
   end
 
   def edition_date
-    date_node = dom.at_css("teiHeader edition date")
+    date_node = dom.at_css("edition date")
     return unless date_node
 
     DateTime.parse(date_node.text.strip).to_date
   end
 
   def sent_date
-    date_node = dom.at_css("teiHeader correspAction[type=sent] date")
+    date_node = dom.at_css("correspAction[type=sent] date")
     return unless date_node
 
     Date.parse(date_node["when"])

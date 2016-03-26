@@ -100,12 +100,16 @@ class DocumentsController < ApplicationController
 
   def search_documents(max_items: nil, return_path: nil)
     @queries = params[:query].map { |query| JSON.parse(query) }
-    @results = SearchDocuments.new(
+
+    search_results = SearchDocuments.new(
       *@queries,
       page: params[:page] || 1,
       items_per_page: max_items,
       return_path: return_path
     ).call
+
+    @results = search_results.documents
+    @result_count = search_results.count
   end
 
   def validate_tei(xml)
