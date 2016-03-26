@@ -2,13 +2,8 @@
   <h1><%= @document.title %></h1>
   <p><%= render partial: "document_info", object: @document %></p>
 
-  <p class="text-right">
-    <span class="btn-group switch-format pull-left">
-      <button class="btn btn-default format-html active">Formatted</button>
-      <button class="btn btn-default format-tei">Raw TEI</button>
-    </span>
-
-    <span class="btn-group">
+  <div class="row">
+    <div class="col-md-6 col-md-push-6 text-right">
       <%= link_to edit_document_path(@document.basename), class: "btn btn-link" do %>
         <span class="glyphicon glyphicon-pencil"></span> Edit
       <% end %>
@@ -16,10 +11,17 @@
       <%= link_to download_document_path(@document.basename), class: "btn btn-link" do %>
         <span class="glyphicon glyphicon-download-alt"></span> Download
       <% end %>
-    </span>
-  </p>
+    </div>
 
-  <div class="panel panel-default">
+    <div class="col-md-6 col-md-pull-6">
+      <ul class="nav nav-tabs switch-format">
+        <li class="active"><a href="#" class="format-html">Content</a></li>
+        <li><a href="#" class="format-tei">TEI</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel panel-tab panel-default">
     <div class="panel-body view-document">
       <div class="format-html">
         <%= @document.front_matter %>

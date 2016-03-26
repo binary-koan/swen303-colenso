@@ -1,3 +1,17 @@
+.nav-tabs.switch-format {
+  border-bottom: none;
+
+  > li > a {
+    padding: $padding-base-vertical $padding-base-horizontal;
+  }
+}
+
+.panel.panel-tab {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 #document_tei {
   min-height: 40em;
 }
