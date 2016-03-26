@@ -1,0 +1,12 @@
+<ul class="list-group search-query-viewer">
+  <% top_searches.each do |search| %>
+    <li class="list-group-item top-search">
+      <span class="badge"><%= pluralize(search.count, "time") %></span>
+      <%= link_to search_documents_path(query: search.queries.map(&:to_json)) do %>
+        <% search.queries.each do |query| %>
+          <p><%= query_view(query) %></p>
+        <% end %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

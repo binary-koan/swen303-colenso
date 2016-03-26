@@ -11,21 +11,19 @@
 </div>
 
 <div class="row">
-  <div class="col-md-12">
-    <h3>Top searches</h3>
+  <div class="col-md-6">
+    <h3>Top searches (all)</h3>
     <% if @top_searches.size > 0 %>
-      <ul class="list-group search-query-viewer">
-        <% @top_searches.each do |search| %>
-          <li class="list-group-item top-search">
-            <span class="badge"><%= pluralize(search.count, "time") %></span>
-            <%= link_to search_documents_path(query: search.queries.map(&:to_json)) do %>
-              <% search.queries.each do |query| %>
-                <p><%= query_view(query) %></p>
-              <% end %>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
+      <%= render partial: "top_searches", object: @top_searches %>
+    <% else %>
+      <p>Nothing yet.</p>
+    <% end %>
+  </div>
+
+  <div class="col-md-6">
+    <h3>Top searches (this location)</h3>
+    <% if @top_searches_here.size > 0 %>
+      <%= render partial: "top_searches", object: @top_searches_here %>
     <% else %>
       <p>Nothing yet.</p>
     <% end %>
