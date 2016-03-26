@@ -15,20 +15,30 @@
 
     <div class="col-md-6 col-md-pull-6">
       <ul class="nav nav-tabs switch-format">
-        <li class="active"><a href="#" class="format-html">Content</a></li>
-        <li><a href="#" class="format-tei">TEI</a></li>
+        <li class="active">
+          <a href="#tab_html" aria-controls="tab_html" role="tab" data-toggle="tab">Content</a>
+        </li>
+        <li>
+          <a href="#tab_tei" aria-controls="tab_tei" role="tab" data-toggle="tab">TEI</a>
+        </li>
+        <li>
+          <a href="#tab_info" aria-controls="tab_info" role="tab" data-toggle="tab">Information</a>
+        </li>
       </ul>
     </div>
   </div>
 
   <div class="panel panel-tab panel-default">
-    <div class="panel-body view-document">
-      <div class="format-html">
+    <div class="panel-body tab-content">
+      <div id="tab_html" class="tab-pane active">
         <%= @document.front_matter %>
         <%= @document.body %>
       </div>
-      <div class="format-tei">
+      <div id="tab_tei" class="tab-pane">
         <div id="document_tei"><%= @document.raw_xml.force_encoding("utf-8") %></div>
+      </div>
+      <div id="tab_info" class="tab-pane">
+        Info
       </div>
     </div>
   </div>
