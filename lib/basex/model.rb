@@ -9,9 +9,9 @@ module BaseXClient
         find(filename)
       end
 
-      def find(filename)
+      def find(filename, load_path: "")
         escaped_filename = filename.gsub('"', '\"')
-        stored_xml = session.query("doc(\"#{collection}/#{escaped_filename}\")").execute
+        stored_xml = session.query("doc(\"#{collection}/#{escaped_filename}\")#{load_path}").execute
         new(filename, stored_xml)
       end
 

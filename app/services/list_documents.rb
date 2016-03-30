@@ -10,7 +10,7 @@ class ListDocuments
 
     paths.map do |path|
       if path =~ /\.xml$/
-        Document.find(path)
+        Document.find(path, load_path: "//*:teiHeader")
       else
         DocumentFolder.new(path)
       end
@@ -27,6 +27,8 @@ class ListDocuments
     db_path = path.start_with?("/") ? path : "/#{path}"
 
     <<-QUERY
+    declare namespace tei = "#{Document::TEI_NAMESPACE}";
+
     for $file in collection("#{Document.collection}")
     where starts-with(document-uri($file), "#{Document.collection}#{db_path}")
     return document-uri($file)
