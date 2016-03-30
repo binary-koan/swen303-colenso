@@ -52,6 +52,8 @@ module BaseXClient
     elsif (code = error_code("XPST", data))
       error_class = XPSTError.subclasses.find { |klass| klass::ERROR_CODES.include?(code) }
       error_class ||= XPSTError
+    else
+      error_class = BaseXError
     end
 
     error_class.new("#{data}\n#{additional_info}")
