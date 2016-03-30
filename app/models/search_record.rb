@@ -33,7 +33,7 @@ module SearchRecord
     File.open(DB_FILE_PATH) do |file|
       file.each_line do |line|
         record = JSON.parse(line)
-        return if ip && record["ip"] != ip
+        next if ip && record["ip"] != ip
 
         query_counts[record["queries"]] ||= 0
         query_counts[record["queries"]] += 1
