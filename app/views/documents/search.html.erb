@@ -32,10 +32,12 @@
         <%= render partial: "document_in_list", collection: @results %>
       </div>
 
-      <p class="text-center load-more-results">
-        <button type="button" class="btn btn-default">Load more</button>
-        <span class="spinner glyphicon glyphicon-option-horizontal hidden"></span>
-      </p>
+      <% if @result_count > @results.size %>
+        <p class="text-center load-more-results">
+          <button type="button" class="btn btn-default">Load more</button>
+          <span class="spinner glyphicon glyphicon-option-horizontal hidden"></span>
+        </p>
+      <% end %>
     <% else %>
       <p class="search-results">No results.</p>
     <% end %>
