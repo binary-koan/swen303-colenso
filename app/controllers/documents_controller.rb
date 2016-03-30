@@ -130,7 +130,9 @@ class DocumentsController < ApplicationController
   end
 
   def browse_paths
-    paths = params[:folder].split("/").inject([]) do |paths, current|
+    whole_path = params[:folder] || "/"
+
+    paths = whole_path.split("/").inject([]) do |paths, current|
       if paths.last && paths.last.end_with?("/")
         paths << "#{paths.last}#{current}"
       else

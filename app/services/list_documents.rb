@@ -1,8 +1,8 @@
 class ListDocuments
   attr_reader :path
 
-  def initialize(path = "/")
-    @path = path
+  def initialize(path)
+    @path = path || "/"
   end
 
   def call
