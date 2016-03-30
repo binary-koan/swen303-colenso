@@ -10,29 +10,31 @@
 
 <nav class="navbar navbar-inverse navbar-spaced">
   <div class="container">
-    <a class="navbar-brand" href="<%= documents_path %>">Documents and letters</a>
-    <% if @queries %>
-      <a class="navbar-brand navbar-breadcrumb" href="<%= request.fullpath %>">
-        Search results
-      </a>
-    <% end %>
-    <% if @browse_path %>
-      <a class="navbar-brand navbar-breadcrumb" href="<%= browse_documents_path("/") %>">
-        Browse
-      </a>
-    <% end %>
-    <% if @document %>
-      <a class="navbar-brand navbar-breadcrumb" href="<%= document_path(@document.basename) %>">
-        <%= @document.title.truncate(30, separator: /\s/) %>
-      </a>
-    <% end %>
-    <% if @document && @editing %>
-      <a class="navbar-brand navbar-breadcrumb" href="<%= edit_document_path(@document.basename) %>">
-        Edit
-      </a>
-    <% end %>
+    <div class="col-md-8 navbar-col">
+      <a class="navbar-brand" href="<%= documents_path %>">Documents and letters</a>
+      <% if @queries %>
+        <a class="navbar-brand navbar-breadcrumb" href="<%= request.fullpath %>">
+          Search results
+        </a>
+      <% end %>
+      <% if @browse_path %>
+        <a class="navbar-brand navbar-breadcrumb" href="<%= browse_documents_path("/") %>">
+          Browse
+        </a>
+      <% end %>
+      <% if @document %>
+        <a class="navbar-brand navbar-breadcrumb" href="<%= document_path(@document.basename) %>">
+          <%= @document.title.truncate(30, separator: /\s/) %>
+        </a>
+      <% end %>
+      <% if @document && @editing %>
+        <a class="navbar-brand navbar-breadcrumb" href="<%= edit_document_path(@document.basename) %>">
+          Edit
+        </a>
+      <% end %>
+    </div>
 
-    <span class="navbar-form navbar-right">
+    <div class="col-md-4 navbar-form navbar-right">
       <%= link_to documents_statistics_path,
           class: "btn btn-default #{"active" if request.path == documents_statistics_path}" do %>
         <span class="glyphicon glyphicon-stats"></span> Statistics
@@ -42,6 +44,6 @@
           class: "btn btn-default #{"active" if request.path == new_document_path}" do %>
         <span class="glyphicon glyphicon-plus"></span> Add document
       <% end %>
-    </span>
+    </div>
   </div>
 </nav>

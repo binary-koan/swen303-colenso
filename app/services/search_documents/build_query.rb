@@ -49,7 +49,11 @@ class SearchDocuments::BuildQuery
   def process_xpath(value)
     xpath = add_tei_namespace(value)
 
-    query.query_text += "#{file_variable_name}#{xpath}"
+    if xpath.start_with?("/")
+      query.query_text += "#{file_variable_name}#{xpath}"
+    else
+      query.query_text += xpath
+    end
   end
 
   def process_text(text)

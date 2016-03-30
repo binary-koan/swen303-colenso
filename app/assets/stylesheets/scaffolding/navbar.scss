@@ -18,6 +18,16 @@
 
 .navbar-spaced {
   margin-bottom: $font-size-base;
+
+  @media (max-width: ($grid-float-breakpoint - 1)) {
+    .navbar-brand {
+      display: block;
+      height: auto;
+      padding-left: 0;
+      padding-bottom: 0;
+      float: none;
+    }
+  }
 }
 
 .navbar-brand.navbar-breadcrumb {
@@ -28,6 +38,18 @@
   }
 }
 
-.navbar-inverse .btn.btn-default {
-  @include button-variant($navbar-inverse-btn-color, $navbar-inverse-btn-bg, $navbar-inverse-btn-bg);
+.navbar-inverse {
+  .btn.btn-default {
+    @include button-variant($navbar-inverse-btn-color, $navbar-inverse-btn-bg, $navbar-inverse-btn-bg);
+  }
+
+  .navbar-form {
+    margin-top: $padding-large-vertical;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  .navbar-col:first-child {
+    padding-left: 0;
+  }
 }
