@@ -31,7 +31,7 @@ class DocumentsController < ApplicationController
       format.html
 
       format.json do
-        content = render_to_string(partial: "search_result", collection: @results, formats: ["html"])
+        content = render_to_string(partial: "document_in_list", collection: @results, formats: ["html"])
 
         render json: { content: content }
       end
