@@ -1,5 +1,6 @@
 class Document < BaseXClient::Model
   TEI_NAMESPACE = "http://www.tei-c.org/ns/1.0"
+  TEI_HEADER_PATH = "//*:teiHeader"
 
   DEFAULT_TITLE = "Untitled"
   DEFAULT_AUTHOR = "Anonymous"

@@ -6,11 +6,10 @@ class SearchDocuments
 
   FILE_VARIABLE_NAME = "$file"
   QUERY_VARIABLE_NAME = "$query_text"
-  TEI_HEADER_PATH = "//tei:teiHeader"
 
   attr_reader :queries, :page, :items_per_page, :query, :return_path
 
-  def initialize(*queries, page: 1, items_per_page: 20, return_path: TEI_HEADER_PATH)
+  def initialize(*queries, page: 1, items_per_page: 20, return_path: Document::TEI_HEADER_PATH)
     @queries = queries
     @page = page.to_i
     @items_per_page = items_per_page.to_i

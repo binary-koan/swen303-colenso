@@ -10,7 +10,7 @@ class ListDocuments
 
     paths.map do |path|
       if path =~ /\.xml$/
-        Document.find(path, load_path: "//*:teiHeader")
+        Document.find(path, load_path: Document::TEI_HEADER_PATH)
       else
         DocumentFolder.new(path)
       end

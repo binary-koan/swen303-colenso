@@ -7,6 +7,12 @@
       written between <strong><%= format_date(@statistics.min_date) %></strong>
       and <strong><%= format_date(@statistics.max_date) %></strong>.
     </p>
+    <% if @incomplete_document_count > 0 %>
+      <div class="alert alert-warning">
+        <%= @incomplete_document_count %> documents seem to have incomplete markup.
+        <%= link_to "View them", incomplete_documents_path %>
+      </div>
+    <% end %>
   </div>
 </div>
 

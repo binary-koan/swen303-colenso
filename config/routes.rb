@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get "/browse(/*folder)" => "documents#browse",         as: :browse_documents
   get "/search"           => "documents#search",         as: :search_documents
   get "/statistics"       => "documents#statistics",     as: :documents_statistics
+  get "/incomplete"       => "documents#incomplete",     as: :incomplete_documents
   get "/search_records"   => "documents#search_records", as: :search_records
   get "/download_all"     => "documents#download_all",   as: :download_all_documents
 

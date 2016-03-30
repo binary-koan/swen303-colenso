@@ -19,7 +19,7 @@ class DocumentsController < ApplicationController
   end
 
   def search
-    search_documents(max_items: 20, return_path: SearchDocuments::TEI_HEADER_PATH)
+    search_documents(max_items: 20, return_path: Document::TEI_HEADER_PATH)
 
     respond_to do |format|
       format.html
@@ -40,8 +40,15 @@ class DocumentsController < ApplicationController
 
   def statistics
     @statistics = CalculateStatistics.new.call
+    @incomplete_document_count = FindIncompleteDocuments.new.call.size
     @top_searches = SearchRecord.top_searches
     @top_searches_here = SearchRecord.top_searches(request.ip)
+  end
+
+  def incomplete
+    @incomplete_documents = FindIncompleteDocuments.new.call.map do |name|
+      Document.find(name, load_path: Document::TEI_HEADER_PATH)
+    end
   end
 
   def search_records

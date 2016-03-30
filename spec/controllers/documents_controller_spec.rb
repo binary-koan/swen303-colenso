@@ -21,7 +21,7 @@ RSpec.describe DocumentsController do
           ["tqazxy"],
           page: 1,
           items_per_page: 20,
-          return_path: SearchDocuments::TEI_HEADER_PATH
+          return_path: Document::TEI_HEADER_PATH
         ).and_call_original
 
         get :search, query: [["tqazxy"].to_json]
@@ -32,7 +32,7 @@ RSpec.describe DocumentsController do
           ["tqazxy"],
           page: "2",
           items_per_page: 20,
-          return_path: SearchDocuments::TEI_HEADER_PATH
+          return_path: Document::TEI_HEADER_PATH
         ).and_call_original
 
         get :search, query: [["tqazxy"].to_json], page: 2
@@ -45,7 +45,7 @@ RSpec.describe DocumentsController do
           ["onot", "tqazxy"],
           page: 1,
           items_per_page: 20,
-          return_path: SearchDocuments::TEI_HEADER_PATH
+          return_path: Document::TEI_HEADER_PATH
         ).and_call_original
 
         query = '["onot", "tqazxy"]'
@@ -66,7 +66,10 @@ RSpec.describe DocumentsController do
     let!(:document) { create_document!(filename: "diary.xml") }
 
     it "fails if the document is not found" do
-      expect { get :show, id: "unknown" }.to raise_error(BaseXClient::NodeNotFound)
+      get :show, id: "unknown"
+
+      expect(response).to redirect_to documents_url
+      expect(flash[:error]).to be_present
     end
 
     it "finds the document with the given base name" do
@@ -82,7 +85,10 @@ RSpec.describe DocumentsController do
     let!(:document) { create_document!(filename: "diary.xml") }
 
     it "fails if the document is not found" do
-      expect { get :download, id: "unknown" }.to raise_error(BaseXClient::NodeNotFound)
+      get :download, id: "unknown"
+
+      expect(response).to redirect_to documents_url
+      expect(flash[:error]).to be_present
     end
 
     it "sends the TEI of the document with the given base name" do
