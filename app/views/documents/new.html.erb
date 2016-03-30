@@ -8,7 +8,7 @@
       <%= form_tag documents_path, method: :post, multipart: true, class: "panel-body" do %>
         <div class="form-group">
           <%= label_tag :file_path, "Database path" %>
-          <%= text_field_tag :file_path, "", class: "form-control" %>
+          <%= text_field_tag :file_path, @sent_filename, class: "form-control" %>
         </div>
 
         <ul class="nav nav-tabs" role="tablist">
@@ -23,7 +23,7 @@
         <div class="tab-content spaced">
           <div id="tab_text" role="tabpanel" class="form-group tab-pane fade in active">
             <%= label_tag :text, "TEI data", class: "sr-only" %>
-            <%= text_area_tag :text, "", rows: 20, class: "form-control" %>
+            <%= text_area_tag :text, @sent_xml, rows: 20, class: "form-control" %>
           </div>
           <div id="tab_file" role="tabpanel" class="form-group tab-pane fade">
             <%= label_tag :file, "TEI file", class: "sr-only" %>

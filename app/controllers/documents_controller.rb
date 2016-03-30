@@ -56,19 +56,26 @@ class DocumentsController < ApplicationController
       xml = params[:file].try!(:read)
     end
 
+    @sent_filename = params[:file_path]
+    @sent_xml = xml
+
     if filename.blank? || xml.blank?
-      flash[:error] = "The upload failed. Did you specify a file path and upload a non-empty file?"
+      flash.now[:error] = "The upload failed. Did you specify a file path and upload a non-empty file?"
 
-      redirect_to action: "new"
-    elsif (errors = validate_tei(xml))
-      flash[:error] = ["Your document couldn't be uploaded because it is not valid TEI."] + errors
-
-      redirect_to action: "new"
+      render "new"
     else
-      Document.create!(filename, xml)
-      flash[:notice] = "Thanks! Your document was added."
+      errors = validate_tei(xml)
 
-      redirect_to action: "index"
+      if errors.present?
+        flash.now[:error] = ["Your document couldn't be uploaded because it is not valid TEI."] + errors
+
+        render "new"
+      else
+        new_document = Document.create!(filename, xml)
+        flash[:notice] = "Thanks! Your document was added."
+
+        redirect_to document_path(new_document.basename)
+      end
     end
   end
 
@@ -80,8 +87,10 @@ class DocumentsController < ApplicationController
   end
 
   def update
-    if (errors = validate_tei(params[:xml]))
-      flash[:error] = errors
+    errors = validate_tei(params[:xml])
+
+    if errors.present?
+      flash.now[:error] = errors
 
       @editing = true
       @sent_xml = params[:xml]
