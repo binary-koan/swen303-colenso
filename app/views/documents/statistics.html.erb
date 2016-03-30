@@ -12,9 +12,12 @@
 
 <div class="row">
   <div class="col-md-6">
-    <h3>Top searches (all)</h3>
+    <h3>Top searches (everywhere)</h3>
     <% if @top_searches.size > 0 %>
       <%= render partial: "top_searches", object: @top_searches %>
+      <p class="text-center">
+        <%= link_to "View all", search_records_path, class: "btn btn-default" %>
+      </p>
     <% else %>
       <p>Nothing yet.</p>
     <% end %>
@@ -24,6 +27,9 @@
     <h3>Top searches (this location)</h3>
     <% if @top_searches_here.size > 0 %>
       <%= render partial: "top_searches", object: @top_searches_here %>
+      <p class="text-center">
+        <%= link_to "View all", search_records_path(local: true), class: "btn btn-default" %>
+      </p>
     <% else %>
       <p>Nothing yet.</p>
     <% end %>

@@ -18,6 +18,14 @@ module SearchRecord
   end
 
   def top_searches(ip = nil)
+    sorted_searches(ip).first(5).map { |queries, count| Entry.new(queries, count) }
+  end
+
+  def all_searches(ip = nil)
+    sorted_searches(ip).map { |queries, count| Entry.new(queries, count) }
+  end
+
+  def sorted_searches(ip = nil)
     return [] unless File.exists?(DB_FILE_PATH)
 
     query_counts = {}
@@ -33,8 +41,6 @@ module SearchRecord
     end
 
     # Sort query counts in reverse so largest come first
-    sorted_searches = query_counts.to_a.sort { |search1, search2| search2.second <=> search1.second }
-
-    sorted_searches.first(5).map { |queries, count| Entry.new(queries, count) }
+    query_counts.to_a.sort { |search1, search2| search2.second <=> search1.second }
   end
 end

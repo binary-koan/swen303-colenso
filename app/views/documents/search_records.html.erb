@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1>All searches (<%= @use_local_records ? "everywhere" : "this location" %>)</h1>
+
+    <% if @search_records.size > 0 %>
+      <%= render partial: "top_searches", object: @search_records %>
+    <% else %>
+      <p>Nothing yet.</p>
+    <% end %>
+  </div>
+</div>

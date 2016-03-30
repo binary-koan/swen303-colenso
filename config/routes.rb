@@ -3,10 +3,11 @@ Rails.application.routes.draw do
   get  "/new" => "documents#new",   as: :new_document
   post "/"    => "documents#create"
 
-  get "/browse(/*folder)" => "documents#browse",       as: :browse_documents
-  get "/search"           => "documents#search",       as: :search_documents
-  get "/statistics"       => "documents#statistics",   as: :documents_statistics
-  get "/download_all"     => "documents#download_all", as: :download_all_documents
+  get "/browse(/*folder)" => "documents#browse",         as: :browse_documents
+  get "/search"           => "documents#search",         as: :search_documents
+  get "/statistics"       => "documents#statistics",     as: :documents_statistics
+  get "/search_records"   => "documents#search_records", as: :search_records
+  get "/download_all"     => "documents#download_all",   as: :download_all_documents
 
   get "/document/*id/download" => "documents#download", as: :download_document
   get "/document/*id/edit"     => "documents#edit",     as: :edit_document

@@ -18,12 +18,6 @@ class DocumentsController < ApplicationController
     @results = ListDocuments.new(params[:folder]).call
   end
 
-  def statistics
-    @statistics = CalculateStatistics.new.call
-    @top_searches = SearchRecord.top_searches
-    @top_searches_here = SearchRecord.top_searches(request.ip)
-  end
-
   def search
     search_documents(max_items: 20, return_path: SearchDocuments::TEI_HEADER_PATH)
 
@@ -42,6 +36,17 @@ class DocumentsController < ApplicationController
     search_documents(max_items: Document.count, return_path: "")
 
     send_data ZipDocuments.new(@results).call.string, filename: "results.zip"
+  end
+
+  def statistics
+    @statistics = CalculateStatistics.new.call
+    @top_searches = SearchRecord.top_searches
+    @top_searches_here = SearchRecord.top_searches(request.ip)
+  end
+
+  def search_records
+    @use_local_records = params[:local]
+    @search_records = SearchRecord.all_searches(@use_local_records ? request.ip : nil)
   end
 
   def new
