@@ -24,14 +24,16 @@ class ListDocuments
   end
 
   def folder_listing_query
+    db_path = path.start_with?("/") ? path : "/#{path}"
+
     <<-QUERY
     for $file in collection("#{Document.collection}")
-    where starts-with(document-uri($file), "#{Document.collection}#{path}")
+    where starts-with(document-uri($file), "#{Document.collection}#{db_path}")
     return document-uri($file)
     QUERY
   end
 
   def path_fragment(full_path)
-    full_path.sub(Document.collection, "").match(/^#{path}\/?[^\/]+/)[0]
+    full_path.sub(Document.collection, "").match(/^\/?#{path}\/?[^\/]+/)[0]
   end
 end

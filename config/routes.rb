@@ -1,10 +1,17 @@
 Rails.application.routes.draw do
-  resources :documents, path: "/", except: :destroy do
-    get "/browse(/:folder)", on: :collection, action: :browse, as: :browse
+  get  "/"    => "documents#index", as: :documents
+  get  "/new" => "documents#new",   as: :new_document
+  post "/"    => "documents#create"
 
-    get :search, :statistics, :download_all, on: :collection
-    get :download, on: :member
-  end
+  get "/browse(/*folder)" => "documents#browse",       as: :browse_documents
+  get "/search"           => "documents#search",       as: :search_documents
+  get "/statistics"       => "documents#statistics",   as: :documents_statistics
+  get "/download_all"     => "documents#download_all", as: :download_all_documents
+
+  get "/document/*id/download" => "documents#download", as: :download_document
+  get "/document/*id/edit"     => "documents#edit",     as: :edit_document
+  get "/document/*id"          => "documents#show",     as: :document
+  put "/document/*id"          => "documents#update"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

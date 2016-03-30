@@ -58,7 +58,7 @@ module BaseXClient
     end
 
     def basename
-      filename.sub(/\.xml\z/, "")
+      filename.sub(/^\//, "").sub(/\.xml\z/, "")
     end
 
     def ==(other)
