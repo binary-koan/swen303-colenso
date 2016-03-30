@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   resources :documents, path: "/", except: :destroy do
-    get :browse, on: :collection, as: :browse_root
-    get "/browse/:folder", on: :collection, action: :browse, as: :browse
+    get "/browse(/:folder)", on: :collection, action: :browse, as: :browse
 
     get :search, :statistics, :download_all, on: :collection
     get :download, on: :member

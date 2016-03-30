@@ -132,15 +132,13 @@ class DocumentsController < ApplicationController
   def browse_paths
     whole_path = params[:folder] || "/"
 
-    paths = whole_path.split("/").inject([]) do |paths, current|
+    whole_path.split("/").inject([]) do |paths, current|
       if paths.last && paths.last.end_with?("/")
         paths << "#{paths.last}#{current}"
       else
         paths << "#{paths.last}/#{current}"
       end
     end
-
-    paths.empty? ? ["/"] : paths
   end
 
   def run_recording_time

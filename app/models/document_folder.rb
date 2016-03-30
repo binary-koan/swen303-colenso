@@ -2,7 +2,7 @@ class DocumentFolder
   attr_reader :path
 
   def initialize(path)
-    @path = path
+    @path = path.sub(/^\//, "")
   end
 
   def name
